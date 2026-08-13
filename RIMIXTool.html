@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIMIXTool - منصة الأدوات الذكية الشاملة</title>
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#06b6d4',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0f172a',
+                            accent: '#6366f1'
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- QRCode.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0284c7;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card-hover:hover {
+            background: rgba(30, 41, 59, 0.9);
+            border-color: rgba(56, 189, 248, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.2);
+        }
+        .active-tab {
+            background: linear-gradient(135deg, #0284c7 0%, #6366f1 100%);
+            color: #ffffff !important;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
+        }
+        .upside-down {
+            transform: rotate(180deg);
+            display: inline-block;
+        }
+        /* Aspect Ratio Utilities for Video Hub */
+        .aspect-tiktok {
+            aspect-ratio: 9 / 16;
+        }
+        .aspect-youtube {
+            aspect-ratio: 16 / 9;
+        }
+        .aspect-square-ratio {
+            aspect-ratio: 1 / 1;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 left-5 z-50 transform -translate-x-full transition-transform duration-300 bg-cyan-600 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center space-x-3 space-x-reverse hidden">
+        <i class="fa-solid fa-circle-check text-xl"></i>
+        <span id="toast-message" class="font-semibold text-sm">تمت العملية بنجاح!</span>
+    </div>
+
+    <!-- Header Section -->
+    <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo -->
+                <div class="flex items-center space-x-4 space-x-reverse cursor-pointer" onclick="switchView('grid')">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-500/30">
+                        <i class="fa-solid fa-cubes-stacked text-white text-2xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2 space-x-reverse">
+                            <span class="text-2xl font-black tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-indigo-300 to-purple-400">RIMIXTool</span>
+                            <span class="bg-cyan-500/20 text-cyan-400 text-xs font-bold px-2.5 py-0.5 rounded-full border border-cyan-500/30">v3.0</span>
+                        </div>
+                        <p class="text-xs text-slate-400">منصتك الشاملة لـ 30 أداة تفاعلية ذكية</p>
+                    </div>
+                </div>
+
+                <!-- Global Search Input -->
+                <div class="hidden md:flex flex-1 max-w-md mx-8 relative">
+                    <input type="text" id="global-search" oninput="filterTools()" placeholder="ابحث عن أي أداة (مثال: حاسبة، كلمة سر، QR...)" class="w-full bg-slate-800/80 text-slate-200 text-sm rounded-xl pl-10 pr-11 py-2.5 border border-slate-700 focus:outline-none focus:border-cyan-500 transition-all placeholder-slate-500 shadow-inner">
+                    <i class="fa-solid fa-magnifying-glass absolute right-4 top-3.5 text-slate-400 text-sm"></i>
+                    <button id="search-clear" onclick="clearSearch()" class="hidden absolute left-3 top-2.5 text-slate-500 hover:text-slate-300 p-1">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="flex items-center space-x-3 space-x-reverse">
+                    <button onclick="switchView('grid')" class="px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center space-x-2 space-x-reverse">
+                        <i class="fa-solid fa-grip"></i>
+                        <span class="hidden sm:inline">جميع الأدوات</span>
+                    </button>
+                    <a href="#ads-area" class="px-3 py-2 rounded-xl text-xs font-bold text-amber-400 bg-amber-400/10 border border-amber-400/20 hover:bg-amber-400/20 transition hidden lg:flex items-center space-x-1 space-x-reverse">
+                        <i class="fa-solid fa-rectangle-ad"></i>
+                        <span>إعلانات</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Mobile Search Bar -->
+            <div class="md:hidden pb-4">
+                <div class="relative">
+                    <input type="text" id="global-search-mobile" oninput="filterToolsMobile()" placeholder="ابحث عن أداة..." class="w-full bg-slate-800 text-slate-200 text-sm rounded-xl pl-10 pr-10 py-2 border border-slate-700 focus:outline-none focus:border-cyan-500">
+                    <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-3 text-slate-400 text-xs"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Top AdSense Banner Placeholder -->
+    <div id="ads-area" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        <div class="w-full bg-slate-800/40 border border-dashed border-slate-700/80 rounded-2xl p-3 flex flex-col sm:flex-row items-center justify-between text-center sm:text-right gap-2">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <span class="bg-slate-700 text-slate-400 text-[10px] uppercase font-bold px-2 py-0.5 rounded">إعلان Google AdSense</span>
+                <span class="text-xs text-slate-400 hidden sm:inline">مساحة إعلانية مخصصة للمستثمرين والرعاة</span>
+            </div>
+            <div class="text-xs text-slate-500">728 x 90 Leaderboard Placeholder</div>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- Category Filter Tabs -->
+        <div id="category-bar" class="flex items-center space-x-2 space-x-reverse overflow-x-auto pb-4 mb-6 scrollbar-none">
+            <button onclick="filterCategory('all')" class="cat-btn active-tab px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border border-slate-700">الكل (30)</button>
+            <button onclick="filterCategory('math')" class="cat-btn bg-slate-800/80 text-slate-400 hover:text-white px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border border-slate-700/50">الرياضيات والمالية</button>
+            <button onclick="filterCategory('text')" class="cat-btn bg-slate-800/80 text-slate-400 hover:text-white px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border border-slate-700/50">النصوص واللغة</button>
+            <button onclick="filterCategory('gen')" class="cat-btn bg-slate-800/80 text-slate-400 hover:text-white px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border border-slate-700/50">المولدات والترميز</button>
+            <button onclick="filterCategory('conv')" class="cat-btn bg-slate-800/80 text-slate-400 hover:text-white px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border border-slate-700/50">المحولات الرقمية</button>
+            <button onclick="filterCategory('health')" class="cat-btn bg-slate-800/80 text-slate-400 hover:text-white px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border border-slate-700/50">الصحة واللياقة</button>
+            <button onclick="filterCategory('media')" class="cat-btn bg-slate-800/80 text-slate-400 hover:text-white px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border border-slate-700/50">الميديا والألعاب</button>
+        </div>
+
+        <!-- Dashboard Grid View -->
+        <div id="grid-view" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <!-- 30 Tools Cards will be dynamically loaded via JS -->
+        </div>
+
+        <!-- Active Tool Interactive Workspace Container -->
+        <div id="tool-workspace" class="hidden transition-all duration-300">
+            <!-- Navigation Back Bar -->
+            <div class="flex items-center justify-between bg-slate-800/90 p-4 rounded-2xl border border-slate-700/80 mb-6 shadow-xl">
+                <button onclick="switchView('grid')" class="flex items-center space-x-2 space-x-reverse text-cyan-400 hover:text-cyan-300 text-sm font-bold bg-slate-900/60 px-4 py-2 rounded-xl border border-cyan-500/20 hover:border-cyan-500/50 transition">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <span>العودة لجميع الأدوات</span>
+                </button>
+                <div class="flex items-center space-x-3 space-x-reverse">
+                    <span id="active-tool-category" class="text-xs bg-slate-700 text-cyan-300 px-3 py-1 rounded-full font-semibold">قسم الأدوات</span>
+                    <button onclick="copyCurrentToolLink()" class="text-slate-400 hover:text-white text-xs bg-slate-700/50 p-2 rounded-lg transition" title="مشاركة الأداة">
+                        <i class="fa-solid fa-share-nodes"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <!-- Main Tool Display Area -->
+                <div class="lg:col-span-3">
+                    <div class="glass-card rounded-3xl p-6 md:p-8 border border-slate-700/80 shadow-2xl relative overflow-hidden">
+                        <!-- Tool Header Display -->
+                        <div class="flex items-start justify-between border-b border-slate-700/80 pb-6 mb-6">
+                            <div class="flex items-center space-x-4 space-x-reverse">
+                                <div id="active-tool-icon-bg" class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-2xl shadow-inner">
+                                    <i id="active-tool-icon" class="fa-solid fa-calculator"></i>
+                                </div>
+                                <div>
+                                    <h1 id="active-tool-title" class="text-2xl font-bold text-white">اسم الأداة</h1>
+                                    <p id="active-tool-desc" class="text-xs text-slate-400 mt-1">وصف مختصر لوظيفة الأداة الخيارات المتوفرة بها.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Active Tool Body Content (Injected dynamically) -->
+                        <div id="active-tool-content" class="min-h-[350px]">
+                            <!-- Interactive Tool UI Component Rendered Here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Selector & Side Ad Banner -->
+                <div class="space-y-6">
+                    <!-- Quick Navigation Sidebar -->
+                    <div class="glass-card rounded-2xl p-4 border border-slate-700/80">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-2">أدوات ذات صلة</h3>
+                        <div id="sidebar-tool-list" class="space-y-1.5 max-h-[380px] overflow-y-auto pr-1">
+                            <!-- Sidebar items dynamic -->
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Rectangle Ad Unit -->
+                    <div class="bg-slate-800/40 border border-dashed border-slate-700/80 rounded-2xl p-4 text-center">
+                        <span class="text-[10px] bg-slate-700 text-slate-400 px-2 py-0.5 rounded uppercase font-bold">إعلان</span>
+                        <div class="h-60 flex flex-col items-center justify-center text-slate-500 text-xs mt-2">
+                            <i class="fa-regular fa-image text-3xl mb-2 text-slate-600"></i>
+                            <span>300 x 250 Banner Ad</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bottom AdSense Banner Placeholder -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
+        <div class="w-full bg-slate-800/40 border border-dashed border-slate-700/80 rounded-2xl p-4 text-center">
+            <span class="text-[10px] bg-slate-700 text-slate-400 px-2 py-0.5 rounded uppercase font-bold">إعلان أسفل الصفحة</span>
+            <p class="text-xs text-slate-500 mt-1">Google AdSense Responsive Responsive Unit</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 text-slate-400 py-8 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-2 space-x-reverse">
+                <span class="font-bold text-slate-200">RIMIXTool</span>
+                <span>&copy; 2025 جميع الحقوق محفوظة. منصة الأدوات الذكية الشاملة.</span>
+            </div>
+            <div class="flex items-center space-x-4 space-x-reverse text-slate-400">
+                <a href="#" onclick="alert('RIMIXTool: منصة ويب خفيفة تحتوي على 30 أداة تفاعلية تعمل بالكامل في المتصفح دون الحاجة لاتصال خادم خارجية.')" class="hover:text-cyan-400 transition">عن المنصة</a>
+                <span>•</span>
+                <a href="#" onclick="showToast('جميع البيانات المعالجة تبقي داخل متصفحك بأمان تام.')" class="hover:text-cyan-400 transition">الخصوصية والأمان</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Engine -->
+    <script>
+        // Global Tools Registry Data
+        const toolsData = [
+            { id: 1, name: 'حاسبة ذكية متعددة الأنظمة', cat: 'math', icon: 'fa-calculator', desc: 'حسابات رياضية عامة، خصومات تجارية، وحساب النسبة المئوية.' },
+            { id: 2, name: 'حاسبة العمر التفصيلية', cat: 'math', icon: 'fa-cake-candles', desc: 'احسب عمرك بالسنوات والأيام والمدد، مع عداد تنازلي لموعد ميلادك القادم.' },
+            { id: 3, name: 'حاسبة السعرات والكتلة (BMI)', cat: 'health', icon: 'fa-weight-scale', desc: 'حساب مؤشر كتلة الجسم BMR واحتياج السعرات للتنشيف أو التضخيم.' },
+            { id: 4, name: 'عداد الكلمات والنصوص المتقدم', cat: 'text', icon: 'fa-arrow-down-1-9', desc: 'إحصائيات كاملة لعدد الكلمات، الأحرف، الوقت المقدر للقراءة والأسطر.' },
+            { id: 5, name: 'صانع رموز QR المخصص', cat: 'gen', icon: 'fa-qrcode', desc: 'توليد كود QR للروابط، النصوص، Wi-Fi أو الواتساب وتخصيص الألوان.' },
+            { id: 6, name: 'مولد كلمات السر الذكي', cat: 'gen', icon: 'fa-key', desc: 'توليد كلمة سر عشوائية قوية جداً مع خيارات التخصيص الكاملة.' },
+            { id: 7, name: 'محول حالة الأحرف الإنجليزية', cat: 'text', icon: 'fa-text-height', desc: 'تحويل النص إلى UPPERCASE, lowercase, Capitalized, أو Toggle Case.' },
+            { id: 8, name: 'أداة تنظيف وتنظيم النصوص', cat: 'text', icon: 'fa-broom', desc: 'حذف الفراغات الزائدة، الأسطر الفارغة، الرموز، والأرقام بنقرة واحدة.' },
+            { id: 9, name: 'مولد الألوان واللوحات', cat: 'gen', icon: 'fa-palette', desc: 'توليد ألوان عشوائية HEX/RGB أو لوحة من 5 ألوان متناسقة.' },
+            { id: 10, name: 'ساعة إيقاف متقدمة (Stopwatch)', cat: 'math', icon: 'fa-stopwatch', desc: 'ساعة إيقاف مع تسجيل الدورات (Laps) وتصدير النتائج.' },
+            { id: 11, name: 'مؤقت تنازلي مخصص', cat: 'math', icon: 'fa-hourglass-half', desc: 'ضبط مؤقت بالساعات والدقائق مع تنبيه صوتی عند الانتهاء.' },
+            { id: 12, name: 'مستخرج البريد الإلكتروني', cat: 'text', icon: 'fa-at', desc: 'استخراج جميع إيميلات التواصل من أي نص مع إزالة التكرار.' },
+            { id: 13, name: 'مستخرج الروابط والصور', cat: 'text', icon: 'fa-link', desc: 'استخراج كافة الروابط الإلكترونية أو روابط الصور بشكل منفصل.' },
+            { id: 14, name: 'محول درجات الحرارة الشامل', cat: 'conv', icon: 'fa-temperature-high', desc: 'تحويل فوري متبادل بين سيليزيوس، فهرنهايت، وكلفن.' },
+            { id: 15, name: 'حاسبة الاحتياج اليومي للماء', cat: 'health', icon: 'fa-droplet', desc: 'حساب لترات الماء بناءً على وزنك، المجهود الرياضي، والطقس.' },
+            { id: 16, name: 'أداة عكس النصوص والكلمات', cat: 'text', icon: 'fa-right-left', desc: 'عكس ترتيب الحروف، عكس الكلمات، أو قلب النص رأساً على عقب.' },
+            { id: 17, name: 'حاسبة دورات النوم المثالية', cat: 'health', icon: 'fa-bed', desc: 'معرفة أوقات الاستيقاظ أو النوم المناسبة بناءً على دورات 90 دقيقة.' },
+            { id: 18, name: 'مولد أسماء المستخدمين', cat: 'gen', icon: 'fa-user-tag', desc: 'إنشاء يوزرات مبتكرة للألعاب، الحسابات الشخصية، أو التقنية.' },
+            { id: 19, name: 'محول وحدات الطول', cat: 'conv', icon: 'fa-ruler-horizontal', desc: 'تحويل مباشر بين أمتار، سنتيمترات، قدم، وبوصات.' },
+            { id: 20, name: 'محول وحدات الوزن والكتلة', cat: 'conv', icon: 'fa-scale-balanced', desc: 'تحويل مباشر بين كيلوجرام، جرام، باوند (رطل)، وأونصة.' },
+            { id: 21, name: 'مولد النص البديل (Lorem Ipsum)', cat: 'gen', icon: 'fa-file-lines', desc: 'توليد نصوص عشوائية للتصميم باللغتين العربية والإنجليزية.' },
+            { id: 22, name: 'عداد الأسطر المتقدم', cat: 'text', icon: 'fa-list-ol', desc: 'حساب إجمالي الأسطر، الأسطر الممتلئة، والأسطر الفارغة.' },
+            { id: 23, name: 'محول سعة التخزين الرقمي', cat: 'conv', icon: 'fa-hard-drive', desc: 'تحويل وحدات الذاكرة بين KB, MB, GB, و TB بسهولة.' },
+            { id: 24, name: 'ترميز وفك ترميز Base64', cat: 'conv', icon: 'fa-code', desc: 'تحويل النص
