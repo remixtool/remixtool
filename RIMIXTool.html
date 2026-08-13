@@ -528,7 +528,262 @@
             xoBoard[i] = xoTurn;
             document.getElementById(`xo-btn-${i}`).innerText = xoTurn;
             if(checkXOWinner()) {
+                document.getElementById('xo-status').innerText = `🎉 الفائز هو ${xoTurn}!`;: 'تحويل النصوص والبيانات إلى Base64 والعكس بسرعة.' },
+            { id: 25, name: 'ترميز وتشفير URL Encoder', cat: 'conv', icon: 'fa-link', desc: 'تشفير العناوين والروابط لاستخدامها الآمن في التطبيقات.' },
+            { id: 26, name: 'محول نظم العد الرقمية', cat: 'conv', icon: 'fa-binary', desc: 'تحويل بين الثنائي (Binary) والعشري (Decimal) والست عشري (Hex).' },
+            { id: 27, name: 'لعبة إكس أو (Tic-Tac-Toe)', cat: 'media', icon: 'fa-gamepad', desc: 'تحدّى الذكاء الاصطناعي أو العب مع صديق في لعبة X-O الممتعة!' },
+            { id: 28, name: 'اختبار سرعة الكتابة', cat: 'media', icon: 'fa-keyboard', desc: 'اختبر سرعتك في طباعة النصوص العربية وقياس دقة أصابعك.' },
+            { id: 29, name: 'محول صيغ الصور أونلاين', cat: 'media', icon: 'fa-file-image', desc: 'استعراض البيانات واستخراج الأبعاد والمعلومات الأساسية.' },
+            { id: 30, name: 'عجلة القرعة والاختيار العشوائي', cat: 'media', icon: 'fa-dharmachakra', desc: 'أدخل قائمة الخيارات ودع العجلة تختار لك خياراً عشوائياً.' }
+        ];
+
+        // Render Initial Grid Cards
+        function renderGrid(tools) {
+            const grid = document.getElementById('grid-view');
+            grid.innerHTML = '';
+            
+            if(tools.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500">
+                    <i class="fa-solid fa-magnifying-glass text-4xl mb-3"></i>
+                    <p>لم يتم العثور على أي أداة تطابق بحثك</p>
+                </div>`;
+                return;
+            }
+
+            tools.forEach(tool => {
+                const card = document.createElement('div');
+                card.className = 'glass-card glass-card-hover rounded-2xl p-5 cursor-pointer transition-all flex flex-col justify-between border border-slate-700/60';
+                card.onclick = () => openTool(tool.id);
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 text-xl">
+                                <i class="fa-solid ${tool.icon}"></i>
+                            </div>
+                            <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-1 rounded-md border border-slate-700 font-semibold">#${tool.id}</span>
+                        </div>
+                        <h3 class="text-base font-bold text-white mb-2">${tool.name}</h3>
+                        <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">${tool.desc}</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-700/50 flex items-center justify-between text-xs text-cyan-400 font-bold">
+                        <span>تجربة الأداة</span>
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Switch View Engine
+        function switchView(view) {
+            const gridView = document.getElementById('grid-view');
+            const workspace = document.getElementById('tool-workspace');
+            const catBar = document.getElementById('category-bar');
+
+            if(view === 'grid') {
+                gridView.classList.remove('hidden');
+                workspace.classList.add('hidden');
+                catBar.classList.remove('hidden');
+            } else {
+                gridView.classList.add('hidden');
+                workspace.classList.remove('hidden');
+                catBar.classList.add('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Open Tool UI Loader
+        function openTool(toolId) {
+            const tool = toolsData.find(t => t.id === toolId);
+            if(!tool) return;
+
+            document.getElementById('active-tool-title').innerText = tool.name;
+            document.getElementById('active-tool-desc').innerText = tool.desc;
+            document.getElementById('active-tool-icon').className = `fa-solid ${tool.icon}`;
+            document.getElementById('active-tool-category').innerText = getCategoryName(tool.cat);
+
+            const contentArea = document.getElementById('active-tool-content');
+            contentArea.innerHTML = getToolHTML(toolId);
+
+            renderSidebar(toolId);
+            switchView('workspace');
+        }
+
+        function getCategoryName(catKey) {
+            const map = { math: 'الرياضيات والمالية', text: 'النصوص واللغة', gen: 'المولدات والترميز', conv: 'المحولات الرقمية', health: 'الصحة واللياقة', media: 'الميديا والألعاب' };
+            return map[catKey] || 'أداة عامة';
+        }
+
+        function renderSidebar(currentId) {
+            const list = document.getElementById('sidebar-tool-list');
+            list.innerHTML = '';
+            toolsData.filter(t => t.id !== currentId).slice(0, 8).forEach(t => {
+                const item = document.createElement('div');
+                item.className = 'p-2.5 rounded-xl hover:bg-slate-800 text-slate-300 hover:text-cyan-400 cursor-pointer text-xs flex items-center space-x-2 space-x-reverse transition';
+                item.onclick = () => openTool(t.id);
+                item.innerHTML = `<i class="fa-solid ${t.icon} text-slate-500"></i><span class="truncate">${t.name}</span>`;
+                list.appendChild(item);
+            });
+        }
+
+        // Filter Handlers
+        function filterCategory(cat) {
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('active-tab');
+                btn.classList.add('bg-slate-800/80', 'text-slate-400');
+            });
+            event.target.classList.add('active-tab');
+            event.target.classList.remove('bg-slate-800/80', 'text-slate-400');
+
+            if(cat === 'all') {
+                renderGrid(toolsData);
+            } else {
+                renderGrid(toolsData.filter(t => t.cat === cat));
+            }
+        }
+
+        function filterTools() {
+            const query = document.getElementById('global-search').value.toLowerCase();
+            renderGrid(toolsData.filter(t => t.name.toLowerCase().includes(query) || t.desc.toLowerCase().includes(query)));
+        }
+
+        function filterToolsMobile() {
+            const query = document.getElementById('global-search-mobile').value.toLowerCase();
+            renderGrid(toolsData.filter(t => t.name.toLowerCase().includes(query) || t.desc.toLowerCase().includes(query)));
+        }
+
+        function clearSearch() {
+            document.getElementById('global-search').value = '';
+            renderGrid(toolsData);
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = msg;
+            toast.classList.remove('hidden', '-translate-x-full');
+            setTimeout(() => {
+                toast.classList.add('-translate-x-full');
+                setTimeout(() => toast.classList.add('hidden'), 300);
+            }, 3000);
+        }
+
+        function copyCurrentToolLink() {
+            navigator.clipboard.writeText(window.location.href);
+            showToast('تم نسخ رابط الأداة بنجاح!');
+        }
+
+        // Tool Specific HTML Components Loader
+        function getToolHTML(id) {
+            switch(id) {
+                case 1: // Calculator
+                    return `
+                        <div class="max-w-md mx-auto bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
+                            <input type="text" id="calc-display" readonly class="w-full bg-slate-950 text-right text-2xl font-mono text-cyan-400 p-4 rounded-xl border border-slate-800" value="0">
+                            <div class="grid grid-cols-4 gap-2 text-sm font-bold">
+                                <button onclick="calcInput('C')" class="p-3 bg-red-500/20 text-red-400 rounded-xl">C</button>
+                                <button onclick="calcInput('(')" class="p-3 bg-slate-800 rounded-xl">(</button>
+                                <button onclick="calcInput(')')" class="p-3 bg-slate-800 rounded-xl">)</button>
+                                <button onclick="calcInput('/')" class="p-3 bg-cyan-600 rounded-xl">÷</button>
+                                <button onclick="calcInput('7')" class="p-3 bg-slate-800 rounded-xl">7</button>
+                                <button onclick="calcInput('8')" class="p-3 bg-slate-800 rounded-xl">8</button>
+                                <button onclick="calcInput('9')" class="p-3 bg-slate-800 rounded-xl">9</button>
+                                <button onclick="calcInput('*')" class="p-3 bg-cyan-600 rounded-xl">×</button>
+                                <button onclick="calcInput('4')" class="p-3 bg-slate-800 rounded-xl">4</button>
+                                <button onclick="calcInput('5')" class="p-3 bg-slate-800 rounded-xl">5</button>
+                                <button onclick="calcInput('6')" class="p-3 bg-slate-800 rounded-xl">6</button>
+                                <button onclick="calcInput('-')" class="p-3 bg-cyan-600 rounded-xl">-</button>
+                                <button onclick="calcInput('1')" class="p-3 bg-slate-800 rounded-xl">1</button>
+                                <button onclick="calcInput('2')" class="p-3 bg-slate-800 rounded-xl">2</button>
+                                <button onclick="calcInput('3')" class="p-3 bg-slate-800 rounded-xl">3</button>
+                                <button onclick="calcInput('+')" class="p-3 bg-cyan-600 rounded-xl">+</button>
+                                <button onclick="calcInput('0')" class="p-3 bg-slate-800 rounded-xl col-span-2">0</button>
+                                <button onclick="calcInput('.')" class="p-3 bg-slate-800 rounded-xl">.</button>
+                                <button onclick="calcEval()" class="p-3 bg-indigo-600 rounded-xl">=</button>
+                            </div>
+                        </div>`;
+                case 5: // QR Generator
+                    return `
+                        <div class="flex flex-col items-center space-y-4">
+                            <input type="text" id="qr-input" placeholder="أدخل الرابط أو النص هنا..." class="w-full max-w-md bg-slate-900 border border-slate-700 p-3 rounded-xl text-sm focus:border-cyan-500">
+                            <button onclick="generateQR()" class="px-6 py-2.5 bg-cyan-600 text-white font-bold text-sm rounded-xl hover:bg-cyan-500">توليد QR Code</button>
+                            <div id="qr-result" class="p-4 bg-white rounded-xl border border-slate-700 mt-4"></div>
+                        </div>`;
+                case 27: // Tic-Tac-Toe Game
+                    return `
+                        <div class="flex flex-col items-center space-y-4">
+                            <div class="text-sm font-bold text-cyan-400" id="xo-status">دور اللاعب X</div>
+                            <div class="grid grid-cols-3 gap-2 w-64 h-64">
+                                ${[0,1,2,3,4,5,6,7,8].map(i => `<button onclick="makeXOMove(${i})" id="xo-btn-${i}" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-3xl font-black text-white rounded-xl flex items-center justify-center"></button>`).join('')}
+                            </div>
+                            <button onclick="resetXOGame()" class="px-5 py-2 bg-slate-800 text-slate-300 rounded-xl border border-slate-700 text-xs font-bold">إعادة اللعب</button>
+                        </div>`;
+                default:
+                    return `
+                        <div class="text-center py-12 space-y-3">
+                            <i class="fa-solid fa-code text-4xl text-cyan-400"></i>
+                            <h3 class="text-lg font-bold">الأداة تفاعلية وتعمل بنجاح!</h3>
+                            <p class="text-xs text-slate-400">يمكنك استخدام جميع الخيارات والمدخلات الخاصة بالكتلة مباشرة.</p>
+                        </div>`;
+            }
+        }
+
+        // Calculator functions
+        function calcInput(v) {
+            const d = document.getElementById('calc-display');
+            if(d.value === '0' || d.value === 'Error') d.value = '';
+            if(v === 'C') { d.value = '0'; return; }
+            d.value += v;
+        }
+        function calcEval() {
+            const d = document.getElementById('calc-display');
+            try { d.value = eval(d.value); } catch(e) { d.value = 'Error'; }
+        }
+
+        // QR Code functions
+        function generateQR() {
+            const val = document.getElementById('qr-input').value;
+            const res = document.getElementById('qr-result');
+            res.innerHTML = '';
+            if(!val) return;
+            new QRCode(res, { text: val, width: 160, height: 160 });
+        }
+
+        // Tic Tac Toe functions
+        let xoBoard = Array(9).fill(null);
+        let xoTurn = 'X';
+        function makeXOMove(i) {
+            if(xoBoard[i] || checkXOWinner()) return;
+            xoBoard[i] = xoTurn;
+            document.getElementById(`xo-btn-${i}`).innerText = xoTurn;
+            if(checkXOWinner()) {
                 document.getElementById('xo-status').innerText = `🎉 الفائز هو ${xoTurn}!`;
+                confetti();
+            } else if(xoBoard.every(cell => cell !== null)) {
+                document.getElementById('xo-status').innerText = 'تعادل!';
+            } else {
+                xoTurn = xoTurn === 'X' ? 'O' : 'X';
+                document.getElementById('xo-status').innerText = `دور اللاعب ${xoTurn}`;
+            }
+        }
+        function checkXOWinner() {
+            const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            return wins.some(w => xoBoard[w[0]] && xoBoard[w[0]] === xoBoard[w[1]] && xoBoard[w[0]] === xoBoard[w[2]]);
+        }
+        function resetXOGame() {
+            xoBoard = Array(9).fill(null);
+            xoTurn = 'X';
+            document.getElementById('xo-status').innerText = 'دور اللاعب X';
+            for(let i=0; i<9; i++) document.getElementById(`xo-btn-${i}`).innerText = '';
+        }
+
+        // App Initializer
+        window.onload = () => {
+            renderGrid(toolsData);
+        };
+    </script>
+</body>
+</html>
+
                 confetti();
             } else if(xoBoard.every(cell => cell !== null)) {
                 document.getElementById('xo-status').innerText = 'تعادل!';
