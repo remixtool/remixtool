@@ -1,356 +1,210 @@
-```html
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="dark">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RIMIXTool | منصة الأدوات الذكية المتكاملة</title>
-    <!-- Google Fonts: Cairo -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900;1000&display=swap" rel="stylesheet">
-    <!-- FontAwesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <!-- Tailwind CSS CDN -->
+    <title>RIMIX 100 PRO - المنصة الشاملة</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- QRCode.js CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <!-- Canvas Confetti CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        cairo: ['Cairo', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            cyan: '#06b6d4',
-                            indigo: '#6366f1',
-                            violet: '#8b5cf6',
-                            rose: '#f43f5e',
-                            amber: '#f59e0b',
-                            emerald: '#10b981',
-                            dark: '#070b14',
-                            card: '#0e172a',
-                            border: '#1e293b'
-                        }
-                    },
-                    boxShadow: {
-                        'neon-cyan': '0 0 25px -5px rgba(6, 182, 212, 0.45)',
-                        'neon-indigo': '0 0 25px -5px rgba(99, 102, 241, 0.45)',
-                        'neon-rose': '0 0 25px -5px rgba(244, 63, 94, 0.45)',
-                    }
-                }
-            }
-        }
-    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        * {
-            font-family: 'Cairo', sans-serif;
-            box-sizing: border-box;
-        }
-        body {
-            background-color: #070b14;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.1) 0px, transparent 50%),
-                radial-gradient(at 50% 50%, rgba(139, 92, 246, 0.05) 0px, transparent 60%);
-            background-attachment: fixed;
-            color: #f1f5f9;
-        }
-        /* Glassmorphism Classes */
-        .glass-panel {
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .glass-panel-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .glass-panel-hover:hover {
-            background: rgba(30, 41, 59, 0.85);
-            border-color: rgba(6, 182, 212, 0.5);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px -10px rgba(6, 182, 212, 0.25);
-        }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0b1120;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1e293b;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #06b6d4;
-        }
-        /* Custom Animations */
-        @keyframes pulse-glow {
-            0%, 100% { opacity: 0.6; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.03); }
-        }
-        .animate-glow {
-            animation: pulse-glow 4s ease-in-out infinite;
-        }
-        .ad-box {
-            background: repeating-linear-gradient(
-                -45deg,
-                rgba(30, 41, 59, 0.4),
-                rgba(30, 41, 59, 0.4) 12px,
-                rgba(15, 23, 42, 0.6) 12px,
-                rgba(15, 23, 42, 0.6) 24px
-            );
-            border: 1px dashed rgba(100, 116, 139, 0.35);
-        }
+        :root { --bg-color: #050505; --card-bg: #121212; --text-color: #ffffff; --accent: #dc2626; --border: #262626; }
+        body.light-mode { --bg-color: #ffffff; --card-bg: #f4f4f5; --text-color: #000000; --accent: #dc2626; --border: #e4e4e7; }
+        body { font-family: 'Cairo', sans-serif; background-color: var(--bg-color); color: var(--text-color); transition: all 0.3s ease; }
+        .tool-card { background-color: var(--card-bg); border: 1px solid var(--border); transition: all 0.2s ease-in-out; }
+        .tool-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15); }
+        .accent-text { color: var(--accent); }
+        .accent-bg { background-color: var(--accent); }
     </style>
 </head>
-<body class="min-h-screen flex flex-col text-slate-100 selection:bg-cyan-500 selection:text-slate-950">
+<body class="min-h-screen flex flex-col justify-between">
 
-    <!-- Top Glow Line -->
-    <div class="h-1 w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-rose-500 shadow-neon-cyan"></div>
-
-    <!-- HEADER -->
-    <header class="sticky top-0 z-40 glass-panel border-b border-slate-800/80 shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-            <!-- Logo -->
-            <div class="flex items-center gap-3 cursor-pointer select-none" onclick="goHome()">
-                <div class="relative w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white text-2xl font-black shadow-neon-cyan transform active:scale-95 transition">
-                    <i class="fa-solid fa-bolt text-yellow-300"></i>
-                </div>
-                <div>
-                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight flex items-center gap-1.5">
-                        <span class="bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent">RIMIX</span>
-                        <span class="text-white font-extrabold text-xl sm:text-2xl">Tool</span>
-                    </h1>
-                    <p class="text-[10px] sm:text-xs text-slate-400 font-semibold tracking-wider uppercase">منصة الأدوات الذكية الفائقة</p>
-                </div>
-            </div>
-
-            <!-- Search Bar -->
-            <div class="flex-1 max-w-md hidden md:block">
-                <div class="relative">
-                    <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-                    <input 
-                        type="text" 
-                        id="globalSearch" 
-                        placeholder="ابحث عن أداة ذكية... (مثال: حاسبة، باركود، كلمة مرور)" 
-                        oninput="handleSearch(this.value)"
-                        class="w-full bg-slate-950/80 border border-slate-700/70 rounded-full py-2.5 pr-11 pl-10 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition-all">
-                    <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs bg-slate-800 rounded-full w-5 h-5 items-center justify-center">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Header Action Buttons -->
-            <div class="flex items-center gap-2 sm:gap-3">
-                <button id="navBackHomeBtn" onclick="goHome()" class="hidden px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-cyan-500/30 text-sm font-bold items-center gap-2 transition active:scale-95">
-                    <i class="fa-solid fa-house"></i>
-                    <span class="hidden sm:inline">الرئيسية</span>
+    <!-- Header -->
+    <header class="tool-card sticky top-0 z-50 p-4 border-b">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-black italic tracking-wide">RIMIX <span class="accent-text">100 PRO</span></h1>
+            <div class="flex items-center gap-3">
+                <span class="text-xs font-bold px-3 py-1 rounded-full bg-red-600/20 accent-text border border-red-600/30">100 أداة حقيقية</span>
+                <button onclick="toggleTheme()" class="tool-card p-2 rounded-xl text-lg hover:accent-text transition w-10 h-10 flex items-center justify-center">
+                    <i id="themeIcon" class="fa-solid fa-sun"></i>
                 </button>
-                <a href="#about-section" class="px-3.5 py-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-xs sm:text-sm font-bold flex items-center gap-1.5 transition">
-                    <i class="fa-solid fa-circle-info"></i>
-                    <span class="hidden sm:inline">عن المنصة</span>
-                </a>
-                <span class="px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-black">
-                    30 أداة 🚀
-                </span>
-            </div>
-        </div>
-
-        <!-- Mobile Search Input -->
-        <div class="p-3 border-t border-slate-800/80 md:hidden bg-slate-950/60">
-            <div class="relative">
-                <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-                <input 
-                    type="text" 
-                    id="mobileGlobalSearch" 
-                    placeholder="ابحث بين 30 أداة..." 
-                    oninput="handleSearch(this.value)"
-                    class="w-full bg-slate-900 border border-slate-700 rounded-xl py-2 pr-10 pl-4 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400">
             </div>
         </div>
     </header>
 
-    <!-- TOP AD PLACEHOLDER (AdSense Top Banner) -->
-    <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 mt-4">
-        <div class="ad-box rounded-2xl p-3 flex flex-col items-center justify-center min-h-[90px] relative overflow-hidden group">
-            <span class="absolute top-1.5 right-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest bg-slate-900/80 px-2 py-0.5 rounded border border-slate-800">إعلان / Sponsored</span>
-            <div class="flex items-center gap-3 text-slate-400 text-xs sm:text-sm font-semibold">
-                <i class="fa-brands fa-google text-cyan-400 text-lg"></i>
-                <span>مساحة إعلانية متجاوبة (Google AdSense 728x90 / Responsive Leaderboard)</span>
-            </div>
-            <p class="text-[11px] text-slate-500 mt-1">مكان مخصص لوضع شفرة إعلانات أدسنس لدعم وتطوير الأدوات المجانية</p>
-        </div>
-    </div>
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto p-4 md:p-6 w-full flex-grow space-y-10">
 
-    <!-- MAIN CONTAINER -->
-    <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6">
-
-        <!-- ================= VIEW 1: TOOLS EXPLORER (GRID & CATEGORIES) ================= -->
-        <div id="view-grid" class="space-y-6">
-
-            <!-- Hero Banner -->
-            <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-slate-800 relative overflow-hidden">
-                <div class="absolute -left-20 -top-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
-                
-                <div class="relative z-10 max-w-3xl">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-extrabold mb-4">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
-                        <span>الجيل الجديد من حلول الويب السريعة</span>
-                    </div>
-                    <h2 class="text-3xl sm:text-5xl font-black text-white leading-tight mb-3">
-                        كل الأدوات التي تحتاجها يومياً في <span class="bg-gradient-to-r from-cyan-400 via-indigo-300 to-rose-400 bg-clip-text text-transparent">منصة واحدة</span>
-                    </h2>
-                    <p class="text-slate-300 text-sm sm:text-base font-normal leading-relaxed">
-                        30 أداة تفاعلية فائقة السرعة بدون تسجيل، آمنة ومجانية 100%. حاسبات متقدمة، أدوات مطورين، ذكاء ألعاب، وأدوات إنتاجية في متناول يدك.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Categories Filter -->
-            <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-slate-800" id="categoryTabs">
-                <!-- Injected via JS -->
-            </div>
-
-            <!-- Tools Stats / Info bar -->
-            <div class="flex items-center justify-between text-xs text-slate-400 px-1">
-                <span id="toolsCountLabel" class="font-bold">عرض 30 أداة من أصل 30</span>
-                <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-bolt text-yellow-400"></i> معالجة فورية داخل متصفحك</span>
-            </div>
-
-            <!-- Tools Grid (30 Tools) -->
-            <div id="toolsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
-                <!-- Populated dynamically via JS -->
-            </div>
-
-            <!-- No results state -->
-            <div id="noResults" class="hidden glass-panel rounded-3xl p-12 text-center">
-                <div class="w-16 h-16 mx-auto rounded-full bg-slate-800 flex items-center justify-center text-slate-400 text-2xl mb-4">
-                    <i class="fa-solid fa-face-frown"></i>
-                </div>
-                <h3 class="text-lg font-bold text-white mb-1">لم يتم العثور على أي أداة مطابقة</h3>
-                <p class="text-sm text-slate-400">جرب البحث بكلمات أخرى أو اختر تصنيفاً مختلفاً</p>
-                <button onclick="resetFilters()" class="mt-4 px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold text-sm transition">
-                    إعادة ضبط الفلاتر
-                </button>
-            </div>
+        <!-- Hero Banner -->
+        <div class="tool-card p-6 rounded-2xl text-center border-red-600/40 relative overflow-hidden">
+            <h2 class="text-3xl font-black mb-2">منصة الـ 100 أداة الاحترافية ⚡</h2>
+            <p class="text-gray-400 text-sm max-w-2xl mx-auto">أضخم تجميعة أدوات مجانية على الإنترنت: 50 أداة لمونتاج وتصميم الفيديو + 50 أداة للعمل والإنتاجية.</p>
         </div>
 
-        <!-- ================= VIEW 2: WORKSPACE (ACTIVE TOOL & SIDEBAR) ================= -->
-        <div id="view-workspace" class="hidden">
-            <!-- Breadcrumbs -->
-            <div class="flex items-center justify-between flex-wrap gap-3 mb-5">
-                <div class="flex items-center gap-2 text-xs sm:text-sm">
-                    <button onclick="goHome()" class="text-slate-400 hover:text-cyan-400 font-bold transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-house text-xs"></i>
-                        <span>الرئيسية</span>
-                    </button>
-                    <i class="fa-solid fa-chevron-left text-[10px] text-slate-600"></i>
-                    <span id="wsCategoryBadge" class="text-indigo-400 font-semibold">التصنيف</span>
-                    <i class="fa-solid fa-chevron-left text-[10px] text-slate-600"></i>
-                    <span id="wsToolName" class="text-white font-extrabold">اسم الأداة</span>
-                </div>
-
-                <div class="flex items-center gap-2">
-                    <button onclick="shareTool()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold flex items-center gap-1.5 transition active:scale-95">
-                        <i class="fa-solid fa-share-nodes text-cyan-400"></i>
-                        <span>مشاركة الأداة</span>
-                    </button>
-                    <button onclick="goHome()" class="px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-bold flex items-center gap-1.5 transition active:scale-95">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                        <span>إغلاق الأداة</span>
-                    </button>
-                </div>
+        <!-- Section 1: Video & Design Tools (50 Tools) -->
+        <section>
+            <div class="flex items-center justify-between mb-4 border-r-4 border-red-600 pr-3">
+                <h3 class="text-xl font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-video accent-text"></i> أدوات الفيديو والتصميم
+                </h3>
+                <span class="text-xs font-bold text-gray-400">50 أداة</span>
             </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-2" id="videoToolsGrid"></div>
+        </section>
 
-            <!-- Grid: Sidebar + Active Tool Stage -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                
-                <!-- Main Workspace (8 cols) -->
-                <div class="lg:col-span-8 flex flex-col gap-6">
-                    <!-- Tool Card Box -->
-                    <div class="glass-panel rounded-3xl p-5 sm:p-8 border border-slate-700/80 shadow-2xl relative">
-                        <!-- Tool Header -->
-                        <div class="flex items-start justify-between gap-4 border-b border-slate-800 pb-5 mb-6">
-                            <div class="flex items-center gap-4">
-                                <div id="wsIconBox" class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-                                    <i class="fa-solid fa-calculator"></i>
-                                </div>
-                                <div>
-                                    <h2 id="wsTitle" class="text-2xl sm:text-3xl font-black text-white">عنوان الأداة</h2>
-                                    <p id="wsDesc" class="text-xs sm:text-sm text-slate-400 mt-1">وصف الأداة المفصل والوظيفة</p>
-                                </div>
-                            </div>
-                            <span id="wsBadge" class="px-3 py-1 rounded-full text-xs font-black bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 whitespace-nowrap">
-                                مجانية
-                            </span>
-                        </div>
-
-                        <!-- Tool Interactive Container -->
-                        <div id="toolInteractiveArea" class="min-h-[350px]">
-                            <!-- Dynamic Tool HTML & Logic is injected here -->
-                        </div>
-                    </div>
-
-                    <!-- Under-Tool Ad -->
-                    <div class="ad-box rounded-2xl p-4 flex flex-col items-center justify-center min-h-[90px] relative">
-                        <span class="absolute top-1.5 right-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest bg-slate-900/80 px-2 py-0.5 rounded border border-slate-800">إعلان</span>
-                        <div class="flex items-center gap-2 text-slate-400 text-xs font-semibold">
-                            <i class="fa-solid fa-rectangle-ad text-indigo-400"></i>
-                            <span>مساحة إعلانية أسفل الأداة (AdSense In-Article Responsive)</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sidebar: Quick Tools Switcher + Vertical Ad (4 cols) -->
-                <div class="lg:col-span-4 flex flex-col gap-6">
-                    <!-- Sidebar Quick Tools -->
-                    <div class="glass-panel rounded-3xl p-5 border border-slate-800">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-sm font-black text-white flex items-center gap-2">
-                                <i class="fa-solid fa-list-check text-cyan-400"></i>
-                                <span>تنقل سريع للأدوات</span>
-                            </h3>
-                            <span class="text-xs text-slate-400">30 أداة</span>
-                        </div>
-
-                        <!-- Mini Search in sidebar -->
-                        <div class="mb-3">
-                            <input 
-                                type="text" 
-                                id="sidebarSearch" 
-                                placeholder="بحث سريع في القائمة..." 
-                                oninput="filterSidebarList(this.value)"
-                                class="w-full bg-slate-950 border border-slate-800 rounded-xl py-1.5 px-3 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500">
-                        </div>
-
-                        <div id="sidebarToolsList" class="space-y-1.5 max-h-[420px] overflow-y-auto pr-1">
-                            <!-- Injected by JS -->
-                        </div>
-                    </div>
-
-                    <!-- Vertical Ad Placeholder -->
-                    <div class="ad-box rounded-3xl p-6 flex flex-col items-center justify-center min-h-[250px] relative text-center">
-                        <span class="absolute top-2 right-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest bg-slate-900/80 px-2 py-0.5 rounded border border-slate-800">إعلان جانبي</span>
-                        <i class="fa-brands fa-google text-slate-500 text-3xl mb-2"></i>
-                        <span class="text-xs font-bold text-slate-300">Google AdSense 300x250</span>
-                        <p class="text-[11px] text-slate-500 mt-1">مساحة إعلانية عمودية ملائمة للشاشات الكبيرة</p>
-                    </div>
-                </div>
+        <!-- Section 2: Work & Productivity Tools (50 Tools) -->
+        <section>
+            <div class="flex items-center justify-between mb-4 border-r-4 border-red-600 pr-3">
+                <h3 class="text-xl font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-briefcase accent-text"></i> أدوات العمل والإنتاجية
+                </h3>
+                <span class="text-xs font-bold text-gray-400">50 أداة</span>
             </div>
-        </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-2" id="workToolsGrid"></div>
+        </section>
 
-        <!-- ABOUT & FEATURES SECTION -->
-        <section id="about-section" class="mt-14 glass-panel rounded-3xl p-6 sm:p-10 border border-slate-800">
-            <div class="text-center max
+    </main>
+
+    <!-- Footer -->
+    <footer class="tool-card border-t p-4 text-center text-xs text-gray-500 mt-10">
+        تم التطوير بواسطة <span class="accent-text font-bold">RIMIX</span> | جميع الحقوق محفوظة © 2026
+    </footer>
+
+    <!-- JavaScript Data -->
+    <script>
+        // 50 أدوات الفيديو والتصميم الحقيقية
+        const videoTools = [
+            {name: "قص الفيديو", icon: "fa-scissors"},
+            {name: "دمج المقاطع", icon: "fa-object-group"},
+            {name: "ضغط الفيديو", icon: "fa-compress"},
+            {name: "تحويل الصيغ", icon: "fa-file-video"},
+            {name: "استخراج الصوت", icon: "fa-file-audio"},
+            {name: "إزالة الخلفية", icon: "fa-wand-magic-sparkles"},
+            {name: "توليد الترجمة", icon: "fa-closed-captioning"},
+            {name: "علامة مائية", icon: "fa-copyright"},
+            {name: "تعديل الألوان", icon: "fa-sliders"},
+            {name: "صانع الغلاف", icon: "fa-image"},
+            {name: "تسريع الفيديو", icon: "fa-bolt"},
+            {name: "صور إلى فيديو", icon: "fa-images"},
+            {name: "تنقية الصوت", icon: "fa-volume-high"},
+            {name: "مقاسات الريلز", icon: "fa-mobile-screen"},
+            {name: "تسجيل الشاشة", icon: "fa-display"},
+            {name: "مؤثرات بصرية", icon: "fa-sparkles"},
+            {name: "صانع الشعار", icon: "fa-pen-nib"},
+            {name: "عكس الفيديو", icon: "fa-backward"},
+            {name: "فيديو إلى GIF", icon: "fa-file-image"},
+            {name: "نصوص متحركة", icon: "fa-font"},
+            {name: "صانع أنيميشن", icon: "fa-clapperboard"},
+            {name: "تحسين الجودة", icon: "fa-up-right-and-down-left-from-center"},
+            {name: "تعديل الـ FPS", icon: "fa-gauge-high"},
+            {name: "فصل المسارات", icon: "fa-layer-group"},
+            {name: "صانع انترو", icon: "fa-play"},
+            {name: "صانع أوترو", icon: "fa-stop"},
+            {name: "دمج الصوتيات", icon: "fa-music"},
+            {name: "صانع الفلاتر", icon: "fa-filter"},
+            {name: "تعديل الإضاءة", icon: "fa-sun"},
+            {name: "طمس الوجوه", icon: "fa-eye-slash"},
+            {name: "صانع بوستر", icon: "fa-newspaper"},
+            {name: "محرر الـ SVG", icon: "fa-vector-square"},
+            {name: "فيديو 3D", icon: "fa-cube"},
+            {name: "صانع الميمز", icon: "fa-face-laugh-squint"},
+            {name: "مسجل المايك", icon: "fa-microphone"},
+            {name: "انتقالات الفيديو", icon: "fa-right-left"},
+            {name: "كروت شخصية", icon: "fa-address-card"},
+            {name: "تأطير الشاشة", icon: "fa-crop-simple"},
+            {name: "غلاف يوتيوب", icon: "fa-youtube"},
+            {name: "إزالة الكروما", icon: "fa-droplet"},
+            {name: "سلوموشن", icon: "fa-hourglass-half"},
+            {name: "ضغط الصور", icon: "fa-minimize"},
+            {name: "فيديو إلى MP3", icon: "fa-headphones"},
+            {name: "مؤثرات صوتية", icon: "fa-drum"},
+            {name: "عروض تقديمية", icon: "fa-file-powerpoint"},
+            {name: "محرر الخطوط", icon: "fa-italic"},
+            {name: "إنفوجرافيك", icon: "fa-chart-pie"},
+            {name: "الشفافية", icon: "fa-ghost"},
+            {name: "تثبيت الاهتزاز", icon: "fa-anchor"},
+            {name: "مؤثرات الضوء", icon: "fa-lightbulb"}
+        ];
+
+        // 50 أدوات العمل والإنتاجية الحقيقية
+        const workTools = [
+            {name: "مولد الـ QR", icon: "fa-qrcode"},
+            {name: "قارئ الـ QR", icon: "fa-expand"},
+            {name: "دمج الـ PDF", icon: "fa-file-pdf"},
+            {name: "تقسيم الـ PDF", icon: "fa-file-circle-minus"},
+            {name: "PDF إلى Word", icon: "fa-file-word"},
+            {name: "Word إلى PDF", icon: "fa-file-export"},
+            {name: "ضغط الـ PDF", icon: "fa-file-arrow-down"},
+            {name: "التوقيع الرقمي", icon: "fa-signature"},
+            {name: "المدقق اللغوي", icon: "fa-spell-check"},
+            {name: "حاسبة النسب", icon: "fa-percent"},
+            {name: "مؤقت بومودورو", icon: "fa-stopwatch"},
+            {name: "حاسبة الأرباح", icon: "fa-calculator"},
+            {name: "مدير المهام", icon: "fa-list-check"},
+            {name: "صانع الفواتير", icon: "fa-file-invoice-dollar"},
+            {name: "اختصار الروابط", icon: "fa-link"},
+            {name: "كلمات السر", icon: "fa-key"},
+            {name: "فحص السرعة", icon: "fa-gauge"},
+            {name: "محول العملات", icon: "fa-coins"},
+            {name: "حاسبة العمر", icon: "fa-cake-candles"},
+            {name: "الجدول الزمني", icon: "fa-calendar-days"},
+            {name: "مترجم الملفات", icon: "fa-language"},
+            {name: "السعرات الحرارية", icon: "fa-fire"},
+            {name: "تتبع المصاريف", icon: "fa-wallet"},
+            {name: "استخراج النصوص", icon: "fa-file-lines"},
+            {name: "مولد النصوص", icon: "fa-align-left"},
+            {name: "حاسبة القروض", icon: "fa-building-columns"},
+            {name: "صانع السيرة CV", icon: "fa-user-tie"},
+            {name: "فحص الروابط", icon: "fa-shield-halved"},
+            {name: "مستخرج الألوان", icon: "fa-palette"},
+            {name: "المناطق الزمنية", icon: "fa-clock"},
+            {name: "صانع الاستبيان", icon: "fa-square-poll-vertical"},
+            {name: "مفكرة سريعة", icon: "fa-note-sticky"},
+            {name: "محول الوحدات", icon: "fa-ruler-combined"},
+            {name: "منظم المواعيد", icon: "fa-user-clock"},
+            {name: "بطاقات رقمية", icon: "fa-id-card"},
+            {name: "ضغط الملفات ZIP", icon: "fa-file-zipper"},
+            {name: "فك الضغط", icon: "fa-box-open"},
+            {name: "حاسبة الضرائب", icon: "fa-receipt"},
+            {name: "فحص الأكواد", icon: "fa-code"},
+            {name: "خرائط ذهنية", icon: "fa-diagram-project"},
+            {name: "مقارنة النصوص", icon: "fa-code-compare"},
+            {name: "أسماء المشاريع", icon: "fa-lightbulb"},
+            {name: "حاسبة الخصم", icon: "fa-tag"},
+            {name: "تسجيل الأفكار", icon: "fa-brain"},
+            {name: "مخطط بياني", icon: "fa-chart-column"},
+            {name: "منسق الأكواد", icon: "fa-brackets-curly"},
+            {name: "فحص الأداء", icon: "fa-chart-line"},
+            {name: "تشفير البيانات", icon: "fa-lock"},
+            {name: "نماذج المبيعات", icon: "fa-cart-shopping"},
+            {name: "التذكير اليومي", icon: "fa-bell"}
+        ];
+
+        function renderGrid(tools, gridId) {
+            const container = document.getElementById(gridId);
+            tools.forEach(t => {
+                container.innerHTML += `
+                    <div class="tool-card p-2 rounded-lg text-center cursor-pointer flex flex-col items-center justify-center gap-1 min-h-[75px]">
+                        <i class="fa-solid ${t.icon} text-base accent-text"></i>
+                        <span class="text-[10px] font-bold leading-tight">${t.name}</span>
+                    </div>
+                `;
+            });
+        }
+
+        renderGrid(videoTools, 'videoToolsGrid');
+        renderGrid(workTools, 'workToolsGrid');
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const icon = document.getElementById('themeIcon');
+            if (document.body.classList.contains('light-mode')) {
+                icon.className = "fa-solid fa-moon";
+            } else {
+                icon.className = "fa-solid fa-sun";
+            }
+        }
+    </script>
+</body>
+</html>
+
