@@ -39,7 +39,7 @@
         <!-- Hero Banner -->
         <div class="tool-card p-6 rounded-2xl text-center border-red-600/40 relative overflow-hidden">
             <h2 class="text-3xl font-black mb-2">منصة الأدوات التفاعلية المباشرة ⚡</h2>
-            <p class="text-gray-400 text-sm max-w-2xl mx-auto">كل الأدوات تعمل فوراً بداخل موقعك بدون الخروج منه مطلقاً!</p>
+            <p class="text-gray-400 text-sm max-w-2xl mx-auto">أدوات العمل متوفرة وتعمل بالكامل داخل الصفحة بدون أي موقع خارجي!</p>
         </div>
 
         <!-- Section 1: Video & Design Tools -->
@@ -104,8 +104,7 @@
             { id: "qr_gen", name: "مولد الـ QR", icon: "fa-qrcode", type: "qr_tool" },
             { id: "pass_gen", name: "كلمات السر", icon: "fa-key", type: "pass_tool" },
             { id: "text_count", name: "عداد الحروف", icon: "fa-font", type: "count_tool" },
-            { id: "calc", name: "آلة حاسبة", icon: "fa-calculator", type: "text_tool" },
-            { id: "timer", name: "مؤقت زمني", icon: "fa-stopwatch", type: "text_tool" }
+            { id: "calc", name: "آلة حاسبة", icon: "fa-calculator", type: "calc_tool" }
         ];
 
         for (let i = workTools.length + 1; i <= 50; i++) {
@@ -136,7 +135,7 @@
 
             if(tool.type === "qr_tool") {
                 ws.innerHTML = `
-                    <p class="text-xs text-gray-400">أدخل الرابط لتوليد رمز QR فوراً داخل موقعك:</p>
+                    <p class="text-xs text-gray-400">أدخل الرابط أو النص لتوليد رمز QR فوراً:</p>
                     <input type="text" id="qrInp" placeholder="https://..." class="w-full p-2 text-sm rounded bg-zinc-900 border border-zinc-700 text-white outline-none focus:border-red-600">
                     <button onclick="runQR()" class="w-full accent-bg text-white font-bold py-2 rounded text-sm">إنشاء الرمز 🚀</button>
                     <div id="qrBox" class="flex justify-center p-3 bg-white rounded hidden"></div>
@@ -147,11 +146,43 @@
                     <input type="text" id="passOut" readonly class="w-full p-2 text-sm rounded bg-zinc-900 border border-zinc-700 text-red-400 font-mono text-center">
                     <button onclick="genPass()" class="w-full accent-bg text-white font-bold py-2 rounded text-sm">توليد كلمة سر 🔐</button>
                 `;
+            } else if(tool.type === "count_tool") {
+                ws.innerHTML = `
+                    <p class="text-xs text-gray-400">اكتب أو ألصق النص لحساب عدد الحروف والكلمات مباشرة:</p>
+                    <textarea id="cntTxt" oninput="countText()" placeholder="اكتب هنا..." class="w-full p-2 text-sm rounded bg-zinc-900 border border-zinc-700 text-white h-24 outline-none focus:border-red-600"></textarea>
+                    <div class="flex justify-around text-xs font-bold text-gray-300 bg-zinc-900 p-2 rounded border border-zinc-800">
+                        <span>الكلمات: <b id="wCnt" class="accent-text">0</b></span>
+                        <span>الحروف: <b id="cCnt" class="accent-text">0</b></span>
+                    </div>
+                `;
+            } else if(tool.type === "calc_tool") {
+                ws.innerHTML = `
+                    <input type="text" id="calcDisplay" readonly class="w-full p-3 text-lg font-mono text-left bg-zinc-900 border border-zinc-700 text-white rounded mb-2" value="0">
+                    <div class="grid grid-cols-4 gap-2 text-center font-bold">
+                        <button onclick="calcIn('C')" class="p-2 bg-red-600/30 accent-text rounded">C</button>
+                        <button onclick="calcIn('/')" class="p-2 bg-zinc-800 rounded">/</button>
+                        <button onclick="calcIn('*')" class="p-2 bg-zinc-800 rounded">*</button>
+                        <button onclick="calcIn('-')" class="p-2 bg-zinc-800 rounded">-</button>
+                        <button onclick="calcIn('7')" class="p-2 bg-zinc-900 rounded">7</button>
+                        <button onclick="calcIn('8')" class="p-2 bg-zinc-900 rounded">8</button>
+                        <button onclick="calcIn('9')" class="p-2 bg-zinc-900 rounded">9</button>
+                        <button onclick="calcIn('+')" class="p-2 bg-zinc-800 rounded">+</button>
+                        <button onclick="calcIn('4')" class="p-2 bg-zinc-900 rounded">4</button>
+                        <button onclick="calcIn('5')" class="p-2 bg-zinc-900 rounded">5</button>
+                        <button onclick="calcIn('6')" class="p-2 bg-zinc-900 rounded">6</button>
+                        <button onclick="calcRes()" class="p-2 accent-bg text-white rounded row-span-2 flex items-center justify-center">=</button>
+                        <button onclick="calcIn('1')" class="p-2 bg-zinc-900 rounded">1</button>
+                        <button onclick="calcIn('2')" class="p-2 bg-zinc-900 rounded">2</button>
+                        <button onclick="calcIn('3')" class="p-2 bg-zinc-900 rounded">3</button>
+                        <button onclick="calcIn('0')" class="p-2 bg-zinc-900 rounded col-span-2">0</button>
+                        <button onclick="calcIn('.')" class="p-2 bg-zinc-900 rounded">.</button>
+                    </div>
+                `;
             } else {
                 ws.innerHTML = `
-                    <p class="text-xs text-gray-400">مساحة عمل الأداة المباشرة:</p>
-                    <textarea placeholder="اكتب أو ألصق النص هنا..." class="w-full p-2 text-sm rounded bg-zinc-900 border border-zinc-700 text-white h-24 outline-none focus:border-red-600"></textarea>
-                    <button onclick="alert('تمت العملية داخل موقعك بنجاح!')" class="w-full accent-bg text-white font-bold py-2 rounded text-sm">معالجة بداخل الموقع ⚡</button>
+                    <p class="text-xs text-gray-400">مساحة عمل تجريبية للأداة:</p>
+                    <textarea placeholder="اكتب النص هنا..." class="w-full p-2 text-sm rounded bg-zinc-900 border border-zinc-700 text-white h-24 outline-none focus:border-red-600"></textarea>
+                    <button onclick="alert('أداة تجريبية تعمل داخل الموقع!')" class="w-full accent-bg text-white font-bold py-2 rounded text-sm">تنفيذ ⚡</button>
                 `;
             }
 
@@ -175,6 +206,29 @@
             document.getElementById('passOut').value = pass;
         }
 
+        function countText() {
+            const val = document.getElementById('cntTxt').value;
+            document.getElementById('cCnt').innerText = val.length;
+            const words = val.trim().split(/\s+/).filter(w => w.length > 0);
+            document.getElementById('wCnt').innerText = words.length;
+        }
+
+        let calcExpr = "";
+        function calcIn(val) {
+            const disp = document.getElementById('calcDisplay');
+            if(val === 'C') { calcExpr = ""; disp.value = "0"; return; }
+            calcExpr += val;
+            disp.value = calcExpr;
+        }
+
+        function calcRes() {
+            const disp = document.getElementById('calcDisplay');
+            try {
+                disp.value = eval(calcExpr);
+                calcExpr = disp.value;
+            } catch { disp.value = "خطأ"; calcExpr = ""; }
+        }
+
         function closeModal() {
             document.getElementById('toolModal').classList.add('hidden');
         }
@@ -187,3 +241,4 @@
     </script>
 </body>
 </html>
+
