@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RIMIX PRO - مولد الـ QR</title>
+    <title>RIMIX PRO - حزمة الأدوات التفاعلية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -20,47 +20,130 @@
     <!-- Header -->
     <header class="card p-4 rounded-xl text-center mb-6">
         <h1 class="text-2xl font-black italic">RIMIX <span class="accent-text">PRO</span></h1>
-        <p class="text-xs text-gray-400 mt-1">الأداة الأولى: مولد الـ QR المباشر</p>
+        <p class="text-xs text-gray-400 mt-1">الأدوات التفاعلية المباشرة (1 إلى 5)</p>
     </header>
 
     <!-- Main Workspace -->
-    <main class="max-w-md mx-auto w-full card p-6 rounded-2xl border-red-600/40 space-y-4">
-        <div class="text-center">
-            <div class="w-12 h-12 rounded-full bg-red-600/10 border border-red-600/30 flex items-center justify-center mx-auto text-xl accent-text mb-2">
-                <i class="fa-solid fa-qrcode"></i>
+    <main class="max-w-2xl mx-auto w-full space-y-6">
+
+        <!-- 1. QR Generator -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-qrcode"></i> 1. مولد الـ QR</h3>
+            <input type="text" id="qrInp" placeholder="أدخل الرابط هنا..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white outline-none focus:border-red-600">
+            <button onclick="genQR()" class="w-full accent-bg font-bold py-2 rounded text-sm">إنشاء الرمز 🚀</button>
+            <div id="qrBox" class="flex justify-center p-3 bg-white rounded hidden"></div>
+        </div>
+
+        <!-- 2. Password Generator -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-key"></i> 2. مولد كلمات السر</h3>
+            <input type="text" id="passOut" readonly placeholder="ستظهر كلمة السر هنا" class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-red-400 font-mono text-center">
+            <button onclick="genPass()" class="w-full accent-bg font-bold py-2 rounded text-sm">توليد كلمة سر معقدة 🔐</button>
+        </div>
+
+        <!-- 3. Word Counter -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-font"></i> 3. عداد النصوص</h3>
+            <textarea id="cntTxt" oninput="countText()" placeholder="اكتب أو ألصق النص هنا..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white h-20 outline-none focus:border-red-600"></textarea>
+            <div class="flex justify-around text-xs font-bold bg-zinc-900 p-2 rounded border border-zinc-800">
+                <span>الكلمات: <b id="wCnt" class="accent-text">0</b></span>
+                <span>الحروف: <b id="cCnt" class="accent-text">0</b></span>
             </div>
-            <h2 class="text-xl font-bold">مولد رموز الـ QR</h2>
         </div>
 
-        <div class="space-y-3">
-            <input type="text" id="qrText" placeholder="أدخل الرابط أو النص هنا..." class="w-full p-3 text-sm rounded-lg bg-zinc-900 border border-zinc-700 text-white outline-none focus:border-red-600">
-            <button onclick="generateQR()" class="w-full accent-bg text-white font-bold py-2.5 rounded-lg text-sm hover:bg-red-700 transition">إنشاء الرمز 🚀</button>
+        <!-- 4. Calculator -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-calculator"></i> 4. آلة حاسبة</h3>
+            <input type="text" id="calcDisplay" readonly class="w-full p-3 text-lg font-mono text-left bg-zinc-900 border border-zinc-700 text-white rounded" value="0">
+            <div class="grid grid-cols-4 gap-2 text-center font-bold">
+                <button onclick="calcIn('C')" class="p-2 bg-red-600/30 accent-text rounded">C</button>
+                <button onclick="calcIn('/')" class="p-2 bg-zinc-800 rounded">/</button>
+                <button onclick="calcIn('*')" class="p-2 bg-zinc-800 rounded">*</button>
+                <button onclick="calcIn('-')" class="p-2 bg-zinc-800 rounded">-</button>
+                <button onclick="calcIn('7')" class="p-2 bg-zinc-900 rounded">7</button>
+                <button onclick="calcIn('8')" class="p-2 bg-zinc-900 rounded">8</button>
+                <button onclick="calcIn('9')" class="p-2 bg-zinc-900 rounded">9</button>
+                <button onclick="calcIn('+')" class="p-2 bg-zinc-800 rounded">+</button>
+                <button onclick="calcIn('4')" class="p-2 bg-zinc-900 rounded">4</button>
+                <button onclick="calcIn('5')" class="p-2 bg-zinc-900 rounded">5</button>
+                <button onclick="calcIn('6')" class="p-2 bg-zinc-900 rounded">6</button>
+                <button onclick="calcRes()" class="p-2 accent-bg text-white rounded row-span-2 flex items-center justify-center">=</button>
+                <button onclick="calcIn('1')" class="p-2 bg-zinc-900 rounded">1</button>
+                <button onclick="calcIn('2')" class="p-2 bg-zinc-900 rounded">2</button>
+                <button onclick="calcIn('3')" class="p-2 bg-zinc-900 rounded">3</button>
+                <button onclick="calcIn('0')" class="p-2 bg-zinc-900 rounded col-span-2">0</button>
+                <button onclick="calcIn('.')" class="p-2 bg-zinc-900 rounded">.</button>
+            </div>
         </div>
 
-        <div id="qrResult" class="flex justify-center p-4 bg-white rounded-xl hidden mt-4"></div>
+        <!-- 5. Timer -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3 text-center">
+            <h3 class="font-bold text-lg accent-text flex items-center justify-center gap-2"><i class="fa-solid fa-stopwatch"></i> 5. مؤقت تنازلي</h3>
+            <div id="timerDisp" class="text-3xl font-mono font-bold text-red-500">00:00</div>
+            <div class="flex gap-2">
+                <input type="number" id="timeInp" placeholder="الثواني" class="w-full p-2 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
+                <button onclick="startTimer()" class="w-full accent-bg font-bold py-2 rounded text-sm">بدء ⏱️</button>
+            </div>
+        </div>
+
     </main>
 
-    <!-- Footer -->
     <footer class="text-center text-xs text-gray-500 mt-8">
         منصة RIMIX PRO © 2026
     </footer>
 
     <script>
-        function generateQR() {
-            const input = document.getElementById('qrText').value;
-            const resultBox = document.getElementById('qrResult');
-            resultBox.innerHTML = "";
-            
-            if (input.trim() !== "") {
-                resultBox.classList.remove('hidden');
-                new QRCode(resultBox, {
-                    text: input,
-                    width: 150,
-                    height: 150
-                });
-            } else {
-                alert("يرجى كتابة نص أو رابط أولاً!");
+        // QR Tool
+        function genQR() {
+            const val = document.getElementById('qrInp').value;
+            const box = document.getElementById('qrBox');
+            box.innerHTML = "";
+            if(val.trim()) {
+                box.classList.remove('hidden');
+                new QRCode(box, { text: val, width: 130, height: 130 });
             }
+        }
+
+        // Pass Tool
+        function genPass() {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+            let pass = "";
+            for (let i = 0; i < 14; i++) pass += chars.charAt(Math.floor(Math.random() * chars.length));
+            document.getElementById('passOut').value = pass;
+        }
+
+        // Count Tool
+        function countText() {
+            const val = document.getElementById('cntTxt').value;
+            document.getElementById('cCnt').innerText = val.length;
+            const words = val.trim().split(/\s+/).filter(w => w.length > 0);
+            document.getElementById('wCnt').innerText = words.length;
+        }
+
+        // Calc Tool
+        let calcExpr = "";
+        function calcIn(v) {
+            const disp = document.getElementById('calcDisplay');
+            if(v === 'C') { calcExpr = ""; disp.value = "0"; return; }
+            calcExpr += v; disp.value = calcExpr;
+        }
+        function calcRes() {
+            const disp = document.getElementById('calcDisplay');
+            try { disp.value = eval(calcExpr); calcExpr = disp.value; } catch { disp.value = "خطأ"; calcExpr = ""; }
+        }
+
+        // Timer Tool
+        let tInt;
+        function startTimer() {
+            clearInterval(tInt);
+            let sec = parseInt(document.getElementById('timeInp').value);
+            if(isNaN(sec) || sec <= 0) return;
+            tInt = setInterval(() => {
+                let m = Math.floor(sec / 60), s = sec % 60;
+                document.getElementById('timerDisp').innerText = `${m < 10 ? '0':''}${m}:${s < 10 ? '0':''}${s}`;
+                if(sec <= 0) { clearInterval(tInt); alert('انتهى الوقت!'); }
+                sec--;
+            }, 1000);
         }
     </script>
 </body>
