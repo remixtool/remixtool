@@ -3,243 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <title>RIMIX 100 PRO - المنصة الشاملة</title>
+    <title>RIMIX PRO - مولد الـ QR</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        :root { --bg-color: #050505; --card-bg: #121212; --text-color: #ffffff; --accent: #dc2626; --border: #262626; }
-        body.light-mode { --bg-color: #ffffff; --card-bg: #f4f4f5; --text-color: #000000; --accent: #dc2626; --border: #e4e4e7; }
-        body { font-family: 'Cairo', sans-serif; background-color: var(--bg-color); color: var(--text-color); transition: all 0.3s ease; }
-        .tool-card { background-color: var(--card-bg); border: 1px solid var(--border); transition: all 0.2s ease-in-out; }
-        .tool-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15); }
-        .accent-text { color: var(--accent); }
-        .accent-bg { background-color: var(--accent); }
+        body { font-family: 'Cairo', sans-serif; background-color: #050505; color: #ffffff; }
+        .card { background-color: #121212; border: 1px solid #262626; }
+        .accent-text { color: #dc2626; }
+        .accent-bg { background-color: #dc2626; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between">
+<body class="min-h-screen flex flex-col justify-between p-4">
 
     <!-- Header -->
-    <header class="tool-card sticky top-0 z-50 p-4 border-b">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-black italic tracking-wide">RIMIX <span class="accent-text">100 PRO</span></h1>
-            <div class="flex items-center gap-3">
-                <span class="text-xs font-bold px-3 py-1 rounded-full bg-red-600/20 accent-text border border-red-600/30">100 أداة داخلية</span>
-                <button onclick="toggleTheme()" class="tool-card p-2 rounded-xl text-lg hover:accent-text transition w-10 h-10 flex items-center justify-center">
-                    <i id="themeIcon" class="fa-solid fa-sun"></i>
-                </button>
-            </div>
-        </div>
+    <header class="card p-4 rounded-xl text-center mb-6">
+        <h1 class="text-2xl font-black italic">RIMIX <span class="accent-text">PRO</span></h1>
+        <p class="text-xs text-gray-400 mt-1">الأداة الأولى: مولد الـ QR المباشر</p>
     </header>
 
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto p-4 md:p-6 w-full flex-grow space-y-10">
-
-        <!-- Hero Banner -->
-        <div class="tool-card p-6 rounded-2xl text-center border-red-600/40 relative overflow-hidden">
-            <h2 class="text-3xl font-black mb-2">منصة الأدوات التفاعلية المباشرة ⚡</h2>
-            <p class="text-gray-400 text-sm max-w-2xl mx-auto">أدوات العمل متوفرة وتعمل بالكامل داخل الصفحة بدون أي موقع خارجي!</p>
+    <!-- Main Workspace -->
+    <main class="max-w-md mx-auto w-full card p-6 rounded-2xl border-red-600/40 space-y-4">
+        <div class="text-center">
+            <div class="w-12 h-12 rounded-full bg-red-600/10 border border-red-600/30 flex items-center justify-center mx-auto text-xl accent-text mb-2">
+                <i class="fa-solid fa-qrcode"></i>
+            </div>
+            <h2 class="text-xl font-bold">مولد رموز الـ QR</h2>
         </div>
 
-        <!-- Section 1: Video & Design Tools -->
-        <section>
-            <div class="flex items-center justify-between mb-4 border-r-4 border-red-600 pr-3">
-                <h3 class="text-xl font-bold flex items-center gap-2">
-                    <i class="fa-solid fa-video accent-text"></i> أدوات الفيديو والتصميم
-                </h3>
-                <span class="text-xs font-bold text-gray-400">50 أداة</span>
-            </div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-2" id="videoToolsGrid"></div>
-        </section>
+        <div class="space-y-3">
+            <input type="text" id="qrText" placeholder="أدخل الرابط أو النص هنا..." class="w-full p-3 text-sm rounded-lg bg-zinc-900 border border-zinc-700 text-white outline-none focus:border-red-600">
+            <button onclick="generateQR()" class="w-full accent-bg text-white font-bold py-2.5 rounded-lg text-sm hover:bg-red-700 transition">إنشاء الرمز 🚀</button>
+        </div>
 
-        <!-- Section 2: Work & Productivity Tools -->
-        <section>
-            <div class="flex items-center justify-between mb-4 border-r-4 border-red-600 pr-3">
-                <h3 class="text-xl font-bold flex items-center gap-2">
-                    <i class="fa-solid fa-briefcase accent-text"></i> أدوات العمل والإنتاجية
-                </h3>
-                <span class="text-xs font-bold text-gray-400">50 أداة</span>
-            </div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-2" id="workToolsGrid"></div>
-        </section>
-
+        <div id="qrResult" class="flex justify-center p-4 bg-white rounded-xl hidden mt-4"></div>
     </main>
 
-    <!-- Modal (النافذة المباشرة) -->
-    <div id="toolModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="tool-card p-6 rounded-2xl max-w-lg w-full border-red-600 relative space-y-4">
-            <button onclick="closeModal()" class="absolute top-4 left-4 text-gray-400 hover:accent-text text-xl"><i class="fa-solid fa-xmark"></i></button>
-            
-            <div class="text-center">
-                <div class="w-12 h-12 rounded-full bg-red-600/10 border border-red-600/30 flex items-center justify-center mx-auto text-xl accent-text mb-2" id="modalIcon"></div>
-                <h3 class="text-xl font-black" id="modalTitle">اسم الأداة</h3>
-            </div>
-
-            <!-- Interactive Workspace -->
-            <div id="toolWorkspace" class="p-4 rounded-xl bg-black/40 border border-zinc-800 space-y-3"></div>
-        </div>
-    </div>
-
     <!-- Footer -->
-    <footer class="tool-card border-t p-4 text-center text-xs text-gray-500 mt-10">
-        تم التطوير بواسطة <span class="accent-text font-bold">RIMIX</span> | جميع الحقوق محفوظة © 2026
+    <footer class="text-center text-xs text-gray-500 mt-8">
+        منصة RIMIX PRO © 2026
     </footer>
 
-    <!-- Script Data -->
     <script>
-        const videoTools = [
-            { id: "cut", name: "قص الفيديو", icon: "fa-scissors", type: "text_tool" },
-            { id: "merge", name: "دمج المقاطع", icon: "fa-object-group", type: "text_tool" },
-            { id: "crop", name: "قص الأبعاد", icon: "fa-crop-simple", type: "text_tool" },
-            { id: "speed", name: "تسريع الفيديو", icon: "fa-gauge-high", type: "text_tool" },
-            { id: "filter", name: "مرشحات الصور", icon: "fa-wand-magic-sparkles", type: "text_tool" }
-        ];
-
-        for (let i = videoTools.length + 1; i <= 50; i++) {
-            videoTools.push({ id: `v_${i}`, name: `أداة تصميم ${i}`, icon: "fa-layer-group", type: "text_tool" });
-        }
-
-        const workTools = [
-            { id: "qr_gen", name: "مولد الـ QR", icon: "fa-qrcode", type: "qr_tool" },
-            { id: "pass_gen", name: "كلمات السر", icon: "fa-key", type: "pass_tool" },
-            { id: "text_count", name: "عداد الحروف", icon: "fa-font", type: "count_tool" },
-            { id: "calc", name: "آلة حاسبة", icon: "fa-calculator", type: "calc_tool" }
-        ];
-
-        for (let i = workTools.length + 1; i <= 50; i++) {
-            workTools.push({ id: `w_${i}`, name: `أداة عمل ${i}`, icon: "fa-briefcase", type: "text_tool" });
-        }
-
-        function renderGrid(tools, gridId) {
-            const container = document.getElementById(gridId);
-            container.innerHTML = "";
-            tools.forEach(t => {
-                container.innerHTML += `
-                    <div onclick='openInteractiveTool(${JSON.stringify(t)})' class="tool-card p-2 rounded-lg text-center cursor-pointer flex flex-col items-center justify-center gap-1 min-h-[75px]">
-                        <i class="fa-solid ${t.icon} text-base accent-text"></i>
-                        <span class="text-[10px] font-bold leading-tight">${t.name}</span>
-                    </div>
-                `;
-            });
-        }
-
-        renderGrid(videoTools, 'videoToolsGrid');
-        renderGrid(workTools, 'workToolsGrid');
-
-        function openInteractiveTool(tool) {
-            document.getElementById('modalTitle').innerText = tool.name;
-            document.getElementById('modalIcon').innerHTML = `<i class="fa-solid ${tool.icon}"></i>`;
-            const ws = document.getElementById('toolWorkspace');
-            ws.innerHTML = "";
-
-            if(tool.type === "qr_tool") {
-                ws.innerHTML = `
-                    <p class="text-xs text-gray-400">أدخل الرابط أو النص لتوليد رمز QR فوراً:</p>
-                    <input type="text" id="qrInp" placeholder="https://..." class="w-full p-2 text-sm rounded bg-zinc-900 border border-zinc-700 text-white outline-none focus:border-red-600">
-                    <button onclick="runQR()" class="w-full accent-bg text-white font-bold py-2 rounded text-sm">إنشاء الرمز 🚀</button>
-                    <div id="qrBox" class="flex justify-center p-3 bg-white rounded hidden"></div>
-                `;
-            } else if(tool.type === "pass_tool") {
-                ws.innerHTML = `
-                    <p class="text-xs text-gray-400">توليد كلمة سر معقدة وآمنة:</p>
-                    <input type="text" id="passOut" readonly class="w-full p-2 text-sm rounded bg-zinc-900 border border-zinc-700 text-red-400 font-mono text-center">
-                    <button onclick="genPass()" class="w-full accent-bg text-white font-bold py-2 rounded text-sm">توليد كلمة سر 🔐</button>
-                `;
-            } else if(tool.type === "count_tool") {
-                ws.innerHTML = `
-                    <p class="text-xs text-gray-400">اكتب أو ألصق النص لحساب عدد الحروف والكلمات مباشرة:</p>
-                    <textarea id="cntTxt" oninput="countText()" placeholder="اكتب هنا..." class="w-full p-2 text-sm rounded bg-zinc-900 border border-zinc-700 text-white h-24 outline-none focus:border-red-600"></textarea>
-                    <div class="flex justify-around text-xs font-bold text-gray-300 bg-zinc-900 p-2 rounded border border-zinc-800">
-                        <span>الكلمات: <b id="wCnt" class="accent-text">0</b></span>
-                        <span>الحروف: <b id="cCnt" class="accent-text">0</b></span>
-                    </div>
-                `;
-            } else if(tool.type === "calc_tool") {
-                ws.innerHTML = `
-                    <input type="text" id="calcDisplay" readonly class="w-full p-3 text-lg font-mono text-left bg-zinc-900 border border-zinc-700 text-white rounded mb-2" value="0">
-                    <div class="grid grid-cols-4 gap-2 text-center font-bold">
-                        <button onclick="calcIn('C')" class="p-2 bg-red-600/30 accent-text rounded">C</button>
-                        <button onclick="calcIn('/')" class="p-2 bg-zinc-800 rounded">/</button>
-                        <button onclick="calcIn('*')" class="p-2 bg-zinc-800 rounded">*</button>
-                        <button onclick="calcIn('-')" class="p-2 bg-zinc-800 rounded">-</button>
-                        <button onclick="calcIn('7')" class="p-2 bg-zinc-900 rounded">7</button>
-                        <button onclick="calcIn('8')" class="p-2 bg-zinc-900 rounded">8</button>
-                        <button onclick="calcIn('9')" class="p-2 bg-zinc-900 rounded">9</button>
-                        <button onclick="calcIn('+')" class="p-2 bg-zinc-800 rounded">+</button>
-                        <button onclick="calcIn('4')" class="p-2 bg-zinc-900 rounded">4</button>
-                        <button onclick="calcIn('5')" class="p-2 bg-zinc-900 rounded">5</button>
-                        <button onclick="calcIn('6')" class="p-2 bg-zinc-900 rounded">6</button>
-                        <button onclick="calcRes()" class="p-2 accent-bg text-white rounded row-span-2 flex items-center justify-center">=</button>
-                        <button onclick="calcIn('1')" class="p-2 bg-zinc-900 rounded">1</button>
-                        <button onclick="calcIn('2')" class="p-2 bg-zinc-900 rounded">2</button>
-                        <button onclick="calcIn('3')" class="p-2 bg-zinc-900 rounded">3</button>
-                        <button onclick="calcIn('0')" class="p-2 bg-zinc-900 rounded col-span-2">0</button>
-                        <button onclick="calcIn('.')" class="p-2 bg-zinc-900 rounded">.</button>
-                    </div>
-                `;
+        function generateQR() {
+            const input = document.getElementById('qrText').value;
+            const resultBox = document.getElementById('qrResult');
+            resultBox.innerHTML = "";
+            
+            if (input.trim() !== "") {
+                resultBox.classList.remove('hidden');
+                new QRCode(resultBox, {
+                    text: input,
+                    width: 150,
+                    height: 150
+                });
             } else {
-                ws.innerHTML = `
-                    <p class="text-xs text-gray-400">مساحة عمل تجريبية للأداة:</p>
-                    <textarea placeholder="اكتب النص هنا..." class="w-full p-2 text-sm rounded bg-zinc-900 border border-zinc-700 text-white h-24 outline-none focus:border-red-600"></textarea>
-                    <button onclick="alert('أداة تجريبية تعمل داخل الموقع!')" class="w-full accent-bg text-white font-bold py-2 rounded text-sm">تنفيذ ⚡</button>
-                `;
+                alert("يرجى كتابة نص أو رابط أولاً!");
             }
-
-            document.getElementById('toolModal').classList.remove('hidden');
-        }
-
-        function runQR() {
-            const val = document.getElementById('qrInp').value;
-            const box = document.getElementById('qrBox');
-            box.innerHTML = "";
-            if(val) {
-                box.classList.remove('hidden');
-                new QRCode(box, { text: val, width: 120, height: 120 });
-            }
-        }
-
-        function genPass() {
-            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
-            let pass = "";
-            for (let i = 0; i < 14; i++) pass += chars.charAt(Math.floor(Math.random() * chars.length));
-            document.getElementById('passOut').value = pass;
-        }
-
-        function countText() {
-            const val = document.getElementById('cntTxt').value;
-            document.getElementById('cCnt').innerText = val.length;
-            const words = val.trim().split(/\s+/).filter(w => w.length > 0);
-            document.getElementById('wCnt').innerText = words.length;
-        }
-
-        let calcExpr = "";
-        function calcIn(val) {
-            const disp = document.getElementById('calcDisplay');
-            if(val === 'C') { calcExpr = ""; disp.value = "0"; return; }
-            calcExpr += val;
-            disp.value = calcExpr;
-        }
-
-        function calcRes() {
-            const disp = document.getElementById('calcDisplay');
-            try {
-                disp.value = eval(calcExpr);
-                calcExpr = disp.value;
-            } catch { disp.value = "خطأ"; calcExpr = ""; }
-        }
-
-        function closeModal() {
-            document.getElementById('toolModal').classList.add('hidden');
-        }
-
-        function toggleTheme() {
-            document.body.classList.toggle('light-mode');
-            const icon = document.getElementById('themeIcon');
-            icon.className = document.body.classList.contains('light-mode') ? "fa-solid fa-moon" : "fa-solid fa-sun";
         }
     </script>
 </body>
