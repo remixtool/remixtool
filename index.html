@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RIMIX PRO - الأدوات (1 إلى 10)</title>
+    <title>RIMIX PRO - الأدوات (1 إلى 15)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
     <!-- Header -->
     <header class="card p-4 rounded-xl text-center mb-6">
         <h1 class="text-2xl font-black italic">RIMIX <span class="accent-text">PRO</span></h1>
-        <p class="text-xs text-gray-400 mt-1">الأدوات التفاعلية المباشرة (1 إلى 10)</p>
+        <p class="text-xs text-gray-400 mt-1">الأدوات التفاعلية المباشرة (1 إلى 15)</p>
     </header>
 
     <!-- Main Workspace -->
@@ -132,6 +132,52 @@
             <button onclick="genLorem()" class="w-full accent-bg font-bold py-2 rounded text-sm">توليد نص تجريبي 📝</button>
         </div>
 
+        <!-- 11. Currency Converter -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-coins"></i> 11. محول دولار/يورو/دينار</h3>
+            <div class="flex gap-2">
+                <input type="number" id="usdInp" placeholder="المبلغ بالدولار $" class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
+                <button onclick="convCurr()" class="accent-bg px-4 font-bold rounded text-sm">تحويل</button>
+            </div>
+            <div id="currRes" class="text-xs text-center space-y-1 font-bold text-gray-300">
+                <div>باليورو: <span id="eurVal" class="accent-text">0 €</span></div>
+                <div>بالدينار (تقريبي): <span id="dzdVal" class="accent-text">0 DZD</span></div>
+            </div>
+        </div>
+
+        <!-- 12. Username Generator -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-user-ninja"></i> 12. مولد أسماء مستخدمين</h3>
+            <input type="text" id="unameOut" readonly placeholder="اسم المستخدم المقترح" class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-center font-mono text-red-400">
+            <button onclick="genUname()" class="w-full accent-bg font-bold py-2 rounded text-sm">توليد اسم يوزر 🎮</button>
+        </div>
+
+        <!-- 13. Age Calculator -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-cake-candles"></i> 13. حاسبة العمر</h3>
+            <input type="date" id="birthDate" class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
+            <button onclick="calcAge()" class="w-full accent-bg font-bold py-2 rounded text-sm">احسب عمرك 🎂</button>
+            <div id="ageRes" class="text-center font-bold accent-text text-sm"></div>
+        </div>
+
+        <!-- 14. URL Extractor -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-link"></i> 14. مستخرج الروابط</h3>
+            <textarea id="urlTxt" placeholder="ألصق نصاً يضم روابط هنا..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white h-20"></textarea>
+            <button onclick="extUrls()" class="w-full accent-bg font-bold py-2 rounded text-sm">استخراج الروابط 🔗</button>
+            <textarea id="urlOut" readonly class="w-full p-2 text-xs rounded bg-zinc-900 border border-zinc-700 text-gray-300 h-16"></textarea>
+        </div>
+
+        <!-- 15. Base64 Converter -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-code"></i> 15. مشفر Base64</h3>
+            <input type="text" id="b64Inp" placeholder="أدخل النص..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white">
+            <div class="flex gap-2">
+                <button onclick="b64Enc()" class="w-full bg-zinc-800 font-bold py-2 rounded text-xs">تشفير Encode</button>
+                <button onclick="b64Dec()" class="w-full accent-bg font-bold py-2 rounded text-xs">فك التشفير Decode</button>
+            </div>
+        </div>
+
     </main>
 
     <footer class="text-center text-xs text-gray-500 mt-8">
@@ -229,7 +275,52 @@
         function genLorem() {
             document.getElementById('loremOut').value = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.";
         }
+
+        // 11. Currency Conv
+        function convCurr() {
+            const usd = parseFloat(document.getElementById('usdInp').value);
+            if(!isNaN(usd)) {
+                document.getElementById('eurVal').innerText = (usd * 0.92).toFixed(2) + " €";
+                document.getElementById('dzdVal').innerText = (usd * 220).toFixed(0) + " DZD";
+            }
+        }
+
+        // 12. Username Gen
+        function genUname() {
+            const pre = ["Dark", "Pro", "Cyber", "Shadow", "Ghost", "Apex", "Vortex"];
+            const suf = ["Player", "Gamer", "King", "Master", "X", "Zero", "Ninja"];
+            const num = Math.floor(Math.random() * 999);
+            const res = pre[Math.floor(Math.random() * pre.length)] + suf[Math.floor(Math.random() * suf.length)] + num;
+            document.getElementById('unameOut').value = res;
+        }
+
+        // 13. Age Calc
+        function calcAge() {
+            const val = document.getElementById('birthDate').value;
+            if(!val) return;
+            const bDate = new Date(val);
+            const diff = new Date() - bDate;
+            const ageYears = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+            document.getElementById('ageRes').innerText = `عمرك هو: ${ageYears} سنة`;
+        }
+
+        // 14. URL Extractor
+        function extUrls() {
+            const txt = document.getElementById('urlTxt').value;
+            const matches = txt.match(/https?:\/\/[^\s]+/g);
+            document.getElementById('urlOut').value = matches ? matches.join('\n') : "لم يتم العثور على روابط";
+        }
+
+        // 15. Base64
+        function b64Enc() {
+            const inp = document.getElementById('b64Inp');
+            try { inp.value = btoa(inp.value); } catch { alert('خطأ في التشفير'); }
+        }
+        function b64Dec() {
+            const inp = document.getElementById('b64Inp');
+            try { inp.value = atob(inp.value); } catch { alert('الكود غير صالح للفك'); }
+        }
     </script>
 </body>
-                </html>
+            </html>
                 
