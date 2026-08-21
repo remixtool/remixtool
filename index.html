@@ -1,246 +1,172 @@
-        // 24. Range Random Number
-        function genRndNum() {
-            const min = parseInt(document.getElementById('rndMin').value) || 0;
-            const max = parseInt(document.getElementById('rndMax').value) || 100;
-            document.getElementById('rndNumRes').innerText = Math.floor(Math.random() * (max - min + 1)) + min;
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remix Market | متجر ريمكس</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* إضافة الخلفية المتحركة */
+        body { 
+            background: linear-gradient(270deg, #0f172a, #1e1b4b, #0f172a);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            color: #f8fafc; 
+            font-family: sans-serif; 
+            min-height: 100vh;
         }
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .tab-btn.active { background-color: #2563eb; color: white; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
 
-        // 25. BMR Calories
-        function calcBMR() {
-            const w = parseFloat(document.getElementById('bmrW').value);
-            const h = parseFloat(document.getElementById('bmrH').value);
-            const a = parseFloat(document.getElementById('bmrA').value);
-            if(w && h && a) {
-                document.getElementById('bmrRes').innerText = `معدل الحرق اليومي: ${Math.round((10 * w) + (6.25 * h) - (5 * a) + 5)} سعرة`;
+    <!-- الهيدر واسم المنصة -->
+    <header class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8 bg-slate-900/60 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-slate-700">
+        <div class="flex items-center gap-3">
+            <div class="bg-blue-600 p-3 rounded-xl shadow-lg shadow-blue-500/30">
+                <i class="fa-solid fa-store text-2xl text-white"></i>
+            </div>
+            <div>
+                <h1 class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400 tracking-wide">
+                    REMIX MARKET
+                </h1>
+                <p class="text-xs text-slate-400 font-semibold">متجر ريمكس للألعاب والتطبيقات والكتب</p>
+            </div>
+        </div>
+
+        <!-- خانة البحث -->
+        <div class="relative w-full md:w-1/3">
+            <input type="text" id="searchInput" onkeyup="searchContent()" placeholder="ابحث عن لعبة، تطبيق، أو كتاب..." 
+                class="w-full bg-slate-950/50 border border-slate-700 text-white rounded-xl py-2 px-4 pr-10 focus:outline-none focus:border-blue-500">
+            <i class="fa-solid fa-search absolute left-3 top-3 text-slate-400"></i>
+        </div>
+
+        <!-- زر النشر -->
+        <button onclick="toggleModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-5 rounded-xl flex items-center gap-2 transition-all w-full md:w-auto justify-center shadow-lg shadow-emerald-900/40">
+            <i class="fa-solid fa-cloud-arrow-up"></i> انشر مجاناً
+        </button>
+    </header>
+
+    <!-- مكان الإعلان -->
+    <div class="bg-slate-900/60 backdrop-blur-md border border-amber-500/30 rounded-xl p-3 text-center text-xs text-amber-400 mb-8">
+        📢 إعلان (هنا ستضع شفرة إعلاناتك لتحويل الأرباح لمحفظتك)
+    </div>
+
+    <!-- الخيارات -->
+    <div class="flex justify-center gap-2 mb-8 bg-slate-900/60 backdrop-blur-md p-1.5 rounded-2xl max-w-md mx-auto border border-slate-700">
+        <button onclick="switchTab('games')" id="tab-games" class="tab-btn active w-1/3 py-2 rounded-xl text-sm font-bold transition-all">🎮 ألعاب</button>
+        <button onclick="switchTab('apps')" id="tab-apps" class="tab-btn w-1/3 py-2 rounded-xl text-sm font-bold transition-all">📱 تطبيقات</button>
+        <button onclick="switchTab('books')" id="tab-books" class="tab-btn w-1/3 py-2 rounded-xl text-sm font-bold transition-all">📚 كتب</button>
+    </div>
+
+    <!-- شبكة المحتوى -->
+    <main id="contentGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <!-- المحتوى -->
+    </main>
+
+    <!-- نافذة رفع الملفات -->
+    <div id="uploadModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-slate-800 p-6 rounded-2xl max-w-md w-full border border-slate-700 relative shadow-2xl">
+            <button onclick="toggleModal()" class="absolute top-4 left-4 text-slate-400 hover:text-white text-xl">✕</button>
+            <h2 class="text-xl font-bold mb-4 text-emerald-400 flex items-center gap-2">
+                <i class="fa-solid fa-circle-plus"></i> إضافة محتوى إلى Remix Market
+            </h2>
+            <form onsubmit="handleUpload(event)" class="space-y-4 text-sm">
+                <div>
+                    <label class="block mb-1 text-slate-300">النوع:</label>
+                    <select id="itemType" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-white">
+                        <option value="games">لعبة</option>
+                        <option value="apps">تطبيق</option>
+                        <option value="books">كتاب</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-1 text-slate-300">اسم العنصر:</label>
+                    <input type="text" id="itemName" required placeholder="مثال: لعبة Free Fire" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-white">
+                </div>
+                <div>
+                    <label class="block mb-1 text-slate-300">رابط الأيقونة:</label>
+                    <input type="url" id="itemIcon" required placeholder="https://..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-white">
+                </div>
+                <div>
+                    <label class="block mb-1 text-slate-300">رابط التحميل:</label>
+                    <input type="url" id="itemLink" required placeholder="رابط Google Drive..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-white">
+                </div>
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 font-bold py-2.5 rounded-xl transition-all text-white">
+                    نشر فوراً
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const items = [
+            { id: 1, type: 'games', name: 'لعبة مغامرات 3D', icon: 'https://cdn-icons-png.flaticon.com/512/686/686589.png', link: '#' },
+            { id: 2, type: 'apps', name: 'تطبيق تعديل الصور', icon: 'https://cdn-icons-png.flaticon.com/512/2965/2965318.png', link: '#' },
+            { id: 3, type: 'books', name: 'كتاب تعلم البرمجة', icon: 'https://cdn-icons-png.flaticon.com/512/2232/2232688.png', link: '#' }
+        ];
+
+        let currentTab = 'games';
+
+        function renderItems(filterText = '') {
+            const grid = document.getElementById('contentGrid');
+            grid.innerHTML = '';
+            const filtered = items.filter(i => i.type === currentTab && i.name.toLowerCase().includes(filterText.toLowerCase()));
+            if(filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500">لا يوجد محتوى حالياً في هذا القسم.</div>`;
+                return;
             }
+            filtered.forEach(item => {
+                grid.innerHTML += `
+                    <div class="bg-slate-900/60 backdrop-blur-md p-4 rounded-2xl border border-slate-700 flex flex-col items-center text-center hover:border-blue-500/50 transition-all">
+                        <img src="${item.icon}" class="w-20 h-20 rounded-2xl mb-3 object-cover bg-slate-950 p-2">
+                        <h3 class="font-bold text-white mb-2">${item.name}</h3>
+                        <a href="${item.link}" target="_blank" class="mt-auto w-full bg-blue-600 hover:bg-blue-500 py-2 rounded-xl text-xs font-bold transition-all text-white shadow-lg shadow-blue-900/30">
+                            تنزيل / فتح
+                        </a>
+                    </div>
+                `;
+            });
         }
 
-        // 26. Temperature Converter
-        function cToF() { 
-            const c = parseFloat(document.getElementById('tempInp').value); 
-            if(!isNaN(c)) document.getElementById('tempRes').innerText = `${c}°C = ${((c * 9/5) + 32).toFixed(1)}°F`; 
-        }
-        function fToC() { 
-            const f = parseFloat(document.getElementById('tempInp').value); 
-            if(!isNaN(f)) document.getElementById('tempRes').innerText = `${f}°F = ${((f - 32) * 5/9).toFixed(1)}°C`; 
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            renderItems();
         }
 
-        // 27. HTML Escaper
-        function escapeHTML() { 
-            document.getElementById('htmlOut').value = document.getElementById('htmlInp').value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); 
+        function searchContent() {
+            const txt = document.getElementById('searchInput').value;
+            renderItems(txt);
         }
 
-        // 28. Rectangle Area & Perimeter
-        function calcRect() {
-            const w = parseFloat(document.getElementById('rectW').value);
-            const h = parseFloat(document.getElementById('rectH').value);
-            if(w && h) document.getElementById('rectRes').innerText = `المساحة: ${w * h} | المحيط: ${2 * (w + h)}`;
+        function toggleModal() {
+            document.getElementById('uploadModal').classList.toggle('hidden');
         }
 
-        // 29. Headline Ideas
-        function genHeadlines() {
-            const t = document.getElementById('topicInp').value.trim();
-            if(t) document.getElementById('headOut').value = [`أسرار وحقائق عن ${t}`, `دليل ${t} الشامل`, `كيف تبدأ مع ${t} خطوة بخطوة`].join('\n');
+        function handleUpload(e) {
+            e.preventDefault();
+            const newItem = {
+                id: Date.now(),
+                type: document.getElementById('itemType').value,
+                name: document.getElementById('itemName').value,
+                icon: document.getElementById('itemIcon').value,
+                link: document.getElementById('itemLink').value
+            };
+            items.push(newItem);
+            toggleModal();
+            switchTab(newItem.type);
+            alert("تم نشر المحتوى بنجاح في Remix Market!");
         }
 
-        // 30. Line Counter
-        function countLines() {
-            const txt = document.getElementById('lineTxt').value;
-            document.getElementById('lineRes').innerText = `عدد الأسطر: ${txt.length > 0 ? txt.split(/\r\n|\r|\n/).length : 0}`;
-        }
-
-        // 31. Password Strength
-        function checkPassStr() {
-            const val = document.getElementById('passCheck').value;
-            const res = document.getElementById('passStrRes');
-            if(val.length < 6) { 
-                res.innerText = "ضعيفة جداً 🔴"; 
-                res.className = "text-center font-bold text-xs py-1 rounded bg-red-950 text-red-400"; 
-            } else if(val.length < 10 || !/\d/.test(val)) { 
-                res.innerText = "متوسطة 🟡"; 
-                res.className = "text-center font-bold text-xs py-1 rounded bg-yellow-950 text-yellow-400"; 
-            } else { 
-                res.innerText = "قوية ممتازة 🟢"; 
-                res.className = "text-center font-bold text-xs py-1 rounded bg-green-950 text-green-400"; 
-            }
-        }
-
-        // 32. Roman Numerals
-        function toRoman() {
-            let num = parseInt(document.getElementById('numRoman').value);
-            if(isNaN(num) || num <= 0) return;
-            const lookup = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1};
-            let roman = '';
-            for (let i in lookup) {
-                while (num >= lookup[i]) { roman += i; num -= lookup[i]; }
-            }
-            document.getElementById('romanRes').innerText = roman;
-        }
-
-        // 33. Speed Calculator
-        function calcSpeed() {
-            const d = parseFloat(document.getElementById('distInp').value);
-            const t = parseFloat(document.getElementById('timeHourInp').value);
-            if(d > 0 && t > 0) document.getElementById('speedRes').innerText = `السرعة المتوقعة: ${(d / t).toFixed(1)} كم/ساعة`;
-        }
-
-        // 34. Gradient Generator
-        function genGrad() {
-            const c1 = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
-            const c2 = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
-            const b = document.getElementById('gradBox');
-            b.style.background = `linear-gradient(90deg, ${c1}, ${c2})`;
-            b.innerText = `background: linear-gradient(90deg, ${c1}, ${c2});`;
-        }
-
-        // 35. Strip HTML
-        function stripHTML() {
-            const val = document.getElementById('stripInp').value;
-            document.getElementById('stripInp').value = val.replace(/<[^>]*>?/gm, '');
-        }
-
-        // 36. Button Style Helper
-        function randomBtnStyle() {
-            const btn = document.getElementById('demoBtn');
-            const colors = ['bg-blue-600', 'bg-emerald-600', 'bg-purple-600', 'bg-red-600', 'bg-amber-600'];
-            btn.className = `w-full py-2 text-white font-bold rounded-xl shadow-xl transition-all ${colors[Math.floor(Math.random()*colors.length)]}`;
-        }
-
-        // 37. Interest Calculator
-        function calcInterest() {
-            const p = parseFloat(document.getElementById('intP').value);
-            const r = parseFloat(document.getElementById('intR').value);
-            const t = parseFloat(document.getElementById('intT').value);
-            if(p && r && t) {
-                const interest = (p * r * t) / 100;
-                document.getElementById('intRes').innerText = `الفائدة: ${interest.toFixed(2)} | الإجمالي: ${(p + interest).toFixed(2)}`;
-            }
-        }
-
-        // 38. Text to Binary
-        function toBinary() {
-            const str = document.getElementById('binInp').value;
-            let res = '';
-            for (let i = 0; i < str.length; i++) {
-                res += str[i].charCodeAt(0).toString(2) + ' ';
-            }
-            document.getElementById('binOut').value = res.trim();
-        }
-
-        // 39. Word Frequency
-        function calcFreq() {
-            const words = document.getElementById('freqTxt').value.trim().toLowerCase().match(/\w+/g);
-            if(!words) return;
-            const freq = {};
-            words.forEach(w => freq[w] = (freq[w] || 0) + 1);
-            let topWord = '', maxCount = 0;
-            for(let w in freq) {
-                if(freq[w] > maxCount) { maxCount = freq[w]; topWord = w; }
-            }
-            document.getElementById('freqRes').innerText = `الكلمة الأكثر تكراراً: "${topWord}" (تكررت ${maxCount} مرة)`;
-        }
-
-        // 40. Online Status Checker
-        function checkNet() {
-            const st = navigator.onLine;
-            const el = document.getElementById('netStatus');
-            el.innerText = st ? "متصل بالإنترنت 🟢" : "غير متصل بالإنترنت 🔴";
-            el.className = st ? "text-lg font-bold text-green-500" : "text-lg font-bold text-red-500";
-        }
-
-        // 41. Zakat Calculator
-        function calcZakat() {
-            const money = parseFloat(document.getElementById('zakatMoney').value);
-            if(!isNaN(money) && money > 0) {
-                document.getElementById('zakatRes').innerText = `الواجب إخراجه (2.5%): ${(money * 0.025).toFixed(2)}`;
-            }
-        }
-
-        // 42. Fair Bill Splitter
-        function splitBill() {
-            const bill = parseFloat(document.getElementById('totalBill').value);
-            const people = parseInt(document.getElementById('numPeople').value);
-            if(bill > 0 && people > 0) {
-                document.getElementById('splitRes').innerText = `حصة كل شخص: ${(bill / people).toFixed(2)}`;
-            }
-        }
-
-        // 43. VAT Calculator
-        function calcVAT() {
-            const amt = parseFloat(document.getElementById('vatAmount').value);
-            const rate = parseFloat(document.getElementById('vatRate').value) || 19;
-            if(!isNaN(amt) && amt > 0) {
-                const vat = amt * (rate / 100);
-                document.getElementById('vatRes').innerText = `الضريبة: ${vat.toFixed(2)} | الإجمالي مع الضريبة: ${(amt + vat).toFixed(2)}`;
-            }
-        }
-
-        // 44. Hourly Wage to Salary
-        function calcSalary() {
-            const rate = parseFloat(document.getElementById('hourlyRate').value);
-            const hours = parseFloat(document.getElementById('hoursPerDay').value) || 8;
-            if(!isNaN(rate) && rate > 0) {
-                const daily = rate * hours;
-                document.getElementById('salaryRes').innerText = `اليومي: ${daily.toFixed(0)} | الشهري (22 يوم عمل): ${(daily * 22).toFixed(0)}`;
-            }
-        }
-
-        // 45. Profit Margin Calculator
-        function calcProfitMargin() {
-            const cost = parseFloat(document.getElementById('costPrice').value);
-            const sell = parseFloat(document.getElementById('sellPrice').value);
-            if(cost > 0 && sell > 0) {
-                const profit = sell - cost;
-                const margin = (profit / sell) * 100;
-                document.getElementById('profitRes').innerText = `الربح الصافي: ${profit.toFixed(2)} | هامش الربح: ${margin.toFixed(1)}%`;
-            }
-        }
-
-        // 46. Legal Deadline Calculator
-        function calcLegalDeadline() {
-            const startVal = document.getElementById('startDateLegal').value;
-            const days = parseInt(document.getElementById('legalDays').value);
-            if(startVal && !isNaN(days)) {
-                let startDate = new Date(startVal);
-                startDate.setDate(startDate.getDate() + days);
-                document.getElementById('legalRes').innerText = `تاريخ انتهاء الأجل: ${startDate.toLocaleDateString('ar-EG')}`;
-            }
-        }
-
-        // 47. Working Days Estimator
-        function calcWorkDays() {
-            const total = parseInt(document.getElementById('totalDaysInp').value);
-            if(!isNaN(total) && total > 0) {
-                document.getElementById('workDaysRes').innerText = `أيام العمل الفعلية التقديرية: ~ ${Math.round(total * (5 / 7))} يوم`;
-            }
-        }
-
-        // 48. Loan Installment Calculator
-        function calcInstallment() {
-            const loan = parseFloat(document.getElementById('loanAmount').value);
-            const months = parseInt(document.getElementById('loanMonths').value);
-            if(loan > 0 && months > 0) {
-                document.getElementById('loanRes').innerText = `القسط الشهري الواجب سداده: ${(loan / months).toFixed(2)}`;
-            }
-        }
-
-        // 49. Fuel Cost Calculator
-        function calcTripFuel() {
-            const dist = parseFloat(document.getElementById('tripDist').value);
-            const cons = parseFloat(document.getElementById('fuelCons').value) || 7;
-            const price = parseFloat(document.getElementById('fuelPrice').value);
-            if(dist > 0 && price > 0) {
-                const liters = (dist / 100) * cons;
-                document.getElementById('tripRes').innerText = `الوقود: ${liters.toFixed(1)} لتر | التكلفة: ${(liters * price).toFixed(2)}`;
-            }
-        }
-
-        // 50. Project Task Allocator
-        function calcTaskAlloc() {
-            const hours = parseFloat(document.getElementById('projHours').value);
-            const tasks = parseInt(document.getElementById('projTasks').value);
-            if(hours > 0 && tasks > 0) {
-                document.getElementById('allocRes').innerText = `الوقت المخصص لكل مهمة: ${(hours / tasks).toFixed(2)} ساعة`;
-            }
-        }
-                
+        renderItems();
+    </script>
+</body>
+</html>
