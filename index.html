@@ -3,105 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remox App Zone | متجر ريموكس</title>
+    <title>Remox Zone | متجر الألعاب والتطبيقات</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background-color: #121212; color: #e3e3e3; font-family: system-ui, -apple-system, sans-serif; pb-20; }
-        .nav-item.active { color: #8ab4f8; }
-        .nav-item.active i { background-color: #004a77; color: #c2e7ff; padding: 4px 16px; border-radius: 16px; }
+        body { background-color: #0b0f19; color: #f1f5f9; font-family: system-ui, -apple-system, sans-serif; }
+        .nav-item.active { color: #38bdf8; }
+        .nav-item.active i { background: linear-gradient(135deg, #0284c7, #2563eb); color: #ffffff; padding: 6px 18px; border-radius: 20px; box-shadow: 0 4px 12px rgba(37,99,235,0.4); }
         .hide-scroll::-webkit-scrollbar { display: none; }
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        .tab-sub.active { border-bottom: 3px solid #38bdf8; color: #38bdf8; font-weight: bold; }
     </style>
 </head>
-<body class="pb-24">
+<body class="pb-28">
 
-    <!-- الهيدر العلوي وشريط البحث -->
-    <header class="sticky top-0 bg-[#121212] z-40 px-4 pt-3 pb-2 border-b border-zinc-800/50">
-        <div class="flex items-center justify-between gap-3 bg-[#1e1e1e] rounded-full px-4 py-2.5 shadow-md border border-zinc-700/50">
-            <!-- اللوجو واسم المتجر -->
+    <header class="sticky top-0 bg-[#0b0f19]/90 backdrop-blur-md z-50 px-4 pt-3 pb-2 border-b border-slate-800">
+        <div class="flex items-center justify-between gap-3 bg-slate-900/90 rounded-full px-3.5 py-2 border border-slate-700/60 shadow-lg">
+            
             <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white font-black text-sm shadow-md">
-                    R
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 flex items-center justify-center text-white text-lg shadow-lg shadow-cyan-500/20">
+                    <i class="fa-solid fa-gamepad"></i>
                 </div>
-                <span class="font-bold text-sm tracking-wide text-white">Remox Zone</span>
+                <div class="flex flex-col">
+                    <span class="font-black text-sm tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">REMIX ZONE</span>
+                </div>
             </div>
 
-            <!-- خانة البحث -->
-            <div class="flex-1 flex items-center gap-2 px-2">
-                <i class="fa-solid fa-magnifying-glass text-zinc-400 text-xs"></i>
-                <input type="text" id="searchInput" onkeyup="searchContent()" placeholder="البحث عن التطبيقات والألعاب..." 
-                    class="w-full bg-transparent text-xs text-white placeholder-zinc-500 focus:outline-none">
+            <div class="flex-1 flex items-center gap-2 px-2 bg-slate-950/60 py-1.5 rounded-full border border-slate-800">
+                <i class="fa-solid fa-magnifying-glass text-slate-400 text-xs"></i>
+                <input type="text" id="searchInput" onkeyup="searchContent()" placeholder="بحث في Remox..." 
+                    class="w-full bg-transparent text-xs text-white placeholder-slate-500 focus:outline-none">
             </div>
 
-            <!-- زر الحساب التسجيل -->
-            <button onclick="switchTab('account')" class="w-7 h-7 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shadow">
+            <button onclick="switchTab('account')" class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-emerald-400 text-white font-black text-xs flex items-center justify-center shadow-md">
                 R
             </button>
         </div>
+
+        <div id="subTabs" class="flex gap-6 overflow-x-auto hide-scroll pt-3 px-2 text-xs text-slate-400">
+            <button class="tab-sub active whitespace-nowrap pb-1">محتوى يهمك</button>
+            <button class="tab-sub whitespace-nowrap pb-1">الأكثر رواجاً</button>
+            <button class="tab-sub whitespace-nowrap pb-1">الأطفال</button>
+            <button class="tab-sub whitespace-nowrap pb-1">الجديدة</button>
+        </div>
     </header>
 
-    <!-- مساحة الإعلانات للربح -->
-    <div class="mx-4 mt-3 p-2.5 bg-[#1e1e1e] border border-amber-500/20 rounded-xl text-center text-[11px] text-amber-400">
-        📢 إعلان (مكان وضع كود الإعلانات للربح المباشر لمحفظتك)
+    <div class="mx-4 mt-3 p-2.5 bg-gradient-to-r from-amber-500/10 via-amber-500/20 to-amber-500/10 border border-amber-500/30 rounded-2xl text-center text-xs text-amber-300 font-medium">
+        ✨ مكان وضع شفرة إعلانات Adsterra للربح المباشر
     </div>
 
-    <!-- شبكة المحتوى الرئيسي -->
     <main class="px-4 pt-4">
-        
-        <!-- عنوان القسم -->
-        <h2 id="sectionTitle" class="text-base font-bold text-white mb-3 flex items-center justify-between">
-            <span>مقترحة لك</span>
-            <span class="text-xs text-blue-400 font-normal">المزيد</span>
-        </h2>
 
-        <!-- القائمة المعروضة -->
-        <div id="contentGrid" class="space-y-3">
-            <!-- يتم تحميل عناصر الألعاب والكتب هنا -->
+        <div id="heroSection" class="mb-6 relative rounded-3xl overflow-hidden bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent border border-slate-800 shadow-2xl">
+            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80" class="w-full h-48 object-cover opacity-80">
+            <div class="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent">
+                <span class="bg-indigo-600/80 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full backdrop-blur-md mb-1 inline-block">حدث خاص</span>
+                <h3 class="text-base font-black text-white">بطولة الألعاب الكبرى 🔥</h3>
+                <p class="text-xs text-slate-300 mb-3">حمل الألعاب واكسب جوائز ومكافآت مجانية</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-[11px] text-cyan-400 font-bold">مجاني 100%</span>
+                    <button class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-5 py-1.5 rounded-full text-xs shadow-lg shadow-blue-600/40">تثبيت الآن</button>
+                </div>
+            </div>
         </div>
 
-        <!-- قسم الحساب والنشر (مخفي افتراضياً) -->
+        <h2 id="sectionTitle" class="text-sm font-bold text-slate-200 mb-3 flex items-center justify-between">
+            <span>مقترحة لك</span>
+            <span class="text-xs text-cyan-400">المزيد</span>
+        </h2>
+
+        <div id="contentGrid" class="space-y-3">
+            </div>
+
         <div id="accountSection" class="hidden space-y-4">
-            <div class="bg-[#1e1e1e] p-5 rounded-2xl border border-zinc-800 text-center">
-                <div class="w-16 h-16 bg-blue-600 text-white font-black text-2xl rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
+            <div class="bg-slate-900/80 p-5 rounded-3xl border border-slate-800 text-center shadow-xl">
+                <div class="w-16 h-16 bg-gradient-to-tr from-cyan-500 to-blue-600 text-white font-black text-2xl rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg shadow-cyan-500/30">
                     R
                 </div>
                 <h3 class="font-bold text-lg text-white">مرحباً Remox</h3>
-                <p class="text-xs text-zinc-400 mb-4">rimoxrx920@gmail.com</p>
+                <p class="text-xs text-slate-400 mb-4">rimoxrx920@gmail.com</p>
                 
-                <button class="w-full bg-zinc-800 hover:bg-zinc-700 text-white font-semibold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 border border-zinc-700 mb-3">
-                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-4 h-4" alt="Google">
-                    تم التسجيل بحساب Google
-                </button>
+                <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex items-center justify-center gap-2 text-xs text-emerald-400 font-semibold">
+                    <i class="fa-solid fa-circle-check"></i> الحساب موثق وجاهز للنشر
+                </div>
             </div>
 
-            <!-- زر ونموذج النشر داخل الحساب -->
-            <div class="bg-[#1e1e1e] p-5 rounded-2xl border border-zinc-800">
-                <h4 class="font-bold text-sm text-emerald-400 mb-3 flex items-center gap-2">
-                    <i class="fa-solid fa-cloud-arrow-up"></i> نشر لعبة أو تطبيق مجاناً
+            <div class="bg-slate-900/80 p-5 rounded-3xl border border-slate-800 shadow-xl">
+                <h4 class="font-bold text-sm text-cyan-400 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-plus-circle"></i> نشر تطبيق أو لعبة في المتجر
                 </h4>
                 <form onsubmit="handleUpload(event)" class="space-y-3 text-xs">
                     <div>
-                        <label class="block text-zinc-400 mb-1">النوع:</label>
-                        <select id="itemType" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none">
+                        <label class="block text-slate-400 mb-1">النوع:</label>
+                        <select id="itemType" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white">
                             <option value="games">لعبة</option>
                             <option value="apps">تطبيق</option>
                             <option value="books">كتاب</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-zinc-400 mb-1">الاسم:</label>
-                        <input type="text" id="itemName" required placeholder="مثال: Free Fire 3D" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none">
+                        <label class="block text-slate-400 mb-1">الاسم:</label>
+                        <input type="text" id="itemName" required placeholder="اسم اللعبة أو التطبيق..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white">
                     </div>
                     <div>
-                        <label class="block text-zinc-400 mb-1">رابط الصورة/الأيقونة:</label>
-                        <input type="url" id="itemIcon" required placeholder="https://..." class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none">
+                        <label class="block text-slate-400 mb-1">رابط الصورة/الأيقونة:</label>
+                        <input type="url" id="itemIcon" required placeholder="https://..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white">
                     </div>
                     <div>
-                        <label class="block text-zinc-400 mb-1">رابط التحميل:</label>
-                        <input type="url" id="itemLink" required placeholder="رابط Google Drive أو Mega..." class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none">
+                        <label class="block text-slate-400 mb-1">رابط التحميل المباشر:</label>
+                        <input type="url" id="itemLink" required placeholder="رابط التحميل..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white">
                     </div>
-                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-lg text-xs shadow-lg transition-all">
+                    <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-3 rounded-xl shadow-lg shadow-cyan-500/20">
                         نشر الآن في المتجر
                     </button>
                 </form>
@@ -110,33 +122,32 @@
 
     </main>
 
-    <!-- شريط التنقل السفلي المماثل لـ Google Play -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-[#1e1e1e] border-t border-zinc-800 px-2 py-1.5 flex justify-around items-center z-50">
-        <button onclick="switchTab('games')" id="nav-games" class="nav-item active flex flex-col items-center gap-1 text-[10px] text-zinc-400">
+    <nav class="fixed bottom-0 inset-x-0 bg-slate-950/95 backdrop-blur-lg border-t border-slate-800/80 px-2 py-2 flex justify-around items-center z-50">
+        <button onclick="switchTab('games')" id="nav-games" class="nav-item active flex flex-col items-center gap-1 text-[10px] text-slate-400">
             <i class="fa-solid fa-gamepad text-base"></i>
             <span>الألعاب</span>
         </button>
-        <button onclick="switchTab('apps')" id="nav-apps" class="nav-item flex flex-col items-center gap-1 text-[10px] text-zinc-400">
-            <i class="fa-solid fa-border-all text-base"></i>
+        <button onclick="switchTab('apps')" id="nav-apps" class="nav-item flex flex-col items-center gap-1 text-[10px] text-slate-400">
+            <i class="fa-solid fa-shapes text-base"></i>
             <span>التطبيقات</span>
         </button>
-        <button onclick="switchTab('books')" id="nav-books" class="nav-item flex flex-col items-center gap-1 text-[10px] text-zinc-400">
-            <i class="fa-solid fa-book text-base"></i>
+        <button onclick="switchTab('books')" id="nav-books" class="nav-item flex flex-col items-center gap-1 text-[10px] text-slate-400">
+            <i class="fa-solid fa-book-open text-base"></i>
             <span>الكتب</span>
         </button>
-        <button onclick="switchTab('account')" id="nav-account" class="nav-item flex flex-col items-center gap-1 text-[10px] text-zinc-400">
-            <i class="fa-solid fa-user text-base"></i>
+        <button onclick="switchTab('account')" id="nav-account" class="nav-item flex flex-col items-center gap-1 text-[10px] text-slate-400">
+            <i class="fa-solid fa-user-gear text-base"></i>
             <span>الحساب</span>
         </button>
     </nav>
 
     <script>
         const items = [
-            { id: 1, type: 'games', name: 'Free Fire Max', category: 'ألعاب أكشن • قتال', icon: 'https://cdn-icons-png.flaticon.com/512/3413/3413535.png', rating: '4.5 ★', link: '#' },
-            { id: 2, type: 'games', name: 'Yalla Ludo - يلا لودو', category: 'ألعاب ألواح', icon: 'https://cdn-icons-png.flaticon.com/512/3081/3081329.png', rating: '4.3 ★', link: '#' },
-            { id: 3, type: 'apps', name: 'انستغرام Instagram', category: 'التواصل الاجتماعي', icon: 'https://cdn-icons-png.flaticon.com/512/174/174855.png', rating: '4.6 ★', link: '#' },
-            { id: 4, type: 'apps', name: 'CapCut - محرّر الفيديوهات', category: 'أدوات الفيديو', icon: 'https://cdn-icons-png.flaticon.com/512/5968/5968764.png', rating: '4.7 ★', link: '#' },
-            { id: 5, type: 'books', name: 'تعلم البرمجة بلغة Python', category: 'كتب كتب تعليمية', icon: 'https://cdn-icons-png.flaticon.com/512/337/337946.png', rating: '4.9 ★', link: '#' }
+            { id: 1, type: 'games', name: 'Free Fire MAX', category: 'أكشن • قتال الشوارع', icon: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=150&q=80', rating: '4.8 ★', link: '#' },
+            { id: 2, type: 'games', name: 'PUBG MOBILE', category: 'ألعاب باتل رويال', icon: 'https://images.unsplash.com/photo-1560253023-3ec5d502959f?auto=format&fit=crop&w=150&q=80', rating: '4.6 ★', link: '#' },
+            { id: 3, type: 'apps', name: 'TikTok - تيك توك', category: 'فيديو وترفيه', icon: 'https://images.unsplash.com/photo-1611605698335-8b1569810432?auto=format&fit=crop&w=150&q=80', rating: '4.7 ★', link: '#' },
+            { id: 4, type: 'apps', name: 'CapCut Video Editor', category: 'محرر فيديوهات احترافي', icon: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=150&q=80', rating: '4.9 ★', link: '#' },
+            { id: 5, type: 'books', name: 'تعلم تطوير الألعاب 3D', category: 'كتب تعليمية برمجية', icon: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=150&q=80', rating: '5.0 ★', link: '#' }
         ];
 
         let currentTab = 'games';
@@ -144,16 +155,22 @@
         function renderItems(filterText = '') {
             const grid = document.getElementById('contentGrid');
             const accountSec = document.getElementById('accountSection');
+            const hero = document.getElementById('heroSection');
+            const subTabs = document.getElementById('subTabs');
             const title = document.getElementById('sectionTitle');
 
             if(currentTab === 'account') {
                 grid.classList.add('hidden');
+                hero.classList.add('hidden');
+                subTabs.classList.add('hidden');
                 title.classList.add('hidden');
                 accountSec.classList.remove('hidden');
                 return;
             }
 
             grid.classList.remove('hidden');
+            hero.classList.remove('hidden');
+            subTabs.classList.remove('hidden');
             title.classList.remove('hidden');
             accountSec.classList.add('hidden');
             grid.innerHTML = '';
@@ -161,22 +178,22 @@
             const filtered = items.filter(i => i.type === currentTab && i.name.toLowerCase().includes(filterText.toLowerCase()));
 
             if(filtered.length === 0) {
-                grid.innerHTML = `<div class="text-center py-12 text-zinc-500 text-xs">لا يوجد محتوى متوفر حالياً في هذا القسم.</div>`;
+                grid.innerHTML = `<div class="text-center py-12 text-slate-500 text-xs">لا يوجد محتوى حالياً.</div>`;
                 return;
             }
 
             filtered.forEach(item => {
                 grid.innerHTML += `
-                    <div class="bg-[#1e1e1e] p-3 rounded-2xl flex items-center justify-between gap-3 border border-zinc-800/80 hover:border-zinc-700 transition-all">
+                    <div class="bg-slate-900/80 p-3 rounded-2xl flex items-center justify-between gap-3 border border-slate-800 shadow-md">
                         <div class="flex items-center gap-3">
-                            <img src="${item.icon}" class="w-12 h-12 rounded-xl object-cover bg-zinc-900 p-1 border border-zinc-800">
+                            <img src="${item.icon}" class="w-13 h-13 rounded-2xl object-cover bg-slate-950 border border-slate-800">
                             <div>
                                 <h3 class="font-bold text-white text-xs mb-0.5">${item.name}</h3>
-                                <p class="text-[10px] text-zinc-400">${item.category}</p>
-                                <span class="text-[10px] text-amber-400 font-semibold">${item.rating}</span>
+                                <p class="text-[10px] text-slate-400">${item.category}</p>
+                                <span class="text-[10px] text-amber-400 font-bold">${item.rating}</span>
                             </div>
                         </div>
-                        <a href="${item.link}" target="_blank" class="bg-zinc-800 hover:bg-blue-600 hover:text-white text-blue-400 font-bold px-4 py-1.5 rounded-full text-xs transition-all border border-zinc-700">
+                        <a href="${item.link}" target="_blank" class="bg-blue-600/20 border border-blue-500/40 text-blue-400 font-bold px-4 py-1.5 rounded-full text-xs hover:bg-blue-600 hover:text-white transition-all">
                             تثبيت
                         </a>
                     </div>
@@ -188,10 +205,6 @@
             currentTab = tab;
             document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`nav-${tab}`).classList.add('active');
-            
-            const titles = { games: 'ألعاب مقترحة لك', apps: 'تبيقات مفيدة', books: 'كتب ومجلات', account: 'إدارة الحساب والنشر' };
-            document.getElementById('sectionTitle').innerText = titles[tab];
-            
             renderItems();
         }
 
@@ -212,11 +225,12 @@
                 link: document.getElementById('itemLink').value
             };
             items.unshift(newItem);
-            alert("تم نشر التطبيق/اللعبة بنجاح في متجر Remox Zone!");
+            alert("تم نشر المحتوى بنجاح في متجر Remox Zone!");
             switchTab(newItem.type);
         }
 
         renderItems();
     </script>
 </body>
-</html>
+    </html>
+    
