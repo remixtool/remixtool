@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RIMIX PRO - حزمة الـ 30 أداة</title>
+    <title>RIMIX PRO - حزمة الـ 40 أداة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -17,16 +17,13 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between p-4">
 
-    <!-- Header -->
     <header class="card p-4 rounded-xl text-center mb-6">
         <h1 class="text-2xl font-black italic">RIMIX <span class="accent-text">PRO</span></h1>
-        <p class="text-xs text-gray-400 mt-1">حزمة الأدوات التفاعلية الشاملة (1 إلى 30) 🚀</p>
+        <p class="text-xs text-gray-400 mt-1">حزمة الأدوات التفاعلية الشاملة (1 إلى 40) 🚀</p>
     </header>
 
-    <!-- Main Workspace -->
     <main class="max-w-2xl mx-auto w-full space-y-6">
 
-        <!-- 1. QR Generator -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-qrcode"></i> 1. مولد الـ QR</h3>
             <input type="text" id="qrInp" placeholder="أدخل الرابط هنا..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white outline-none focus:border-red-600">
@@ -34,14 +31,12 @@
             <div id="qrBox" class="flex justify-center p-3 bg-white rounded hidden"></div>
         </div>
 
-        <!-- 2. Password Generator -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-key"></i> 2. مولد كلمات السر</h3>
             <input type="text" id="passOut" readonly placeholder="ستظهر كلمة السر هنا" class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-red-400 font-mono text-center">
             <button onclick="genPass()" class="w-full accent-bg font-bold py-2 rounded text-sm">توليد كلمة سر معقدة 🔐</button>
         </div>
 
-        <!-- 3. Word Counter -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-font"></i> 3. عداد النصوص</h3>
             <textarea id="cntTxt" oninput="countText()" placeholder="اكتب أو ألصق النص هنا..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white h-20 outline-none focus:border-red-600"></textarea>
@@ -51,7 +46,6 @@
             </div>
         </div>
 
-        <!-- 4. Calculator -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-calculator"></i> 4. آلة حاسبة</h3>
             <input type="text" id="calcDisplay" readonly class="w-full p-3 text-lg font-mono text-left bg-zinc-900 border border-zinc-700 text-white rounded" value="0">
@@ -76,7 +70,6 @@
             </div>
         </div>
 
-        <!-- 5. Timer -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3 text-center">
             <h3 class="font-bold text-lg accent-text flex items-center justify-center gap-2"><i class="fa-solid fa-stopwatch"></i> 5. مؤقت تنازلي</h3>
             <div id="timerDisp" class="text-3xl font-mono font-bold text-red-500">00:00</div>
@@ -86,7 +79,6 @@
             </div>
         </div>
 
-        <!-- 6. Text Transformer -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-text-height"></i> 6. محول النصوص</h3>
             <textarea id="transTxt" placeholder="اكتب النص هنا..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white h-20 outline-none focus:border-red-600"></textarea>
@@ -98,14 +90,12 @@
             </div>
         </div>
 
-        <!-- 7. Color Generator -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3 text-center">
             <h3 class="font-bold text-lg accent-text flex items-center justify-center gap-2"><i class="fa-solid fa-palette"></i> 7. مولد الألوان</h3>
             <div id="colorPreview" class="h-16 rounded-xl border border-zinc-700 flex items-center justify-center font-mono font-bold text-lg bg-red-600">#DC2626</div>
             <button onclick="genColor()" class="w-full accent-bg font-bold py-2 rounded text-sm">توليد لون جديد 🎨</button>
         </div>
 
-        <!-- 8. Percentage Calculator -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-percent"></i> 8. حاسبة النسب المئوية</h3>
             <div class="flex gap-2 items-center text-xs">
@@ -118,21 +108,18 @@
             <div id="percRes" class="text-center font-bold text-red-500 text-lg">النتيجة: 0</div>
         </div>
 
-        <!-- 9. Case Flipper -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-spell-check"></i> 9. منسق العناوين</h3>
             <input type="text" id="titleInp" placeholder="ادخل العنوان بالإنجليزية..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white outline-none focus:border-red-600">
             <button onclick="capTitle()" class="w-full accent-bg font-bold py-2 rounded text-sm">تنسيق كـ Title Case 🔤</button>
         </div>
 
-        <!-- 10. Lorem Generator -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-file-lines"></i> 10. مولد نصوص تجريبية</h3>
             <textarea id="loremOut" readonly class="w-full p-2.5 text-xs rounded bg-zinc-900 border border-zinc-700 text-gray-300 h-20"></textarea>
             <button onclick="genLorem()" class="w-full accent-bg font-bold py-2 rounded text-sm">توليد نص تجريبي 📝</button>
         </div>
 
-        <!-- 11. Currency Converter -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-coins"></i> 11. محول دولار/يورو/دينار</h3>
             <div class="flex gap-2">
@@ -145,14 +132,12 @@
             </div>
         </div>
 
-        <!-- 12. Username Generator -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-user-ninja"></i> 12. مولد أسماء مستخدمين</h3>
             <input type="text" id="unameOut" readonly placeholder="اسم المستخدم المقترح" class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-center font-mono text-red-400">
             <button onclick="genUname()" class="w-full accent-bg font-bold py-2 rounded text-sm">توليد اسم يوزر 🎮</button>
         </div>
 
-        <!-- 13. Age Calculator -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-cake-candles"></i> 13. حاسبة العمر</h3>
             <input type="date" id="birthDate" class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
@@ -160,7 +145,6 @@
             <div id="ageRes" class="text-center font-bold accent-text text-sm"></div>
         </div>
 
-        <!-- 14. URL Extractor -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-link"></i> 14. مستخرج الروابط</h3>
             <textarea id="urlTxt" placeholder="ألصق نصاً يضم روابط هنا..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white h-20"></textarea>
@@ -168,7 +152,6 @@
             <textarea id="urlOut" readonly class="w-full p-2 text-xs rounded bg-zinc-900 border border-zinc-700 text-gray-300 h-16"></textarea>
         </div>
 
-        <!-- 15. Base64 Converter -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-code"></i> 15. مشفر Base64</h3>
             <input type="text" id="b64Inp" placeholder="أدخل النص..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white">
@@ -178,7 +161,6 @@
             </div>
         </div>
 
-        <!-- 16. BMI Calculator -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-weight-scale"></i> 16. حاسبة مؤشر كتلة الجسم (BMI)</h3>
             <div class="grid grid-cols-2 gap-2">
@@ -189,14 +171,12 @@
             <div id="bmiRes" class="text-center font-bold text-red-500 text-sm"></div>
         </div>
 
-        <!-- 17. Live Date Time -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3 text-center">
             <h3 class="font-bold text-lg accent-text flex items-center justify-center gap-2"><i class="fa-regular fa-clock"></i> 17. التاريخ والتوقيت المباشر</h3>
             <div id="liveClock" class="text-2xl font-mono font-bold text-white">--:--:--</div>
             <div id="liveDate" class="text-xs text-gray-400">----/--/--</div>
         </div>
 
-        <!-- 18. Morse Code Translator -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-tower-cell"></i> 18. مترجم شفرة مورس (إنجليزي)</h3>
             <input type="text" id="morseInp" placeholder="اكتب بالإنجليزية..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white">
@@ -204,7 +184,6 @@
             <input type="text" id="morseOut" readonly class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 font-mono text-red-400 text-center">
         </div>
 
-        <!-- 19. Discount Calculator -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-tags"></i> 19. حاسبة التخفيضات</h3>
             <div class="grid grid-cols-2 gap-2">
@@ -215,7 +194,6 @@
             <div id="discRes" class="text-center font-bold text-red-500 text-sm"></div>
         </div>
 
-        <!-- 20. Random Picker -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-shuffle"></i> 20. القرعة واختيار الخيارات</h3>
             <input type="text" id="pickList" placeholder="أدخل الخيارات وافصل بينها بفاصلة (مثال: علي, أحمد, يوسف)" class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white">
@@ -223,7 +201,6 @@
             <div id="pickRes" class="text-center font-bold text-red-500 text-lg"></div>
         </div>
 
-        <!-- 21. Hashtag Generator -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-hashtag"></i> 21. تحويل الكلمات إلى هاشتاجات</h3>
             <input type="text" id="hashInp" placeholder="أدخل الكلمات وافصل بينها بمسافة..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white">
@@ -231,7 +208,6 @@
             <input type="text" id="hashOut" readonly class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-red-400 text-center">
         </div>
 
-        <!-- 22. Reading Time Calculator -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-book-open"></i> 22. حاسبة وقت قراءة النص</h3>
             <textarea id="readTxt" placeholder="ضع النص هنا لقياس زمه القراءة المتوقع..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white h-20"></textarea>
@@ -239,14 +215,12 @@
             <div id="readRes" class="text-center font-bold text-red-500 text-sm"></div>
         </div>
 
-        <!-- 23. Space Stripper -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-compress"></i> 23. إزالة جميع المسافات</h3>
             <input type="text" id="noSpaceInp" placeholder="أدخل النص لإزالة كافة المسافات..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white">
             <button onclick="removeSpaces()" class="w-full accent-bg font-bold py-2 rounded text-sm">حذف المسافات ✂️</button>
         </div>
 
-        <!-- 24. Random Range Number -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
             <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-dice"></i> 24. مولد الأرقام ضمن نطاق</h3>
             <div class="grid grid-cols-2 gap-2">
@@ -257,6 +231,16 @@
             <div id="rndNumRes" class="text-center font-bold text-red-500 text-xl">0</div>
         </div>
 
-        <!-- 25. BMR Calories Calculator -->
         <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-fire"></i> 25. حاسبة السعرات الأساسية (BM
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-fire"></i> 25. حاسبة السعرات الأساسية (BMR)</h3>
+            <div class="grid grid-cols-3 gap-2">
+                <input type="number" id="bmrW" placeholder="الوزن" class="p-2 text-xs rounded bg-zinc-900 border border-zinc-700 text-white text-center">
+                <input type="number" id="bmrH" placeholder="الطول سم" class="p-2 text-xs rounded bg-zinc-900 border border-zinc-700 text-white text-center">
+                <input type="number" id="bmrA" placeholder="العمر" class="p-2 text-xs rounded bg-zinc-900 border border-zinc-700 text-white text-center">
+            </div>
+            <button onclick="calcBMR()" class="w-full accent-bg font-bold py-2 rounded text-sm">حساب BMR 🏋️</button>
+            <div id="bmrRes" class="text-center font-bold text-red-500 text-xs"></div>
+        </div>
+
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-temperature-high"></i> 26. محول الحرارة (C° / F°
