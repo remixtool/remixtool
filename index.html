@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RIMIX PRO - حزمة الـ 20 أداة</title>
+    <title>RIMIX PRO - حزمة الـ 30 أداة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
     <!-- Header -->
     <header class="card p-4 rounded-xl text-center mb-6">
         <h1 class="text-2xl font-black italic">RIMIX <span class="accent-text">PRO</span></h1>
-        <p class="text-xs text-gray-400 mt-1">حزمة الأدوات التفاعلية (1 إلى 20) 🚀</p>
+        <p class="text-xs text-gray-400 mt-1">حزمة الأدوات التفاعلية الشاملة (1 إلى 30) 🚀</p>
     </header>
 
     <!-- Main Workspace -->
@@ -223,73 +223,40 @@
             <div id="pickRes" class="text-center font-bold text-red-500 text-lg"></div>
         </div>
 
-    </main>
+        <!-- 21. Hashtag Generator -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-hashtag"></i> 21. تحويل الكلمات إلى هاشتاجات</h3>
+            <input type="text" id="hashInp" placeholder="أدخل الكلمات وافصل بينها بمسافة..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white">
+            <button onclick="genHashtags()" class="w-full accent-bg font-bold py-2 rounded text-sm">توليد الهاشتاج #️⃣</button>
+            <input type="text" id="hashOut" readonly class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-red-400 text-center">
+        </div>
 
-    <footer class="text-center text-xs text-gray-500 mt-8">
-        منصة RIMIX PRO © 2026
-    </footer>
+        <!-- 22. Reading Time Calculator -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-book-open"></i> 22. حاسبة وقت قراءة النص</h3>
+            <textarea id="readTxt" placeholder="ضع النص هنا لقياس زمه القراءة المتوقع..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white h-20"></textarea>
+            <button onclick="calcReadTime()" class="w-full accent-bg font-bold py-2 rounded text-sm">حساب الوقت ⏱️</button>
+            <div id="readRes" class="text-center font-bold text-red-500 text-sm"></div>
+        </div>
 
-    <script>
-        // 1. QR
-        function genQR() {
-            const val = document.getElementById('qrInp').value;
-            const box = document.getElementById('qrBox');
-            box.innerHTML = "";
-            if(val.trim()) { box.classList.remove('hidden'); new QRCode(box, { text: val, width: 130, height: 130 }); }
-        }
-        // 2. Pass
-        function genPass() {
-            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
-            let pass = "";
-            for (let i = 0; i < 14; i++) pass += chars.charAt(Math.floor(Math.random() * chars.length));
-            document.getElementById('passOut').value = pass;
-        }
-        // 3. Count
-        function countText() {
-            const val = document.getElementById('cntTxt').value;
-            document.getElementById('cCnt').innerText = val.length;
-            document.getElementById('wCnt').innerText = val.trim().split(/\s+/).filter(w => w.length > 0).length;
-        }
-        // 4. Calc
-        let calcExpr = "";
-        function calcIn(v) {
-            const disp = document.getElementById('calcDisplay');
-            if(v === 'C') { calcExpr = ""; disp.value = "0"; return; }
-            calcExpr += v; disp.value = calcExpr;
-        }
-        function calcRes() {
-            const disp = document.getElementById('calcDisplay');
-            try { disp.value = eval(calcExpr); calcExpr = disp.value; } catch { disp.value = "خطأ"; calcExpr = ""; }
-        }
-        // 5. Timer
-        let tInt;
-        function startTimer() {
-            clearInterval(tInt);
-            let sec = parseInt(document.getElementById('timeInp').value);
-            if(isNaN(sec) || sec <= 0) return;
-            tInt = setInterval(() => {
-                let m = Math.floor(sec / 60), s = sec % 60;
-                document.getElementById('timerDisp').innerText = `${m < 10 ? '0':''}${m}:${s < 10 ? '0':''}${s}`;
-                if(sec <= 0) { clearInterval(tInt); alert('انتهى الوقت!'); }
-                sec--;
-            }, 1000);
-        }
-        // 6. Text
-        function tfTxt(act) {
-            const b = document.getElementById('transTxt');
-            if(!b.value) return;
-            if(act === 'up') b.value = b.value.toUpperCase();
-            if(act === 'low') b.value = b.value.toLowerCase();
-            if(act === 'rev') b.value = b.value.split('').reverse().join('');
-            if(act === 'clr') b.value = b.value.replace(/\s+/g, ' ').trim();
-        }
-        // 7. Color
-        function genColor() {
-            const c = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
-            const p = document.getElementById('colorPreview');
-            p.style.backgroundColor = c; p.innerText = c.toUpperCase();
-        }
-        // 8. Percentage
-        function calcPerc() {
-            const p = parseFloat(document.getElementById('percVal').value), t = parseFloat(document.getElementById('percTotal').value);
-            if(!isNaN(p) && !isNaN(t
+        <!-- 23. Space Stripper -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-compress"></i> 23. إزالة جميع المسافات</h3>
+            <input type="text" id="noSpaceInp" placeholder="أدخل النص لإزالة كافة المسافات..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white">
+            <button onclick="removeSpaces()" class="w-full accent-bg font-bold py-2 rounded text-sm">حذف المسافات ✂️</button>
+        </div>
+
+        <!-- 24. Random Range Number -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-dice"></i> 24. مولد الأرقام ضمن نطاق</h3>
+            <div class="grid grid-cols-2 gap-2">
+                <input type="number" id="rndMin" placeholder="من (Min)" class="p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
+                <input type="number" id="rndMax" placeholder="إلى (Max)" class="p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
+            </div>
+            <button onclick="genRndNum()" class="w-full accent-bg font-bold py-2 rounded text-sm">توليد رقم عشوائي 🎲</button>
+            <div id="rndNumRes" class="text-center font-bold text-red-500 text-xl">0</div>
+        </div>
+
+        <!-- 25. BMR Calories Calculator -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-fire"></i> 25. حاسبة السعرات الأساسية (BM
