@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RIMIX PRO - الأدوات (1 إلى 15)</title>
+    <title>RIMIX PRO - حزمة الـ 20 أداة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
     <!-- Header -->
     <header class="card p-4 rounded-xl text-center mb-6">
         <h1 class="text-2xl font-black italic">RIMIX <span class="accent-text">PRO</span></h1>
-        <p class="text-xs text-gray-400 mt-1">الأدوات التفاعلية المباشرة (1 إلى 15)</p>
+        <p class="text-xs text-gray-400 mt-1">حزمة الأدوات التفاعلية (1 إلى 20) 🚀</p>
     </header>
 
     <!-- Main Workspace -->
@@ -139,9 +139,9 @@
                 <input type="number" id="usdInp" placeholder="المبلغ بالدولار $" class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
                 <button onclick="convCurr()" class="accent-bg px-4 font-bold rounded text-sm">تحويل</button>
             </div>
-            <div id="currRes" class="text-xs text-center space-y-1 font-bold text-gray-300">
+            <div class="text-xs text-center space-y-1 font-bold text-gray-300">
                 <div>باليورو: <span id="eurVal" class="accent-text">0 €</span></div>
-                <div>بالدينار (تقريبي): <span id="dzdVal" class="accent-text">0 DZD</span></div>
+                <div>بالدينار: <span id="dzdVal" class="accent-text">0 DZD</span></div>
             </div>
         </div>
 
@@ -178,6 +178,51 @@
             </div>
         </div>
 
+        <!-- 16. BMI Calculator -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-weight-scale"></i> 16. حاسبة مؤشر كتلة الجسم (BMI)</h3>
+            <div class="grid grid-cols-2 gap-2">
+                <input type="number" id="bmiWeight" placeholder="الوزن (كجم)" class="p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
+                <input type="number" id="bmiHeight" placeholder="الطول (سم)" class="p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
+            </div>
+            <button onclick="calcBMI()" class="w-full accent-bg font-bold py-2 rounded text-sm">حساب BMI ⚖️</button>
+            <div id="bmiRes" class="text-center font-bold text-red-500 text-sm"></div>
+        </div>
+
+        <!-- 17. Live Date Time -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3 text-center">
+            <h3 class="font-bold text-lg accent-text flex items-center justify-center gap-2"><i class="fa-regular fa-clock"></i> 17. التاريخ والتوقيت المباشر</h3>
+            <div id="liveClock" class="text-2xl font-mono font-bold text-white">--:--:--</div>
+            <div id="liveDate" class="text-xs text-gray-400">----/--/--</div>
+        </div>
+
+        <!-- 18. Morse Code Translator -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-tower-cell"></i> 18. مترجم شفرة مورس (إنجليزي)</h3>
+            <input type="text" id="morseInp" placeholder="اكتب بالإنجليزية..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white">
+            <button onclick="toMorse()" class="w-full accent-bg font-bold py-2 rounded text-sm">تحويل للشفرة 📡</button>
+            <input type="text" id="morseOut" readonly class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 font-mono text-red-400 text-center">
+        </div>
+
+        <!-- 19. Discount Calculator -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-tags"></i> 19. حاسبة التخفيضات</h3>
+            <div class="grid grid-cols-2 gap-2">
+                <input type="number" id="discPrice" placeholder="السعر الأصلي" class="p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
+                <input type="number" id="discPerc" placeholder="نسبة الخصم %" class="p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
+            </div>
+            <button onclick="calcDiscount()" class="w-full accent-bg font-bold py-2 rounded text-sm">حساب السعر النهائي 🏷️</button>
+            <div id="discRes" class="text-center font-bold text-red-500 text-sm"></div>
+        </div>
+
+        <!-- 20. Random Picker -->
+        <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
+            <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-shuffle"></i> 20. القرعة واختيار الخيارات</h3>
+            <input type="text" id="pickList" placeholder="أدخل الخيارات وافصل بينها بفاصلة (مثال: علي, أحمد, يوسف)" class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white">
+            <button onclick="pickRandom()" class="w-full accent-bg font-bold py-2 rounded text-sm">سحب عشوائي 🎯</button>
+            <div id="pickRes" class="text-center font-bold text-red-500 text-lg"></div>
+        </div>
+
     </main>
 
     <footer class="text-center text-xs text-gray-500 mt-8">
@@ -190,12 +235,8 @@
             const val = document.getElementById('qrInp').value;
             const box = document.getElementById('qrBox');
             box.innerHTML = "";
-            if(val.trim()) {
-                box.classList.remove('hidden');
-                new QRCode(box, { text: val, width: 130, height: 130 });
-            }
+            if(val.trim()) { box.classList.remove('hidden'); new QRCode(box, { text: val, width: 130, height: 130 }); }
         }
-
         // 2. Pass
         function genPass() {
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
@@ -203,15 +244,12 @@
             for (let i = 0; i < 14; i++) pass += chars.charAt(Math.floor(Math.random() * chars.length));
             document.getElementById('passOut').value = pass;
         }
-
         // 3. Count
         function countText() {
             const val = document.getElementById('cntTxt').value;
             document.getElementById('cCnt').innerText = val.length;
-            const words = val.trim().split(/\s+/).filter(w => w.length > 0);
-            document.getElementById('wCnt').innerText = words.length;
+            document.getElementById('wCnt').innerText = val.trim().split(/\s+/).filter(w => w.length > 0).length;
         }
-
         // 4. Calc
         let calcExpr = "";
         function calcIn(v) {
@@ -223,7 +261,6 @@
             const disp = document.getElementById('calcDisplay');
             try { disp.value = eval(calcExpr); calcExpr = disp.value; } catch { disp.value = "خطأ"; calcExpr = ""; }
         }
-
         // 5. Timer
         let tInt;
         function startTimer() {
@@ -237,8 +274,7 @@
                 sec--;
             }, 1000);
         }
-
-        // 6. Text Transform
+        // 6. Text
         function tfTxt(act) {
             const b = document.getElementById('transTxt');
             if(!b.value) return;
@@ -247,80 +283,13 @@
             if(act === 'rev') b.value = b.value.split('').reverse().join('');
             if(act === 'clr') b.value = b.value.replace(/\s+/g, ' ').trim();
         }
-
-        // 7. Color Gen
+        // 7. Color
         function genColor() {
             const c = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
             const p = document.getElementById('colorPreview');
-            p.style.backgroundColor = c;
-            p.innerText = c.toUpperCase();
+            p.style.backgroundColor = c; p.innerText = c.toUpperCase();
         }
-
-        // 8. Percentage Calc
+        // 8. Percentage
         function calcPerc() {
-            const p = parseFloat(document.getElementById('percVal').value);
-            const t = parseFloat(document.getElementById('percTotal').value);
-            if(!isNaN(p) && !isNaN(t)) {
-                document.getElementById('percRes').innerText = "النتيجة: " + ((p / 100) * t);
-            }
-        }
-
-        // 9. Title Case
-        function capTitle() {
-            const inp = document.getElementById('titleInp');
-            inp.value = inp.value.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.substr(1).toLowerCase());
-        }
-
-        // 10. Lorem Gen
-        function genLorem() {
-            document.getElementById('loremOut').value = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.";
-        }
-
-        // 11. Currency Conv
-        function convCurr() {
-            const usd = parseFloat(document.getElementById('usdInp').value);
-            if(!isNaN(usd)) {
-                document.getElementById('eurVal').innerText = (usd * 0.92).toFixed(2) + " €";
-                document.getElementById('dzdVal').innerText = (usd * 220).toFixed(0) + " DZD";
-            }
-        }
-
-        // 12. Username Gen
-        function genUname() {
-            const pre = ["Dark", "Pro", "Cyber", "Shadow", "Ghost", "Apex", "Vortex"];
-            const suf = ["Player", "Gamer", "King", "Master", "X", "Zero", "Ninja"];
-            const num = Math.floor(Math.random() * 999);
-            const res = pre[Math.floor(Math.random() * pre.length)] + suf[Math.floor(Math.random() * suf.length)] + num;
-            document.getElementById('unameOut').value = res;
-        }
-
-        // 13. Age Calc
-        function calcAge() {
-            const val = document.getElementById('birthDate').value;
-            if(!val) return;
-            const bDate = new Date(val);
-            const diff = new Date() - bDate;
-            const ageYears = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
-            document.getElementById('ageRes').innerText = `عمرك هو: ${ageYears} سنة`;
-        }
-
-        // 14. URL Extractor
-        function extUrls() {
-            const txt = document.getElementById('urlTxt').value;
-            const matches = txt.match(/https?:\/\/[^\s]+/g);
-            document.getElementById('urlOut').value = matches ? matches.join('\n') : "لم يتم العثور على روابط";
-        }
-
-        // 15. Base64
-        function b64Enc() {
-            const inp = document.getElementById('b64Inp');
-            try { inp.value = btoa(inp.value); } catch { alert('خطأ في التشفير'); }
-        }
-        function b64Dec() {
-            const inp = document.getElementById('b64Inp');
-            try { inp.value = atob(inp.value); } catch { alert('الكود غير صالح للفك'); }
-        }
-    </script>
-</body>
-            </html>
-                
+            const p = parseFloat(document.getElementById('percVal').value), t = parseFloat(document.getElementById('percTotal').value);
+            if(!isNaN(p) && !isNaN(t
