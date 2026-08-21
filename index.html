@@ -3,132 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remix Market | متجر ريمكس</title>
+    <title>Remox App Zone | متجر ريموكس</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* إضافة الخلفية المتحركة */
-        body { 
-            background: linear-gradient(270deg, #0f172a, #1e1b4b, #0f172a);
-            background-size: 400% 400%;
-            animation: gradientAnimation 15s ease infinite;
-            color: #f8fafc; 
-            font-family: sans-serif; 
-            min-height: 100vh;
-        }
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .tab-btn.active { background-color: #2563eb; color: white; }
+        body { background-color: #121212; color: #e3e3e3; font-family: system-ui, -apple-system, sans-serif; pb-20; }
+        .nav-item.active { color: #8ab4f8; }
+        .nav-item.active i { background-color: #004a77; color: #c2e7ff; padding: 4px 16px; border-radius: 16px; }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="pb-24">
 
-    <!-- الهيدر واسم المنصة -->
-    <header class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8 bg-slate-900/60 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-slate-700">
-        <div class="flex items-center gap-3">
-            <div class="bg-blue-600 p-3 rounded-xl shadow-lg shadow-blue-500/30">
-                <i class="fa-solid fa-store text-2xl text-white"></i>
+    <!-- الهيدر العلوي وشريط البحث -->
+    <header class="sticky top-0 bg-[#121212] z-40 px-4 pt-3 pb-2 border-b border-zinc-800/50">
+        <div class="flex items-center justify-between gap-3 bg-[#1e1e1e] rounded-full px-4 py-2.5 shadow-md border border-zinc-700/50">
+            <!-- اللوجو واسم المتجر -->
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white font-black text-sm shadow-md">
+                    R
+                </div>
+                <span class="font-bold text-sm tracking-wide text-white">Remox Zone</span>
             </div>
-            <div>
-                <h1 class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400 tracking-wide">
-                    REMIX MARKET
-                </h1>
-                <p class="text-xs text-slate-400 font-semibold">متجر ريمكس للألعاب والتطبيقات والكتب</p>
+
+            <!-- خانة البحث -->
+            <div class="flex-1 flex items-center gap-2 px-2">
+                <i class="fa-solid fa-magnifying-glass text-zinc-400 text-xs"></i>
+                <input type="text" id="searchInput" onkeyup="searchContent()" placeholder="البحث عن التطبيقات والألعاب..." 
+                    class="w-full bg-transparent text-xs text-white placeholder-zinc-500 focus:outline-none">
             </div>
-        </div>
 
-        <!-- خانة البحث -->
-        <div class="relative w-full md:w-1/3">
-            <input type="text" id="searchInput" onkeyup="searchContent()" placeholder="ابحث عن لعبة، تطبيق، أو كتاب..." 
-                class="w-full bg-slate-950/50 border border-slate-700 text-white rounded-xl py-2 px-4 pr-10 focus:outline-none focus:border-blue-500">
-            <i class="fa-solid fa-search absolute left-3 top-3 text-slate-400"></i>
+            <!-- زر الحساب التسجيل -->
+            <button onclick="switchTab('account')" class="w-7 h-7 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shadow">
+                R
+            </button>
         </div>
-
-        <!-- زر النشر -->
-        <button onclick="toggleModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-5 rounded-xl flex items-center gap-2 transition-all w-full md:w-auto justify-center shadow-lg shadow-emerald-900/40">
-            <i class="fa-solid fa-cloud-arrow-up"></i> انشر مجاناً
-        </button>
     </header>
 
-    <!-- مكان الإعلان -->
-    <div class="bg-slate-900/60 backdrop-blur-md border border-amber-500/30 rounded-xl p-3 text-center text-xs text-amber-400 mb-8">
-        📢 إعلان (هنا ستضع شفرة إعلاناتك لتحويل الأرباح لمحفظتك)
+    <!-- مساحة الإعلانات للربح -->
+    <div class="mx-4 mt-3 p-2.5 bg-[#1e1e1e] border border-amber-500/20 rounded-xl text-center text-[11px] text-amber-400">
+        📢 إعلان (مكان وضع كود الإعلانات للربح المباشر لمحفظتك)
     </div>
 
-    <!-- الخيارات -->
-    <div class="flex justify-center gap-2 mb-8 bg-slate-900/60 backdrop-blur-md p-1.5 rounded-2xl max-w-md mx-auto border border-slate-700">
-        <button onclick="switchTab('games')" id="tab-games" class="tab-btn active w-1/3 py-2 rounded-xl text-sm font-bold transition-all">🎮 ألعاب</button>
-        <button onclick="switchTab('apps')" id="tab-apps" class="tab-btn w-1/3 py-2 rounded-xl text-sm font-bold transition-all">📱 تطبيقات</button>
-        <button onclick="switchTab('books')" id="tab-books" class="tab-btn w-1/3 py-2 rounded-xl text-sm font-bold transition-all">📚 كتب</button>
-    </div>
+    <!-- شبكة المحتوى الرئيسي -->
+    <main class="px-4 pt-4">
+        
+        <!-- عنوان القسم -->
+        <h2 id="sectionTitle" class="text-base font-bold text-white mb-3 flex items-center justify-between">
+            <span>مقترحة لك</span>
+            <span class="text-xs text-blue-400 font-normal">المزيد</span>
+        </h2>
 
-    <!-- شبكة المحتوى -->
-    <main id="contentGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <!-- المحتوى -->
+        <!-- القائمة المعروضة -->
+        <div id="contentGrid" class="space-y-3">
+            <!-- يتم تحميل عناصر الألعاب والكتب هنا -->
+        </div>
+
+        <!-- قسم الحساب والنشر (مخفي افتراضياً) -->
+        <div id="accountSection" class="hidden space-y-4">
+            <div class="bg-[#1e1e1e] p-5 rounded-2xl border border-zinc-800 text-center">
+                <div class="w-16 h-16 bg-blue-600 text-white font-black text-2xl rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
+                    R
+                </div>
+                <h3 class="font-bold text-lg text-white">مرحباً Remox</h3>
+                <p class="text-xs text-zinc-400 mb-4">rimoxrx920@gmail.com</p>
+                
+                <button class="w-full bg-zinc-800 hover:bg-zinc-700 text-white font-semibold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 border border-zinc-700 mb-3">
+                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-4 h-4" alt="Google">
+                    تم التسجيل بحساب Google
+                </button>
+            </div>
+
+            <!-- زر ونموذج النشر داخل الحساب -->
+            <div class="bg-[#1e1e1e] p-5 rounded-2xl border border-zinc-800">
+                <h4 class="font-bold text-sm text-emerald-400 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> نشر لعبة أو تطبيق مجاناً
+                </h4>
+                <form onsubmit="handleUpload(event)" class="space-y-3 text-xs">
+                    <div>
+                        <label class="block text-zinc-400 mb-1">النوع:</label>
+                        <select id="itemType" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none">
+                            <option value="games">لعبة</option>
+                            <option value="apps">تطبيق</option>
+                            <option value="books">كتاب</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-zinc-400 mb-1">الاسم:</label>
+                        <input type="text" id="itemName" required placeholder="مثال: Free Fire 3D" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-zinc-400 mb-1">رابط الصورة/الأيقونة:</label>
+                        <input type="url" id="itemIcon" required placeholder="https://..." class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-zinc-400 mb-1">رابط التحميل:</label>
+                        <input type="url" id="itemLink" required placeholder="رابط Google Drive أو Mega..." class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none">
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-lg text-xs shadow-lg transition-all">
+                        نشر الآن في المتجر
+                    </button>
+                </form>
+            </div>
+        </div>
+
     </main>
 
-    <!-- نافذة رفع الملفات -->
-    <div id="uploadModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-        <div class="bg-slate-800 p-6 rounded-2xl max-w-md w-full border border-slate-700 relative shadow-2xl">
-            <button onclick="toggleModal()" class="absolute top-4 left-4 text-slate-400 hover:text-white text-xl">✕</button>
-            <h2 class="text-xl font-bold mb-4 text-emerald-400 flex items-center gap-2">
-                <i class="fa-solid fa-circle-plus"></i> إضافة محتوى إلى Remix Market
-            </h2>
-            <form onsubmit="handleUpload(event)" class="space-y-4 text-sm">
-                <div>
-                    <label class="block mb-1 text-slate-300">النوع:</label>
-                    <select id="itemType" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-white">
-                        <option value="games">لعبة</option>
-                        <option value="apps">تطبيق</option>
-                        <option value="books">كتاب</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block mb-1 text-slate-300">اسم العنصر:</label>
-                    <input type="text" id="itemName" required placeholder="مثال: لعبة Free Fire" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-white">
-                </div>
-                <div>
-                    <label class="block mb-1 text-slate-300">رابط الأيقونة:</label>
-                    <input type="url" id="itemIcon" required placeholder="https://..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-white">
-                </div>
-                <div>
-                    <label class="block mb-1 text-slate-300">رابط التحميل:</label>
-                    <input type="url" id="itemLink" required placeholder="رابط Google Drive..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-white">
-                </div>
-                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 font-bold py-2.5 rounded-xl transition-all text-white">
-                    نشر فوراً
-                </button>
-            </form>
-        </div>
-    </div>
+    <!-- شريط التنقل السفلي المماثل لـ Google Play -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-[#1e1e1e] border-t border-zinc-800 px-2 py-1.5 flex justify-around items-center z-50">
+        <button onclick="switchTab('games')" id="nav-games" class="nav-item active flex flex-col items-center gap-1 text-[10px] text-zinc-400">
+            <i class="fa-solid fa-gamepad text-base"></i>
+            <span>الألعاب</span>
+        </button>
+        <button onclick="switchTab('apps')" id="nav-apps" class="nav-item flex flex-col items-center gap-1 text-[10px] text-zinc-400">
+            <i class="fa-solid fa-border-all text-base"></i>
+            <span>التطبيقات</span>
+        </button>
+        <button onclick="switchTab('books')" id="nav-books" class="nav-item flex flex-col items-center gap-1 text-[10px] text-zinc-400">
+            <i class="fa-solid fa-book text-base"></i>
+            <span>الكتب</span>
+        </button>
+        <button onclick="switchTab('account')" id="nav-account" class="nav-item flex flex-col items-center gap-1 text-[10px] text-zinc-400">
+            <i class="fa-solid fa-user text-base"></i>
+            <span>الحساب</span>
+        </button>
+    </nav>
 
     <script>
         const items = [
-            { id: 1, type: 'games', name: 'لعبة مغامرات 3D', icon: 'https://cdn-icons-png.flaticon.com/512/686/686589.png', link: '#' },
-            { id: 2, type: 'apps', name: 'تطبيق تعديل الصور', icon: 'https://cdn-icons-png.flaticon.com/512/2965/2965318.png', link: '#' },
-            { id: 3, type: 'books', name: 'كتاب تعلم البرمجة', icon: 'https://cdn-icons-png.flaticon.com/512/2232/2232688.png', link: '#' }
+            { id: 1, type: 'games', name: 'Free Fire Max', category: 'ألعاب أكشن • قتال', icon: 'https://cdn-icons-png.flaticon.com/512/3413/3413535.png', rating: '4.5 ★', link: '#' },
+            { id: 2, type: 'games', name: 'Yalla Ludo - يلا لودو', category: 'ألعاب ألواح', icon: 'https://cdn-icons-png.flaticon.com/512/3081/3081329.png', rating: '4.3 ★', link: '#' },
+            { id: 3, type: 'apps', name: 'انستغرام Instagram', category: 'التواصل الاجتماعي', icon: 'https://cdn-icons-png.flaticon.com/512/174/174855.png', rating: '4.6 ★', link: '#' },
+            { id: 4, type: 'apps', name: 'CapCut - محرّر الفيديوهات', category: 'أدوات الفيديو', icon: 'https://cdn-icons-png.flaticon.com/512/5968/5968764.png', rating: '4.7 ★', link: '#' },
+            { id: 5, type: 'books', name: 'تعلم البرمجة بلغة Python', category: 'كتب كتب تعليمية', icon: 'https://cdn-icons-png.flaticon.com/512/337/337946.png', rating: '4.9 ★', link: '#' }
         ];
 
         let currentTab = 'games';
 
         function renderItems(filterText = '') {
             const grid = document.getElementById('contentGrid');
-            grid.innerHTML = '';
-            const filtered = items.filter(i => i.type === currentTab && i.name.toLowerCase().includes(filterText.toLowerCase()));
-            if(filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500">لا يوجد محتوى حالياً في هذا القسم.</div>`;
+            const accountSec = document.getElementById('accountSection');
+            const title = document.getElementById('sectionTitle');
+
+            if(currentTab === 'account') {
+                grid.classList.add('hidden');
+                title.classList.add('hidden');
+                accountSec.classList.remove('hidden');
                 return;
             }
+
+            grid.classList.remove('hidden');
+            title.classList.remove('hidden');
+            accountSec.classList.add('hidden');
+            grid.innerHTML = '';
+
+            const filtered = items.filter(i => i.type === currentTab && i.name.toLowerCase().includes(filterText.toLowerCase()));
+
+            if(filtered.length === 0) {
+                grid.innerHTML = `<div class="text-center py-12 text-zinc-500 text-xs">لا يوجد محتوى متوفر حالياً في هذا القسم.</div>`;
+                return;
+            }
+
             filtered.forEach(item => {
                 grid.innerHTML += `
-                    <div class="bg-slate-900/60 backdrop-blur-md p-4 rounded-2xl border border-slate-700 flex flex-col items-center text-center hover:border-blue-500/50 transition-all">
-                        <img src="${item.icon}" class="w-20 h-20 rounded-2xl mb-3 object-cover bg-slate-950 p-2">
-                        <h3 class="font-bold text-white mb-2">${item.name}</h3>
-                        <a href="${item.link}" target="_blank" class="mt-auto w-full bg-blue-600 hover:bg-blue-500 py-2 rounded-xl text-xs font-bold transition-all text-white shadow-lg shadow-blue-900/30">
-                            تنزيل / فتح
+                    <div class="bg-[#1e1e1e] p-3 rounded-2xl flex items-center justify-between gap-3 border border-zinc-800/80 hover:border-zinc-700 transition-all">
+                        <div class="flex items-center gap-3">
+                            <img src="${item.icon}" class="w-12 h-12 rounded-xl object-cover bg-zinc-900 p-1 border border-zinc-800">
+                            <div>
+                                <h3 class="font-bold text-white text-xs mb-0.5">${item.name}</h3>
+                                <p class="text-[10px] text-zinc-400">${item.category}</p>
+                                <span class="text-[10px] text-amber-400 font-semibold">${item.rating}</span>
+                            </div>
+                        </div>
+                        <a href="${item.link}" target="_blank" class="bg-zinc-800 hover:bg-blue-600 hover:text-white text-blue-400 font-bold px-4 py-1.5 rounded-full text-xs transition-all border border-zinc-700">
+                            تثبيت
                         </a>
                     </div>
                 `;
@@ -137,8 +186,12 @@
 
         function switchTab(tab) {
             currentTab = tab;
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`tab-${tab}`).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`nav-${tab}`).classList.add('active');
+            
+            const titles = { games: 'ألعاب مقترحة لك', apps: 'تبيقات مفيدة', books: 'كتب ومجلات', account: 'إدارة الحساب والنشر' };
+            document.getElementById('sectionTitle').innerText = titles[tab];
+            
             renderItems();
         }
 
@@ -147,23 +200,20 @@
             renderItems(txt);
         }
 
-        function toggleModal() {
-            document.getElementById('uploadModal').classList.toggle('hidden');
-        }
-
         function handleUpload(e) {
             e.preventDefault();
             const newItem = {
                 id: Date.now(),
                 type: document.getElementById('itemType').value,
                 name: document.getElementById('itemName').value,
+                category: 'محتوى منشور حديثاً',
                 icon: document.getElementById('itemIcon').value,
+                rating: 'جديد ★',
                 link: document.getElementById('itemLink').value
             };
-            items.push(newItem);
-            toggleModal();
+            items.unshift(newItem);
+            alert("تم نشر التطبيق/اللعبة بنجاح في متجر Remox Zone!");
             switchTab(newItem.type);
-            alert("تم نشر المحتوى بنجاح في Remix Market!");
         }
 
         renderItems();
