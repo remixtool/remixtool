@@ -1,239 +1,246 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RIMIX PRO - حزمة الـ 50 أداة الشاملة</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #050505; color: #ffffff; }
-        .card { background-color: #121212; border: 1px solid #262626; }
-        .accent-text { color: #dc2626; }
-        .accent-bg { background-color: #dc2626; }
-        .accent-bg:hover { background-color: #b91c1c; }
-    </style>
-</head>
-<body class="min-h-screen flex flex-col justify-between p-4">
+        // 24. Range Random Number
+        function genRndNum() {
+            const min = parseInt(document.getElementById('rndMin').value) || 0;
+            const max = parseInt(document.getElementById('rndMax').value) || 100;
+            document.getElementById('rndNumRes').innerText = Math.floor(Math.random() * (max - min + 1)) + min;
+        }
 
-    <header class="card p-4 rounded-xl text-center mb-6 max-w-3xl mx-auto w-full">
-        <h1 class="text-3xl font-black italic">RIMIX <span class="accent-text">PRO</span></h1>
-        <p class="text-xs text-gray-400 mt-1">حزمة الأدوات التفاعلية الشاملة (1 إلى 50) 🚀</p>
-    </header>
+        // 25. BMR Calories
+        function calcBMR() {
+            const w = parseFloat(document.getElementById('bmrW').value);
+            const h = parseFloat(document.getElementById('bmrH').value);
+            const a = parseFloat(document.getElementById('bmrA').value);
+            if(w && h && a) {
+                document.getElementById('bmrRes').innerText = `معدل الحرق اليومي: ${Math.round((10 * w) + (6.25 * h) - (5 * a) + 5)} سعرة`;
+            }
+        }
 
-    <main class="max-w-3xl mx-auto w-full space-y-6">
+        // 26. Temperature Converter
+        function cToF() { 
+            const c = parseFloat(document.getElementById('tempInp').value); 
+            if(!isNaN(c)) document.getElementById('tempRes').innerText = `${c}°C = ${((c * 9/5) + 32).toFixed(1)}°F`; 
+        }
+        function fToC() { 
+            const f = parseFloat(document.getElementById('tempInp').value); 
+            if(!isNaN(f)) document.getElementById('tempRes').innerText = `${f}°F = ${((f - 32) * 5/9).toFixed(1)}°C`; 
+        }
 
-        <div class="space-y-4">
-            <h2 class="text-xl font-bold accent-text border-b border-zinc-800 pb-2"><i class="fa-solid fa-layer-group"></i> القسم الأول: الأدوات العامة والنصوص</h2>
+        // 27. HTML Escaper
+        function escapeHTML() { 
+            document.getElementById('htmlOut').value = document.getElementById('htmlInp').value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); 
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-qrcode"></i> 1. مولد الـ QR</h3>
-                <input type="text" id="qrInp" placeholder="أدخل الرابط هنا..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white outline-none focus:border-red-600">
-                <button onclick="genQR()" class="w-full accent-bg font-bold py-2 rounded text-sm transition">إنشاء الرمز 🚀</button>
-                <div id="qrBox" class="flex justify-center p-3 bg-white rounded hidden"></div>
-            </div>
+        // 28. Rectangle Area & Perimeter
+        function calcRect() {
+            const w = parseFloat(document.getElementById('rectW').value);
+            const h = parseFloat(document.getElementById('rectH').value);
+            if(w && h) document.getElementById('rectRes').innerText = `المساحة: ${w * h} | المحيط: ${2 * (w + h)}`;
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-key"></i> 2. مولد كلمات السر</h3>
-                <input type="text" id="passOut" readonly placeholder="ستظهر كلمة السر هنا" class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-red-400 font-mono text-center">
-                <button onclick="genPass()" class="w-full accent-bg font-bold py-2 rounded text-sm transition">توليد كلمة سر معقدة 🔐</button>
-            </div>
+        // 29. Headline Ideas
+        function genHeadlines() {
+            const t = document.getElementById('topicInp').value.trim();
+            if(t) document.getElementById('headOut').value = [`أسرار وحقائق عن ${t}`, `دليل ${t} الشامل`, `كيف تبدأ مع ${t} خطوة بخطوة`].join('\n');
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-font"></i> 3. عداد النصوص</h3>
-                <textarea id="cntTxt" oninput="countText()" placeholder="اكتب أو ألصق النص هنا..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white h-20 outline-none focus:border-red-600"></textarea>
-                <div class="flex justify-around text-xs font-bold bg-zinc-900 p-2 rounded border border-zinc-800">
-                    <span>الكلمات: <b id="wCnt" class="accent-text">0</b></span>
-                    <span>الحروف: <b id="cCnt" class="accent-text">0</b></span>
-                </div>
-            </div>
+        // 30. Line Counter
+        function countLines() {
+            const txt = document.getElementById('lineTxt').value;
+            document.getElementById('lineRes').innerText = `عدد الأسطر: ${txt.length > 0 ? txt.split(/\r\n|\r|\n/).length : 0}`;
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-calculator"></i> 4. آلة حاسبة أساسية</h3>
-                <input type="text" id="calcDisplay" readonly class="w-full p-3 text-lg font-mono text-left bg-zinc-900 border border-zinc-700 text-white rounded" value="0">
-                <div class="grid grid-cols-4 gap-2 text-center font-bold">
-                    <button onclick="calcIn('C')" class="p-2 bg-red-600/30 accent-text rounded">C</button>
-                    <button onclick="calcIn('/')" class="p-2 bg-zinc-800 rounded">/</button>
-                    <button onclick="calcIn('*')" class="p-2 bg-zinc-800 rounded">*</button>
-                    <button onclick="calcIn('-')" class="p-2 bg-zinc-800 rounded">-</button>
-                    <button onclick="calcIn('7')" class="p-2 bg-zinc-900 rounded">7</button>
-                    <button onclick="calcIn('8')" class="p-2 bg-zinc-900 rounded">8</button>
-                    <button onclick="calcIn('9')" class="p-2 bg-zinc-900 rounded">9</button>
-                    <button onclick="calcIn('+')" class="p-2 bg-zinc-800 rounded">+</button>
-                    <button onclick="calcIn('4')" class="p-2 bg-zinc-900 rounded">4</button>
-                    <button onclick="calcIn('5')" class="p-2 bg-zinc-900 rounded">5</button>
-                    <button onclick="calcIn('6')" class="p-2 bg-zinc-900 rounded">6</button>
-                    <button onclick="calcRes()" class="p-2 accent-bg text-white rounded row-span-2 flex items-center justify-center">=</button>
-                    <button onclick="calcIn('1')" class="p-2 bg-zinc-900 rounded">1</button>
-                    <button onclick="calcIn('2')" class="p-2 bg-zinc-900 rounded">2</button>
-                    <button onclick="calcIn('3')" class="p-2 bg-zinc-900 rounded">3</button>
-                    <button onclick="calcIn('0')" class="p-2 bg-zinc-900 rounded col-span-2">0</button>
-                    <button onclick="calcIn('.')" class="p-2 bg-zinc-900 rounded">.</button>
-                </div>
-            </div>
+        // 31. Password Strength
+        function checkPassStr() {
+            const val = document.getElementById('passCheck').value;
+            const res = document.getElementById('passStrRes');
+            if(val.length < 6) { 
+                res.innerText = "ضعيفة جداً 🔴"; 
+                res.className = "text-center font-bold text-xs py-1 rounded bg-red-950 text-red-400"; 
+            } else if(val.length < 10 || !/\d/.test(val)) { 
+                res.innerText = "متوسطة 🟡"; 
+                res.className = "text-center font-bold text-xs py-1 rounded bg-yellow-950 text-yellow-400"; 
+            } else { 
+                res.innerText = "قوية ممتازة 🟢"; 
+                res.className = "text-center font-bold text-xs py-1 rounded bg-green-950 text-green-400"; 
+            }
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3 text-center">
-                <h3 class="font-bold text-lg accent-text flex items-center justify-center gap-2"><i class="fa-solid fa-stopwatch"></i> 5. مؤقت تنازلي</h3>
-                <div id="timerDisp" class="text-3xl font-mono font-bold text-red-500">00:00</div>
-                <div class="flex gap-2">
-                    <input type="number" id="timeInp" placeholder="الثواني" class="w-full p-2 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
-                    <button onclick="startTimer()" class="w-full accent-bg font-bold py-2 rounded text-sm transition">بدء ⏱️</button>
-                </div>
-            </div>
+        // 32. Roman Numerals
+        function toRoman() {
+            let num = parseInt(document.getElementById('numRoman').value);
+            if(isNaN(num) || num <= 0) return;
+            const lookup = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1};
+            let roman = '';
+            for (let i in lookup) {
+                while (num >= lookup[i]) { roman += i; num -= lookup[i]; }
+            }
+            document.getElementById('romanRes').innerText = roman;
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-text-height"></i> 6. محول النصوص</h3>
-                <textarea id="transTxt" placeholder="اكتب النص هنا..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white h-20 outline-none focus:border-red-600"></textarea>
-                <div class="grid grid-cols-2 gap-2">
-                    <button onclick="tfTxt('up')" class="card p-2 text-xs font-bold">UPPERCASE</button>
-                    <button onclick="tfTxt('low')" class="card p-2 text-xs font-bold">lowercase</button>
-                    <button onclick="tfTxt('rev')" class="card p-2 text-xs font-bold">عكس النص 🔄</button>
-                    <button onclick="tfTxt('clr')" class="card p-2 text-xs font-bold">تنظيف المسافات 🧹</button>
-                </div>
-            </div>
+        // 33. Speed Calculator
+        function calcSpeed() {
+            const d = parseFloat(document.getElementById('distInp').value);
+            const t = parseFloat(document.getElementById('timeHourInp').value);
+            if(d > 0 && t > 0) document.getElementById('speedRes').innerText = `السرعة المتوقعة: ${(d / t).toFixed(1)} كم/ساعة`;
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3 text-center">
-                <h3 class="font-bold text-lg accent-text flex items-center justify-center gap-2"><i class="fa-solid fa-palette"></i> 7. مولد الألوان HEX</h3>
-                <div id="colorPreview" class="h-16 rounded-xl border border-zinc-700 flex items-center justify-center font-mono font-bold text-lg bg-red-600">#DC2626</div>
-                <button onclick="genColor()" class="w-full accent-bg font-bold py-2 rounded text-sm transition">توليد لون جديد 🎨</button>
-            </div>
+        // 34. Gradient Generator
+        function genGrad() {
+            const c1 = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+            const c2 = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+            const b = document.getElementById('gradBox');
+            b.style.background = `linear-gradient(90deg, ${c1}, ${c2})`;
+            b.innerText = `background: linear-gradient(90deg, ${c1}, ${c2});`;
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-percent"></i> 8. حاسبة النسب المئوية</h3>
-                <div class="flex gap-2 items-center text-xs">
-                    <span>احسب</span>
-                    <input type="number" id="percVal" placeholder="%" class="w-20 p-2 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
-                    <span>% من العدد</span>
-                    <input type="number" id="percTotal" placeholder="العدد" class="w-full p-2 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
-                </div>
-                <button onclick="calcPerc()" class="w-full accent-bg font-bold py-2 rounded text-sm transition">حساب النتيجة 📊</button>
-                <div id="percRes" class="text-center font-bold text-red-500 text-lg">النتيجة: 0</div>
-            </div>
+        // 35. Strip HTML
+        function stripHTML() {
+            const val = document.getElementById('stripInp').value;
+            document.getElementById('stripInp').value = val.replace(/<[^>]*>?/gm, '');
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-spell-check"></i> 9. منسق العناوين (Title Case)</h3>
-                <input type="text" id="titleInp" placeholder="ادخل العنوان بالإنجليزية..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white outline-none focus:border-red-600">
-                <button onclick="capTitle()" class="w-full accent-bg font-bold py-2 rounded text-sm transition">تنسيق كـ Title Case 🔤</button>
-            </div>
+        // 36. Button Style Helper
+        function randomBtnStyle() {
+            const btn = document.getElementById('demoBtn');
+            const colors = ['bg-blue-600', 'bg-emerald-600', 'bg-purple-600', 'bg-red-600', 'bg-amber-600'];
+            btn.className = `w-full py-2 text-white font-bold rounded-xl shadow-xl transition-all ${colors[Math.floor(Math.random()*colors.length)]}`;
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-file-lines"></i> 10. مولد نصوص تجريبية</h3>
-                <textarea id="loremOut" readonly class="w-full p-2.5 text-xs rounded bg-zinc-900 border border-zinc-700 text-gray-300 h-20"></textarea>
-                <button onclick="genLorem()" class="w-full accent-bg font-bold py-2 rounded text-sm transition">توليد نص تجريبي 📝</button>
-            </div>
-        </div>
+        // 37. Interest Calculator
+        function calcInterest() {
+            const p = parseFloat(document.getElementById('intP').value);
+            const r = parseFloat(document.getElementById('intR').value);
+            const t = parseFloat(document.getElementById('intT').value);
+            if(p && r && t) {
+                const interest = (p * r * t) / 100;
+                document.getElementById('intRes').innerText = `الفائدة: ${interest.toFixed(2)} | الإجمالي: ${(p + interest).toFixed(2)}`;
+            }
+        }
 
-        <div class="space-y-4">
-            <h2 class="text-xl font-bold accent-text border-b border-zinc-800 pb-2"><i class="fa-solid fa-sliders"></i> القسم الثاني: الحسابات والإنتاجية</h2>
+        // 38. Text to Binary
+        function toBinary() {
+            const str = document.getElementById('binInp').value;
+            let res = '';
+            for (let i = 0; i < str.length; i++) {
+                res += str[i].charCodeAt(0).toString(2) + ' ';
+            }
+            document.getElementById('binOut').value = res.trim();
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-coins"></i> 11. محول العملات (دولار/يورو/دينار)</h3>
-                <div class="flex gap-2">
-                    <input type="number" id="usdInp" placeholder="المبلغ بالدولار $" class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
-                    <button onclick="convCurr()" class="accent-bg px-4 font-bold rounded text-sm">تحويل</button>
-                </div>
-                <div class="text-xs text-center space-y-1 font-bold text-gray-300">
-                    <div>باليورو: <span id="eurVal" class="accent-text">0 €</span></div>
-                    <div>بالدينار: <span id="dzdVal" class="accent-text">0 DZD</span></div>
-                </div>
-            </div>
+        // 39. Word Frequency
+        function calcFreq() {
+            const words = document.getElementById('freqTxt').value.trim().toLowerCase().match(/\w+/g);
+            if(!words) return;
+            const freq = {};
+            words.forEach(w => freq[w] = (freq[w] || 0) + 1);
+            let topWord = '', maxCount = 0;
+            for(let w in freq) {
+                if(freq[w] > maxCount) { maxCount = freq[w]; topWord = w; }
+            }
+            document.getElementById('freqRes').innerText = `الكلمة الأكثر تكراراً: "${topWord}" (تكررت ${maxCount} مرة)`;
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-user-ninja"></i> 12. مولد أسماء مستخدمين</h3>
-                <input type="text" id="unameOut" readonly placeholder="اسم المستخدم المقترح" class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-center font-mono text-red-400">
-                <button onclick="genUname()" class="w-full accent-bg font-bold py-2 rounded text-sm transition">توليد اسم يوزر 🎮</button>
-            </div>
+        // 40. Online Status Checker
+        function checkNet() {
+            const st = navigator.onLine;
+            const el = document.getElementById('netStatus');
+            el.innerText = st ? "متصل بالإنترنت 🟢" : "غير متصل بالإنترنت 🔴";
+            el.className = st ? "text-lg font-bold text-green-500" : "text-lg font-bold text-red-500";
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-cake-candles"></i> 13. حاسبة العمر بالتفصيل</h3>
-                <input type="date" id="birthDate" class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
-                <button onclick="calcAge()" class="w-full accent-bg font-bold py-2 rounded text-sm transition">احسب عمرك 🎂</button>
-                <div id="ageRes" class="text-center font-bold accent-text text-sm"></div>
-            </div>
+        // 41. Zakat Calculator
+        function calcZakat() {
+            const money = parseFloat(document.getElementById('zakatMoney').value);
+            if(!isNaN(money) && money > 0) {
+                document.getElementById('zakatRes').innerText = `الواجب إخراجه (2.5%): ${(money * 0.025).toFixed(2)}`;
+            }
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-link"></i> 14. مستخرج الروابط من النص</h3>
-                <textarea id="urlTxt" placeholder="ألصق نصاً يضم روابط هنا..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white h-20"></textarea>
-                <button onclick="extUrls()" class="w-full accent-bg font-bold py-2 rounded text-sm transition">استخراج الروابط 🔗</button>
-                <textarea id="urlOut" readonly class="w-full p-2 text-xs rounded bg-zinc-900 border border-zinc-700 text-gray-300 h-16"></textarea>
-            </div>
+        // 42. Fair Bill Splitter
+        function splitBill() {
+            const bill = parseFloat(document.getElementById('totalBill').value);
+            const people = parseInt(document.getElementById('numPeople').value);
+            if(bill > 0 && people > 0) {
+                document.getElementById('splitRes').innerText = `حصة كل شخص: ${(bill / people).toFixed(2)}`;
+            }
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-code"></i> 15. مشفر Base64</h3>
-                <input type="text" id="b64Inp" placeholder="أدخل النص..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white">
-                <div class="flex gap-2">
-                    <button onclick="b64Enc()" class="w-full bg-zinc-800 font-bold py-2 rounded text-xs">تشفير Encode</button>
-                    <button onclick="b64Dec()" class="w-full accent-bg font-bold py-2 rounded text-xs">فك التشفير Decode</button>
-                </div>
-            </div>
+        // 43. VAT Calculator
+        function calcVAT() {
+            const amt = parseFloat(document.getElementById('vatAmount').value);
+            const rate = parseFloat(document.getElementById('vatRate').value) || 19;
+            if(!isNaN(amt) && amt > 0) {
+                const vat = amt * (rate / 100);
+                document.getElementById('vatRes').innerText = `الضريبة: ${vat.toFixed(2)} | الإجمالي مع الضريبة: ${(amt + vat).toFixed(2)}`;
+            }
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-weight-scale"></i> 16. حاسبة مؤشر كتلة الجسم (BMI)</h3>
-                <div class="grid grid-cols-2 gap-2">
-                    <input type="number" id="bmiWeight" placeholder="الوزن (كجم)" class="p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
-                    <input type="number" id="bmiHeight" placeholder="الطول (سم)" class="p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
-                </div>
-                <button onclick="calcBMI()" class="w-full accent-bg font-bold py-2 rounded text-sm transition">حساب BMI ⚖️</button>
-                <div id="bmiRes" class="text-center font-bold text-red-500 text-sm"></div>
-            </div>
+        // 44. Hourly Wage to Salary
+        function calcSalary() {
+            const rate = parseFloat(document.getElementById('hourlyRate').value);
+            const hours = parseFloat(document.getElementById('hoursPerDay').value) || 8;
+            if(!isNaN(rate) && rate > 0) {
+                const daily = rate * hours;
+                document.getElementById('salaryRes').innerText = `اليومي: ${daily.toFixed(0)} | الشهري (22 يوم عمل): ${(daily * 22).toFixed(0)}`;
+            }
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3 text-center">
-                <h3 class="font-bold text-lg accent-text flex items-center justify-center gap-2"><i class="fa-regular fa-clock"></i> 17. التاريخ والتوقيت المباشر</h3>
-                <div id="liveClock" class="text-2xl font-mono font-bold text-white">--:--:--</div>
-                <div id="liveDate" class="text-xs text-gray-400">----/--/--</div>
-            </div>
+        // 45. Profit Margin Calculator
+        function calcProfitMargin() {
+            const cost = parseFloat(document.getElementById('costPrice').value);
+            const sell = parseFloat(document.getElementById('sellPrice').value);
+            if(cost > 0 && sell > 0) {
+                const profit = sell - cost;
+                const margin = (profit / sell) * 100;
+                document.getElementById('profitRes').innerText = `الربح الصافي: ${profit.toFixed(2)} | هامش الربح: ${margin.toFixed(1)}%`;
+            }
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-tower-cell"></i> 18. مترجم شفرة مورس</h3>
-                <input type="text" id="morseInp" placeholder="اكتب بالإنجليزية..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white">
-                <button onclick="toMorse()" class="w-full accent-bg font-bold py-2 rounded text-sm transition">تحويل للشفرة 📡</button>
-                <input type="text" id="morseOut" readonly class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 font-mono text-red-400 text-center">
-            </div>
+        // 46. Legal Deadline Calculator
+        function calcLegalDeadline() {
+            const startVal = document.getElementById('startDateLegal').value;
+            const days = parseInt(document.getElementById('legalDays').value);
+            if(startVal && !isNaN(days)) {
+                let startDate = new Date(startVal);
+                startDate.setDate(startDate.getDate() + days);
+                document.getElementById('legalRes').innerText = `تاريخ انتهاء الأجل: ${startDate.toLocaleDateString('ar-EG')}`;
+            }
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-tags"></i> 19. حاسبة التخفيضات والخصم</h3>
-                <div class="grid grid-cols-2 gap-2">
-                    <input type="number" id="discPrice" placeholder="السعر الأصلي" class="p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
-                    <input type="number" id="discPerc" placeholder="نسبة الخصم %" class="p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white text-center">
-                </div>
-                <button onclick="calcDiscount()" class="w-full accent-bg font-bold py-2 rounded text-sm transition">حساب السعر النهائي 🏷️</button>
-                <div id="discRes" class="text-center font-bold text-red-500 text-sm"></div>
-            </div>
+        // 47. Working Days Estimator
+        function calcWorkDays() {
+            const total = parseInt(document.getElementById('totalDaysInp').value);
+            if(!isNaN(total) && total > 0) {
+                document.getElementById('workDaysRes').innerText = `أيام العمل الفعلية التقديرية: ~ ${Math.round(total * (5 / 7))} يوم`;
+            }
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-shuffle"></i> 20. القرعة واختيار الخيارات العشوائية</h3>
-                <input type="text" id="pickList" placeholder="أدخل الخيارات وافصل بينها بفاصلة (مثال: علي, أحمد, يوسف)" class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white">
-                <button onclick="pickRandom()" class="w-full accent-bg font-bold py-2 rounded text-sm transition">سحب عشوائي 🎯</button>
-                <div id="pickRes" class="text-center font-bold text-red-500 text-lg"></div>
-            </div>
-        </div>
+        // 48. Loan Installment Calculator
+        function calcInstallment() {
+            const loan = parseFloat(document.getElementById('loanAmount').value);
+            const months = parseInt(document.getElementById('loanMonths').value);
+            if(loan > 0 && months > 0) {
+                document.getElementById('loanRes').innerText = `القسط الشهري الواجب سداده: ${(loan / months).toFixed(2)}`;
+            }
+        }
 
-        <div class="space-y-4">
-            <h2 class="text-xl font-bold accent-text border-b border-zinc-800 pb-2"><i class="fa-solid fa-code-branch"></i> القسم الثالث: أدوات الهندسة والويب</h2>
+        // 49. Fuel Cost Calculator
+        function calcTripFuel() {
+            const dist = parseFloat(document.getElementById('tripDist').value);
+            const cons = parseFloat(document.getElementById('fuelCons').value) || 7;
+            const price = parseFloat(document.getElementById('fuelPrice').value);
+            if(dist > 0 && price > 0) {
+                const liters = (dist / 100) * cons;
+                document.getElementById('tripRes').innerText = `الوقود: ${liters.toFixed(1)} لتر | التكلفة: ${(liters * price).toFixed(2)}`;
+            }
+        }
 
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-hashtag"></i> 21. مولد الهاشتاجات</h3>
-                <input type="text" id="hashInp" placeholder="أدخل الكلمات وافصل بينها بمسافة..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white">
-                <button onclick="genHashtags()" class="w-full accent-bg font-bold py-2 rounded text-sm transition">توليد الهاشتاج #️⃣</button>
-                <input type="text" id="hashOut" readonly class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-red-400 text-center">
-            </div>
-
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-book-open"></i> 22. حاسبة وقت القراءة المتوقع</h3>
-                <textarea id="readTxt" placeholder="ضع النص هنا لقياس زمن القراءة المتوقع..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white h-20"></textarea>
-                <button onclick="calcReadTime()" class="w-full accent-bg font-bold py-2 rounded text-sm transition">حساب الوقت ⏱️</button>
-                <div id="readRes" class="text-center font-bold text-red-500 text-sm"></div>
-            </div>
-
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-compress"></i> 23. إزالة كافة المسافات</h3>
-                <input type="text" id="noSpaceInp" placeholder="أدخل النص لإزالة كافة المسافات..." class="w-full p-2.5 text-sm rounded bg-zinc-900 border border-zinc-700 text-white">
-                <button onclick="removeSpaces()" class="w-full accent-bg font-bold py-2 rounded text-sm transition">حذف المسافات ✂️</button>
-            </div>
-
-            <div class="card p-5 rounded-2xl border-red-600/30 space-y-3">
-                <h3 class="font-bold text-lg accent-text flex items-center gap-2"><i class="fa-solid fa-dice"></i> 24. مولد الأرقام العشوائية نطاق محدّد</h3>
-                <div class="grid grid-cols-2 gap-2">
-                    <input type="number" id="rndMin" placeholder="من (Min)" class="p-2.5 text-sm rounded
+        // 50. Project Task Allocator
+        function calcTaskAlloc() {
+            const hours = parseFloat(document.getElementById('projHours').value);
+            const tasks = parseInt(document.getElementById('projTasks').value);
+            if(hours > 0 && tasks > 0) {
+                document.getElementById('allocRes').innerText = `الوقت المخصص لكل مهمة: ${(hours / tasks).toFixed(2)} ساعة`;
+            }
+        }
+                
