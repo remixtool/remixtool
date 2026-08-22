@@ -7,114 +7,122 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background-color: #0b0f19; color: #f1f5f9; font-family: system-ui, -apple-system, sans-serif; }
+        body { background-color: #0b0f19; color: #e6edf3; font-family: system-ui, -apple-system, sans-serif; }
         .nav-item.active { color: #38bdf8; }
-        .nav-item.active i { background: linear-gradient(135deg, #0284c7, #2563eb); color: #ffffff; padding: 6px 18px; border-radius: 20px; box-shadow: 0 4px 12px rgba(37,99,235,0.4); }
+        .nav-item.active i { background: #1f6beb; color: #ffffff; padding: 6px 18px; border-radius: 20px; box-shadow: 0 4px 12px rgba(31,107,235,0.4); }
         .hide-scroll::-webkit-scrollbar { display: none; }
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-        .tab-sub.active { border-bottom: 3px solid #38bdf8; color: #38bdf8; font-weight: bold; }
+
+        /* تأثير إضاءة اللوجو الملحمي */
+        .epic-logo-glow {
+            filter: drop-shadow(0px 0px 8px rgba(56, 189, 248, 0.6)) drop-shadow(0px 0px 15px rgba(168, 85, 247, 0.4));
+            animation: pulseGlow 3s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { filter: drop-shadow(0px 0px 6px rgba(56, 189, 248, 0.5)) drop-shadow(0px 0px 10px rgba(168, 85, 247, 0.3)); }
+            100% { filter: drop-shadow(0px 0px 12px rgba(56, 189, 248, 0.9)) drop-shadow(0px 0px 20px rgba(168, 85, 247, 0.7)); }
+        }
     </style>
 </head>
 <body class="pb-28">
 
-    <header class="sticky top-0 bg-[#0b0f19]/90 backdrop-blur-md z-50 px-4 pt-3 pb-2 border-b border-slate-800">
-        <div class="flex items-center justify-between gap-3 bg-slate-900/90 rounded-full px-3.5 py-2 border border-slate-700/60 shadow-lg">
+    <header class="sticky top-0 bg-[#0b0f19]/95 backdrop-blur-md z-50 px-4 pt-3 pb-2 border-b border-slate-800">
+        <div class="flex items-center justify-between gap-3 bg-slate-900/90 rounded-full px-3.5 py-1.5 border border-slate-800 shadow-xl">
             
-            <div class="flex items-center gap-2">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 flex items-center justify-center text-white text-lg shadow-lg shadow-cyan-500/20">
-                    <i class="fa-solid fa-gamepad"></i>
+            <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchTab('games')">
+                <div class="w-10 h-10 flex items-center justify-center epic-logo-glow">
+                    <svg viewBox="0 0 100 100" class="w-full h-full">
+                        <defs>
+                            <linearGradient id="epicGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#38bdf8" />
+                                <stop offset="50%" stop-color="#3b82f6" />
+                                <stop offset="100%" stop-color="#a855f7" />
+                            </linearGradient>
+                            <linearGradient id="epicGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#f43f5e" />
+                                <stop offset="100%" stop-color="#8b5cf6" />
+                            </linearGradient>
+                        </defs>
+                        <polygon points="50,5 90,25 90,65 50,95 10,65 10,25" fill="none" stroke="url(#epicGrad1)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M20 35 L40 50 L20 65 M80 35 L60 50 L80 65" fill="none" stroke="url(#epicGrad2)" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M32 45 C32 40, 40 38, 50 38 C60 38, 68 40, 68 45 C68 55, 62 65, 58 65 C55 65, 53 60, 50 60 C47 60, 45 65, 42 65 C38 65, 32 55, 32 45 Z" fill="#0b0f19" stroke="url(#epicGrad1)" stroke-width="2.5"/>
+                        <circle cx="41" cy="48" r="2" fill="#38bdf8"/>
+                        <circle cx="59" cy="46" r="1.5" fill="#f43f5e"/>
+                        <circle cx="63" cy="50" r="1.5" fill="#10b981"/>
+                    </svg>
                 </div>
                 <div class="flex flex-col">
-                    <span class="font-black text-sm tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">REMIX ZONE</span>
+                    <span class="font-black text-sm tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500">REMIX ZONE</span>
+                    <span class="text-[8px] text-cyan-400/80 -mt-1 font-semibold tracking-widest">OFFICIAL STORE</span>
                 </div>
             </div>
 
-            <div class="flex-1 flex items-center gap-2 px-2 bg-slate-950/60 py-1.5 rounded-full border border-slate-800">
-                <i class="fa-solid fa-magnifying-glass text-slate-400 text-xs"></i>
-                <input type="text" id="searchInput" onkeyup="searchContent()" placeholder="بحث في Remox..." 
+            <div class="flex-1 flex items-center gap-2 px-3 bg-slate-950/80 py-1.5 rounded-full border border-slate-800">
+                <i class="fa-solid fa-magnifying-glass text-slate-500 text-xs"></i>
+                <input type="text" id="searchInput" onkeyup="searchContent()" placeholder="بحث عن لعبة أو تطبيق..." 
                     class="w-full bg-transparent text-xs text-white placeholder-slate-500 focus:outline-none">
             </div>
 
-            <button onclick="switchTab('account')" class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-emerald-400 text-white font-black text-xs flex items-center justify-center shadow-md">
+            <button onclick="switchTab('account')" class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-cyan-400/30">
                 R
             </button>
         </div>
-
-        <div id="subTabs" class="flex gap-6 overflow-x-auto hide-scroll pt-3 px-2 text-xs text-slate-400">
-            <button class="tab-sub active whitespace-nowrap pb-1">محتوى يهمك</button>
-            <button class="tab-sub whitespace-nowrap pb-1">الأكثر رواجاً</button>
-            <button class="tab-sub whitespace-nowrap pb-1">الأطفال</button>
-            <button class="tab-sub whitespace-nowrap pb-1">الجديدة</button>
-        </div>
     </header>
 
-    <div class="mx-4 mt-3 p-2.5 bg-gradient-to-r from-amber-500/10 via-amber-500/20 to-amber-500/10 border border-amber-500/30 rounded-2xl text-center text-xs text-amber-300 font-medium">
-        ✨ مكان وضع شفرة إعلانات Adsterra للربح المباشر
+    <div class="mx-4 mt-3 p-2 bg-slate-900/60 border border-amber-500/30 rounded-xl text-center text-xs text-amber-400 font-medium">
+        📢 مساحة إعلانات Adsterra المباشرة للربح
     </div>
 
     <main class="px-4 pt-4">
 
-        <div id="heroSection" class="mb-6 relative rounded-3xl overflow-hidden bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent border border-slate-800 shadow-2xl">
-            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80" class="w-full h-48 object-cover opacity-80">
-            <div class="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent">
-                <span class="bg-indigo-600/80 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full backdrop-blur-md mb-1 inline-block">حدث خاص</span>
-                <h3 class="text-base font-black text-white">بطولة الألعاب الكبرى 🔥</h3>
-                <p class="text-xs text-slate-300 mb-3">حمل الألعاب واكسب جوائز ومكافآت مجانية</p>
-                <div class="flex items-center justify-between">
-                    <span class="text-[11px] text-cyan-400 font-bold">مجاني 100%</span>
-                    <button class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-5 py-1.5 rounded-full text-xs shadow-lg shadow-blue-600/40">تثبيت الآن</button>
-                </div>
-            </div>
-        </div>
-
         <h2 id="sectionTitle" class="text-sm font-bold text-slate-200 mb-3 flex items-center justify-between">
-            <span>مقترحة لك</span>
-            <span class="text-xs text-cyan-400">المزيد</span>
+            <span>الألعاب المتاحة</span>
         </h2>
 
         <div id="contentGrid" class="space-y-3">
             </div>
 
         <div id="accountSection" class="hidden space-y-4">
-            <div class="bg-slate-900/80 p-5 rounded-3xl border border-slate-800 text-center shadow-xl">
-                <div class="w-16 h-16 bg-gradient-to-tr from-cyan-500 to-blue-600 text-white font-black text-2xl rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg shadow-cyan-500/30">
+            <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 text-center shadow-xl">
+                <div class="w-16 h-16 bg-gradient-to-tr from-cyan-500 to-purple-600 text-white font-black text-2xl rounded-full flex items-center justify-center mx-auto mb-2 shadow-lg epic-logo-glow">
                     R
                 </div>
-                <h3 class="font-bold text-lg text-white">مرحباً Remox</h3>
-                <p class="text-xs text-slate-400 mb-4">rimoxrx920@gmail.com</p>
-                
-                <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex items-center justify-center gap-2 text-xs text-emerald-400 font-semibold">
-                    <i class="fa-solid fa-circle-check"></i> الحساب موثق وجاهز للنشر
-                </div>
+                <h3 class="font-bold text-base text-white">حساب Remox</h3>
+                <p class="text-xs text-slate-400 mb-2">منصة النشر المباشرة للمتجر</p>
             </div>
 
-            <div class="bg-slate-900/80 p-5 rounded-3xl border border-slate-800 shadow-xl">
+            <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 shadow-xl">
                 <h4 class="font-bold text-sm text-cyan-400 mb-3 flex items-center gap-2">
-                    <i class="fa-solid fa-plus-circle"></i> نشر تطبيق أو لعبة في المتجر
+                    <i class="fa-solid fa-plus-circle"></i> نشر تطبيق أو لعبة جديدة
                 </h4>
                 <form onsubmit="handleUpload(event)" class="space-y-3 text-xs">
                     <div>
-                        <label class="block text-slate-400 mb-1">النوع:</label>
-                        <select id="itemType" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white">
+                        <label class="block text-slate-400 mb-1">القسم:</label>
+                        <select id="itemType" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none">
                             <option value="games">لعبة</option>
                             <option value="apps">تطبيق</option>
                             <option value="books">كتاب</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-slate-400 mb-1">الاسم:</label>
-                        <input type="text" id="itemName" required placeholder="اسم اللعبة أو التطبيق..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white">
+                        <label class="block text-slate-400 mb-1">اسم اللعبة / التطبيق:</label>
+                        <input type="text" id="itemName" required placeholder="اسم التطبيق..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-slate-400 mb-1">رابط الصورة/الأيقونة:</label>
-                        <input type="url" id="itemIcon" required placeholder="https://..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white">
+                        <label class="block text-slate-400 mb-1">الوصف القصير / التصنيف:</label>
+                        <input type="text" id="itemCategory" required placeholder="مثال: أكشن • مغامرات" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">رابط صورة الأيقونة:</label>
+                        <input type="url" id="itemIcon" required placeholder="https://..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none">
                     </div>
                     <div>
                         <label class="block text-slate-400 mb-1">رابط التحميل المباشر:</label>
-                        <input type="url" id="itemLink" required placeholder="رابط التحميل..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white">
+                        <input type="url" id="itemLink" required placeholder="رابط Google Drive أو Mediafire..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none">
                     </div>
-                    <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-3 rounded-xl shadow-lg shadow-cyan-500/20">
-                        نشر الآن في المتجر
+                    <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold py-3 rounded-xl shadow-lg transition-all">
+                        نشر في المتجر الآن
                     </button>
                 </form>
             </div>
@@ -122,7 +130,7 @@
 
     </main>
 
-    <nav class="fixed bottom-0 inset-x-0 bg-slate-950/95 backdrop-blur-lg border-t border-slate-800/80 px-2 py-2 flex justify-around items-center z-50">
+    <nav class="fixed bottom-0 inset-x-0 bg-slate-950/95 backdrop-blur-lg border-t border-slate-800 px-2 py-2 flex justify-around items-center z-50">
         <button onclick="switchTab('games')" id="nav-games" class="nav-item active flex flex-col items-center gap-1 text-[10px] text-slate-400">
             <i class="fa-solid fa-gamepad text-base"></i>
             <span>الألعاب</span>
@@ -137,40 +145,27 @@
         </button>
         <button onclick="switchTab('account')" id="nav-account" class="nav-item flex flex-col items-center gap-1 text-[10px] text-slate-400">
             <i class="fa-solid fa-user-gear text-base"></i>
-            <span>الحساب</span>
+            <span>الحساب والنشر</span>
         </button>
     </nav>
 
     <script>
-        const items = [
-            { id: 1, type: 'games', name: 'Free Fire MAX', category: 'أكشن • قتال الشوارع', icon: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=150&q=80', rating: '4.8 ★', link: '#' },
-            { id: 2, type: 'games', name: 'PUBG MOBILE', category: 'ألعاب باتل رويال', icon: 'https://images.unsplash.com/photo-1560253023-3ec5d502959f?auto=format&fit=crop&w=150&q=80', rating: '4.6 ★', link: '#' },
-            { id: 3, type: 'apps', name: 'TikTok - تيك توك', category: 'فيديو وترفيه', icon: 'https://images.unsplash.com/photo-1611605698335-8b1569810432?auto=format&fit=crop&w=150&q=80', rating: '4.7 ★', link: '#' },
-            { id: 4, type: 'apps', name: 'CapCut Video Editor', category: 'محرر فيديوهات احترافي', icon: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=150&q=80', rating: '4.9 ★', link: '#' },
-            { id: 5, type: 'books', name: 'تعلم تطوير الألعاب 3D', category: 'كتب تعليمية برمجية', icon: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=150&q=80', rating: '5.0 ★', link: '#' }
-        ];
-
+        let items = JSON.parse(localStorage.getItem('remox_items')) || [];
         let currentTab = 'games';
 
         function renderItems(filterText = '') {
             const grid = document.getElementById('contentGrid');
             const accountSec = document.getElementById('accountSection');
-            const hero = document.getElementById('heroSection');
-            const subTabs = document.getElementById('subTabs');
             const title = document.getElementById('sectionTitle');
 
             if(currentTab === 'account') {
                 grid.classList.add('hidden');
-                hero.classList.add('hidden');
-                subTabs.classList.add('hidden');
                 title.classList.add('hidden');
                 accountSec.classList.remove('hidden');
                 return;
             }
 
             grid.classList.remove('hidden');
-            hero.classList.remove('hidden');
-            subTabs.classList.remove('hidden');
             title.classList.remove('hidden');
             accountSec.classList.add('hidden');
             grid.innerHTML = '';
@@ -178,22 +173,26 @@
             const filtered = items.filter(i => i.type === currentTab && i.name.toLowerCase().includes(filterText.toLowerCase()));
 
             if(filtered.length === 0) {
-                grid.innerHTML = `<div class="text-center py-12 text-slate-500 text-xs">لا يوجد محتوى حالياً.</div>`;
+                grid.innerHTML = `
+                    <div class="text-center py-12 text-slate-500 text-xs">
+                        <i class="fa-solid fa-box-open text-3xl mb-2 text-slate-600 block"></i>
+                        لا توجد عناصر مضافة في هذا القسم حالياً.<br>قم بنشر تطبيقك الأول من قسم الحساب!
+                    </div>`;
                 return;
             }
 
             filtered.forEach(item => {
                 grid.innerHTML += `
-                    <div class="bg-slate-900/80 p-3 rounded-2xl flex items-center justify-between gap-3 border border-slate-800 shadow-md">
+                    <div class="bg-slate-900/80 p-3 rounded-2xl flex items-center justify-between gap-3 border border-slate-800">
                         <div class="flex items-center gap-3">
-                            <img src="${item.icon}" class="w-13 h-13 rounded-2xl object-cover bg-slate-950 border border-slate-800">
+                            <img src="${item.icon}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2589/2589175.png'" class="w-12 h-12 rounded-xl object-cover bg-slate-950 p-1 border border-slate-800">
                             <div>
                                 <h3 class="font-bold text-white text-xs mb-0.5">${item.name}</h3>
                                 <p class="text-[10px] text-slate-400">${item.category}</p>
                                 <span class="text-[10px] text-amber-400 font-bold">${item.rating}</span>
                             </div>
                         </div>
-                        <a href="${item.link}" target="_blank" class="bg-blue-600/20 border border-blue-500/40 text-blue-400 font-bold px-4 py-1.5 rounded-full text-xs hover:bg-blue-600 hover:text-white transition-all">
+                        <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-1.5 rounded-full text-xs transition-all shadow-md">
                             تثبيت
                         </a>
                     </div>
@@ -205,6 +204,10 @@
             currentTab = tab;
             document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`nav-${tab}`).classList.add('active');
+            
+            const titles = { games: 'الألعاب المتاحة', apps: 'التطبيقات المتاحة', books: 'الكتب الرقمية', account: 'إدارة الحساب والنشر' };
+            document.getElementById('sectionTitle').innerHTML = `<span>${titles[tab]}</span>`;
+            
             renderItems();
         }
 
@@ -219,13 +222,16 @@
                 id: Date.now(),
                 type: document.getElementById('itemType').value,
                 name: document.getElementById('itemName').value,
-                category: 'محتوى منشور حديثاً',
+                category: document.getElementById('itemCategory').value,
                 icon: document.getElementById('itemIcon').value,
                 rating: 'جديد ★',
                 link: document.getElementById('itemLink').value
             };
+            
             items.unshift(newItem);
-            alert("تم نشر المحتوى بنجاح في متجر Remox Zone!");
+            localStorage.setItem('remox_items', JSON.stringify(items));
+            
+            alert("تم نشر التطبيق/اللعبة بنجاح!");
             switchTab(newItem.type);
         }
 
